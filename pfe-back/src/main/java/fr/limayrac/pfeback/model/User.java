@@ -10,7 +10,7 @@ public class User {
     @Id
     private Long id;
     @Column(unique = true, nullable = false, length = 50)
-    private String email;
+    private String login;
     @Column(nullable = false, length = 200)
     private String password;
     @Column(name = "first_name", nullable = false, length = 20)
@@ -28,12 +28,12 @@ public class User {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String email) {
+        this.login = email;
     }
 
     public String getPassword() {
