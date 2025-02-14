@@ -1,0 +1,39 @@
+<!--<app-nav-bar></app-nav-bar>
+<h1>Clients :</h1>
+<div class="card">
+<p-table
+    [value]="clients"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Affichage de {first} à {last} clients sur {totalRecords}"
+    [rowsPerPageOptions]="[5, 10, 20]"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:20%">ID</th>
+            <th style="width:20%">Prénom</th>
+            <th style="width:20%">Nom</th>
+            <th style="width:20%">Date de Création</th>
+            <th style="width:20%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-client>
+        <tr>
+            <td>{{client.id}}</td>
+            <td>{{client.firstname}}</td>
+            <td>{{client.lastname}}</td>
+            <td>{{client.creationDate | date:'dd/MM/yyyy'}}</td>
+            <td>
+                <button type="button" style="margin-right: 15px;" pButton icon="pi pi-user" (click)="goToDetail('detail/client',client)"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deleteClient(client)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('clients/creer')"></p-button>
+    </ng-template>
+</p-table>
+<p-toast></p-toast>
+</div>-->
