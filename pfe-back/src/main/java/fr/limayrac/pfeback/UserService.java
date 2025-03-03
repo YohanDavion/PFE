@@ -12,7 +12,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public String doLogin(LoginRequest request) {
-        User user = userRepository.findByLogin(request.getUsername());
+        User user = userRepository.findByLogin(request.getLogin());
 
         if (user != null) {
             return "User details found";
