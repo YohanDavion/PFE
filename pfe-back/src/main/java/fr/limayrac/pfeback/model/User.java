@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
+@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +14,6 @@ public class User {
     private String login;
     @Column(nullable = false, length = 200)
     private String password;
-    @Column(name = "first_name", nullable = false, length = 20)
-    private String firstName;
-    @Column(name = "last_name", nullable = false, length = 20)
-    private String lastName;
     @Column(name = "role")
     private Role role;
 
@@ -42,22 +39,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Role getRole() {
