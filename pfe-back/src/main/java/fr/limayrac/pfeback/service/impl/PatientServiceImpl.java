@@ -17,4 +17,19 @@ public class PatientServiceImpl implements IPatientService {
     public List<Patient> findAll() {
         return patientRepository.findAll();
     }
+
+    @Override
+    public Patient findById(Long id) {
+        return patientRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Patient save(Patient patient) {
+        return patientRepository.save(patient);
+    }
+
+    @Override
+    public void delete(Patient patient) {
+        patientRepository.delete(patient);
+    }
 }
