@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import {StyleClassModule} from 'primeng/styleclass';
 import { AuthService } from '../services/auth.service';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,11 +17,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    greeting = {};
   
     constructor(
       private fb: FormBuilder,
       private authService: AuthService,
-      private router: Router
+      private router: Router,
+      private http: HttpClient
     ) {
       this.loginForm = this.fb.group({
         login: ['', [Validators.required, Validators.email]],
@@ -35,7 +38,7 @@ export class LoginComponent implements OnInit {
         const { login, password } = this.loginForm.value;
         this.authService.login(login, password).subscribe({
           next: (response) => {
-            this.router.navigate(['/list-patient']);
+            this.router.navigate(['/list-patients']);
           },
           error: (error) => {
             console.error('Erreur de connexion', error);
