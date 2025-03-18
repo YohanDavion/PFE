@@ -16,18 +16,57 @@ export class NavBarComponent {
             {
                 label: 'Séries',
                 icon: 'pi pi-list-check',
-                routerLink: ['/list-series'],
-                routerLinkActiveOptions: {
-                  exact: true
-                }
+                items: [
+                    {
+                        label: 'Liste Séries',
+                        icon: 'pi pi-list',
+                        routerLink: ['/list-series'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                    {
+                        label: 'Créer Séries',
+                        icon: 'pi pi-plus-circle',
+                        routerLink: ['/create-series'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    }
+                ],
             },
             {
                 label: 'Patients',
                 icon: 'pi pi-face-smile',
-                routerLink: ['/list-patients'],
-                routerLinkActiveOptions: {
-                  exact: true
-                }
+                items: [
+                    {
+                        label: 'Liste Patients',
+                        icon: 'pi pi-users',
+                        routerLink: ['/list-patients'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                    {
+                        label: 'Créer Patients',
+                        icon: 'pi pi-user-plus',
+                        routerLink: ['/create-user'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                    {
+                        separator: true,
+                    },
+                    {
+                        label: 'Données Patients',
+                        icon: 'pi pi-chart-bar',
+                        routerLink: ['/data-patients'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                ],
             },
             {
                 label: 'Orthophonistes',

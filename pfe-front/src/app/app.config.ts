@@ -11,10 +11,18 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(), provideClientHydration(withEventReplay()), provideAnimationsAsync(), provideServiceWorker('ngsw-worker.js', {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(),
+    provideClientHydration(withEventReplay()),
+    provideAnimationsAsync(),
+    provideServiceWorker('ngsw-worker.js', 
+      {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
-          }),providePrimeNG({
+      }),
+      providePrimeNG({
             theme: {
                 preset: Aura,
                 options: {

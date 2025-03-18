@@ -1,39 +1,39 @@
-<!--<app-nav-bar></app-nav-bar>
-<h1>Clients :</h1>
+<h1>Patients :</h1>
 <div class="card">
 <p-table
-    [value]="clients"
+    [value]="patients"
     [paginator]="true"
     [rows]="5"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Affichage de {first} à {last} clients sur {totalRecords}"
+    currentPageReportTemplate="Affichage des patients {first} à {last} | Total de séries : {totalRecords} "
     [rowsPerPageOptions]="[5, 10, 20]"
 >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:20%">ID</th>
-            <th style="width:20%">Prénom</th>
-            <th style="width:20%">Nom</th>
-            <th style="width:20%">Date de Création</th>
+            <th style="width:20%">Prénom Parent</th>
+            <th style="width:20%">Nom Parent</th>
+            <th style="width:20%">Prénom Patient</th>
+            <th style="width:20%">Nom Patient</th>
             <th style="width:20%"></th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-client>
+    <ng-template pTemplate="body" let-patient>
         <tr>
-            <td>{{client.id}}</td>
-            <td>{{client.firstname}}</td>
-            <td>{{client.lastname}}</td>
-            <td>{{client.creationDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{patient.prenomParent}}</td>
+            <td>{{patient.nomParent}}</td>
+            <td>{{patient.prenomPatient}}</td>
+            <td>{{patient.nomPatient}}</td>
             <td>
-                <button type="button" style="margin-right: 15px;" pButton icon="pi pi-user" (click)="goToDetail('detail/client',client)"></button>
-                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deleteClient(client)"></button>
+                <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="test()"></button>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('clients/creer')"></p-button>
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-list')"></p-button>
     </ng-template>
 </p-table>
 <p-toast></p-toast>
-</div>-->
+</div>

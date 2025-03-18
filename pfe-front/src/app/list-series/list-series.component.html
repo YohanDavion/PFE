@@ -1,1 +1,37 @@
-<p>list-series works!</p>
+<h1>Séries :</h1>
+<div class="card">
+<p-table
+    [value]="series"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Affichage des séries {first} à {last} | Total de séries : {totalRecords} "
+    [rowsPerPageOptions]="[5, 10, 20]"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:20%">ID</th>
+            <th style="width:20%">Libelle</th>
+            <th style="width:20%">Statut</th>
+            <th style="width:20%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-serie>
+        <tr>
+            <td>{{serie.id}}</td>
+            <td>{{serie.libelle}}</td>
+            <td>A Faire</td>
+            <td>
+                <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-play-circle" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="test()"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-list')"></p-button>
+    </ng-template>
+</p-table>
+<p-toast></p-toast>
+</div>
