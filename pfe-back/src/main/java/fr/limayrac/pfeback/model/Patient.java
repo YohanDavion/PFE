@@ -4,8 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-//@DiscriminatorValue("PATIENT")
-@PrimaryKeyJoinColumn(name = "userId")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Patient extends User {
     private String nom;
     private String prenom;
