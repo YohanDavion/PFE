@@ -4,14 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-//@DiscriminatorValue("PATIENT")
 @PrimaryKeyJoinColumn(name = "userId")
-public class Patient extends User {
+public class Orthophoniste extends User {
     private String nom;
     private String prenom;
-    private String nomParent;
-    private String prenomParent;
     private String adresse;
+    private String SIRET;
+    private String RPPS;
     private String photo;
 
     public String getNom() {
@@ -30,28 +29,28 @@ public class Patient extends User {
         this.prenom = prenom;
     }
 
-    public String getNomParent() {
-        return nomParent;
-    }
-
-    public void setNomParent(String nomParent) {
-        this.nomParent = nomParent;
-    }
-
-    public String getPrenomParent() {
-        return prenomParent;
-    }
-
-    public void setPrenomParent(String prenomParent) {
-        this.prenomParent = prenomParent;
-    }
-
     public String getAdresse() {
         return adresse;
     }
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    public String getSIRET() {
+        return SIRET;
+    }
+
+    public void setSIRET(String SIRET) {
+        this.SIRET = SIRET;
+    }
+
+    public String getRPPS() {
+        return RPPS;
+    }
+
+    public void setRPPS(String RPPS) {
+        this.RPPS = RPPS;
     }
 
     public String getPhoto() {

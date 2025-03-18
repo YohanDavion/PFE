@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
-@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +17,7 @@ public class User {
     private String password;
     @Column(name = "role")
     private Role role;
+    private String telephone;
 
     public Long getId() {
         return id;
