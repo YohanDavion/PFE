@@ -1,6 +1,6 @@
 package fr.limayrac.pfeback.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ public class Animation {
     private String dessin;
     private String son;
     @ManyToMany(mappedBy = "animations")
-    @JsonBackReference
+    @JsonIgnore
     private List<Serie> series;
     private Boolean active;
 }
