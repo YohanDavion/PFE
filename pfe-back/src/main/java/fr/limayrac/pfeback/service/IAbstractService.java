@@ -7,4 +7,5 @@ public interface IAbstractService<T> {
     T findById(Long id);
     T save(T t);
     void delete(T t);
+    void delete(Long id);
 }

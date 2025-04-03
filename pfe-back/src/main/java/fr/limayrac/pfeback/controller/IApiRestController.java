@@ -8,6 +8,6 @@ public interface IApiRestController<T, Id> {
     T create(T entity);
     void delete(Id entity);
     T put(T entity);
-    void patch(T entity);
+    T patch(T entity);
 
 }
