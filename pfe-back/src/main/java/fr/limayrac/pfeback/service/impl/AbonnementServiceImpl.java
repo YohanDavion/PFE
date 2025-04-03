@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AbonnementService implements IAbonnementService {
+public class AbonnementServiceImpl implements IAbonnementService {
     @Autowired
     private AbonnementRepository abonnementRepository;
     @Override
