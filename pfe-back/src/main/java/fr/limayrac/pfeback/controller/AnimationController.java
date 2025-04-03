@@ -34,9 +34,8 @@ public class AnimationController implements IApiRestController<Animation, Long>{
 
     @Override
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id)
-    {
-
+    public void delete(@PathVariable Long id) {
+        animationService.delete(id);
     }
 
     @Override
@@ -47,7 +46,8 @@ public class AnimationController implements IApiRestController<Animation, Long>{
 
     @Override
     @PatchMapping("/{id}")
-    public void patch(Animation entity) {
+    public Animation patch(Animation entity) {
         // A voir si c'est réellement utile
+        return null;
     }
 }

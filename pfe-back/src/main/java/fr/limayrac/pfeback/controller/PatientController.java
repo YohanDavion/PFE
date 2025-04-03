@@ -12,17 +12,39 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/patient")
-public class PatientController {
+public class PatientController implements IApiRestController<Patient, Long>{
     @Autowired
     private IPatientService patientService;
 
+    @Override
     @GetMapping("/all")
     public List<Patient> findAll() {
         return patientService.findAll();
     }
 
+    @Override
     @GetMapping("/{id}")
     public Patient findById(@PathVariable Long id) {
         return patientService.findById(id);
+    }
+
+    @Override
+    public Patient create(Patient entity) {
+        return patientService.save(entity);
+    }
+
+    @Override
+    public void delete(Long entity) {
+        patientService.delete(entity);
+    }
+
+    @Override
+    public Patient put(Patient entity) {
+        return patientService.save(entity);
+    }
+
+    @Override
+    public Patient patch(Patient entity) {
+        return null;
     }
 }

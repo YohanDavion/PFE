@@ -32,4 +32,9 @@ public class PatientServiceImpl implements IPatientService {
     public void delete(Patient patient) {
         patientRepository.delete(patient);
     }
+
+    @Override
+    public void delete(Long id) {
+        patientRepository.deleteById(id);
+    }
 }

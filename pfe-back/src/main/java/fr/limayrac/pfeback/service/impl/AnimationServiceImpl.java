@@ -32,4 +32,9 @@ public class AnimationServiceImpl implements IAnimationService {
     public void delete(Animation patient) {
         animationRepository.delete(patient);
     }
+
+    @Override
+    public void delete(Long id) {
+        animationRepository.deleteById(id);
+    }
 }
