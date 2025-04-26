@@ -8,13 +8,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DroitAcces {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
     private Patient patient;
-    @ManyToOne
     private Serie serie;
     // Indique si le patient a validé la série
     private Boolean valide;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+    @ManyToOne
+    public Patient getPatient() {
+        return patient;
+    }
+    @ManyToOne
+    public Serie getSerie() {
+        return serie;
+    }
 }

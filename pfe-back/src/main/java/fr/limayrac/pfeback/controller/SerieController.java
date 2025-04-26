@@ -1,17 +1,22 @@
 package fr.limayrac.pfeback.controller;
 
-import fr.limayrac.pfeback.model.Serie;
+import fr.limayrac.pfeback.model.*;
+import fr.limayrac.pfeback.service.IDroitAccesService;
 import fr.limayrac.pfeback.service.ISerieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/serie")
 public class SerieController implements IApiRestController<Serie, Long> {
     @Autowired
     private ISerieService serieService;
+    @Autowired
+    private IDroitAccesService droitAccesService;
 
     @Override
     @GetMapping("/{id}")
@@ -47,5 +52,27 @@ public class SerieController implements IApiRestController<Serie, Long> {
     @PatchMapping("/{id}")
     public Serie patch(Serie entity) {
         return null;
+    }
+
+    @GetMapping("/user")
+    public Collection<Serie> findByUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Patient patient = (Patient) user;
+        Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
+        return droitAcces.stream().map(DroitAcces::getSerie).collect(Collectors.toList());
+    }
+
+    @GetMapping("/user/{serieId}/animations")
+    public Collection<Animation> findByUserAnim(@PathVariable Long serieId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Patient patient = (Patient) user;
+        Serie serie = serieService.findById(serieId);
+        Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
+        if (droitAcces.stream().map(DroitAcces::getSerie).toList().contains(serie)) {
+            return serie.getAnimations();
+        } else {
+            // L'utilisateur n'a pas les droits pour cette série
+            return null;
+        }
     }
 }
