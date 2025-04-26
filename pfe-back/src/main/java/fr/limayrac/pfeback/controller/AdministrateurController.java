@@ -32,7 +32,7 @@ public class AdministrateurController implements IApiRestController<Administrate
     }
 
     @Override
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         administrateurService.delete(id);
     }
