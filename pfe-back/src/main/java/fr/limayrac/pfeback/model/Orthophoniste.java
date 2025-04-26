@@ -1,8 +1,15 @@
 package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Collection;
+
+@Setter
+@Getter
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Orthophoniste extends User {
@@ -12,52 +19,10 @@ public class Orthophoniste extends User {
     private String SIRET;
     private String RPPS;
     private String photo;
+    private Collection<CoordonneeBancaire> coordonneeBancaires;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getSIRET() {
-        return SIRET;
-    }
-
-    public void setSIRET(String SIRET) {
-        this.SIRET = SIRET;
-    }
-
-    public String getRPPS() {
-        return RPPS;
-    }
-
-    public void setRPPS(String RPPS) {
-        this.RPPS = RPPS;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    @OneToMany(mappedBy = "user")
+    public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
+        return coordonneeBancaires;
     }
 }

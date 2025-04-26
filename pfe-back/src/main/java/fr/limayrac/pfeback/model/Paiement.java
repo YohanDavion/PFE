@@ -13,6 +13,8 @@ public class Paiement {
     private LocalDateTime datePaiement;
     // Voir pour faire une enum si évolution
     private String moyenPaiement;
-    @OneToOne
+    @ManyToOne
     private Abonnement abonnement;
+    @ManyToOne
+    private CoordonneeBancaire coordonneeBancaire;
 }
