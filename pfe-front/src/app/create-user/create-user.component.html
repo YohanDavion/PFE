@@ -1,0 +1,45 @@
+<p-card class="card-inscription" class="flex justify-content-center" styleClass="p-shadow-10">
+  <h1>Création Utilisateur :</h1>
+  <form [formGroup]="inscriptionForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="role">Rôle</label>
+      <select formControlName="role" (change)="onRoleChange()">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input pInputText type="email" formControlName="email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input pInputText type="password" formControlName="password">
+    </div>
+
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input pInputText type="text" formControlName="prenom">
+    </div>
+
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input pInputText type="text" formControlName="nom">
+    </div>
+
+    @if(inscriptionForm.get('role')?.value === 'Patient'){
+    <div class="form-group">
+      <label for="parentPrenom">Prénom Parent</label>
+      <input pInputText type="text" formControlName="parentPrenom">
+    </div>
+    }
+    @if(inscriptionForm.get('role')?.value === 'Patient'){
+    <div class="form-group">
+      <label for="parentNom">Nom Parent</label>
+      <input pInputText type="text" formControlName="parentNom">
+    </div>
+    }
+    <button type="submit" [disabled]="!inscriptionForm.valid">Inscription</button>
+  </form>
+</p-card>

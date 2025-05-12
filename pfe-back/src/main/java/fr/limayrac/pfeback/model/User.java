@@ -1,70 +1,36 @@
 package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user")
+@Setter
+//@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
-
+    private Long id;
+    private String login;
+    private String password;
+    private Role role;
+    @Getter
+    private String telephone;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
-    @Column(unique = true, nullable = false, length = 50)
-    private String login;
-    @Column(nullable = false, length = 200)
-    private String password;
-    @Column(name = "first_name", nullable = false, length = 20)
-    private String firstName;
-    @Column(name = "last_name", nullable = false, length = 20)
-    private String lastName;
-    @Column(name = "role")
-    private Role role;
-
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @Column(unique = true, nullable = false, length = 50)
     public String getLogin() {
         return login;
     }
-
-    public void setLogin(String email) {
-        this.login = email;
-    }
-
+    @Column(nullable = false, length = 200)
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    @Column(name = "role")
     public Role getRole() {
         return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

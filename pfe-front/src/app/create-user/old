@@ -1,0 +1,66 @@
+<h1>Création Client :</h1>
+<p-card styleClass="user-form" class="flex justify-content-center">
+  <p-dropdown [options]="testTab" emptyMessage="Aucun rôle trouvé" emptyFilterMessage="Aucun rôle trouvé" [(ngModel)]="roleSelected" [filter]="true" filterBy="role" [showClear]="true" placeholder="Sélectionner un Rôle"/>
+  <form [formGroup]="userForm" (ngSubmit)="test()" novalidate>
+      <div class="field inputForm">
+      <label for="firstname" class="block">Prénom Patient : </label>
+      <input type="text" style="margin-left: 20px;" pInputText placeholder="Prénom" formControlName="prenomPatient" />
+      <small class="p-error block" *ngIf="
+          userForm.get('firstname')?.invalid && userForm.get('firstname')?.dirty">
+        Le Prénom est obligatoire !</small>
+    </div>
+    <div class="field inputForm">
+      <label for="lastname" class="block">Nom Patient : </label>
+      <input type="text" style="margin-left: 40px;" pInputText placeholder="Nom" formControlName="nomPatient" />
+      <small class="p-error block" *ngIf="
+          userForm.get('lastname')?.invalid && userForm.get('lastname')?.dirty">
+        Le Nom est obligatoire !</small>
+    </div>
+    <button pButton pRipple class="p-button-success inputForm" type="submit" label="Créer" [disabled]="userForm.invalid"></button>
+  </form>
+</p-card>
+import { Component } from '@angular/core';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ToastModule } from 'primeng/toast';
+import { CommonModule } from '@angular/common';
+import { DropdownModule } from 'primeng/dropdown';
+import { Patient } from '../interfaces/patient';
+
+@Component({
+  selector: 'app-create-user',
+  imports: [
+    InputTextModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    CardModule,
+    ToastModule,
+    CommonModule,
+    DropdownModule
+  ],
+  templateUrl: './create-user.component.html',
+  styleUrl: './create-user.component.scss'
+})
+export class CreateUserComponent {
+  roleSelected: string = "";
+  userForm!: FormGroup;
+  testTab: string[] = ["Patient", "Ortho", "Admin"];
+  constructor(private fb: FormBuilder) { };
+
+  ngOnInit(): void {
+    this.userForm = this.fb.group({
+      prenomPatient: ['', Validators.required],
+      nomPatient: ['', Validators.required],
+      nomParent: ['', Validators.required],
+      prenomParent: ['', Validators.required],
+      roleSelected: ['', Validators.required],
+    });
+  }
+
+  test(){
+    
+  }
+}
