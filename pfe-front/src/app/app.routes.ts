@@ -1,9 +1,10 @@
-import { Routes } from '@angular/router';
-import { ListSeriesComponent } from './list-series/list-series.component';
-import { ListPatientsComponent } from './list-patients/list-patients.component';
-import { ListOrthophonistesComponent } from './list-orthophonistes/list-orthophonistes.component';
-import { LoginComponent } from './login/login.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+import {Routes} from '@angular/router';
+import {ListSeriesComponent} from './list-series/list-series.component';
+import {ListPatientsComponent} from './list-patients/list-patients.component';
+import {ListOrthophonistesComponent} from './list-orthophonistes/list-orthophonistes.component';
+import {LoginComponent} from './login/login.component';
+import {CreateUserComponent} from './create-user/create-user.component';
+import {ListSeriesPatientComponent} from './list-series-patient/list-series-patient.component';
 
 export const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent},
@@ -11,4 +12,6 @@ export const routes: Routes = [
   { path: 'list-orthophonistes', component: ListOrthophonistesComponent},
   { path: 'create-user', component: CreateUserComponent},
   { path: 'login', component: LoginComponent},
+  // Patient
+  { path: 'list-series-patient', component: ListSeriesPatientComponent},
 ];

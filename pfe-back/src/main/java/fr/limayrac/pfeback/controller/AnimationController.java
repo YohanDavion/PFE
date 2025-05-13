@@ -1,11 +1,14 @@
 package fr.limayrac.pfeback.controller;
 
 import fr.limayrac.pfeback.model.Animation;
+import fr.limayrac.pfeback.model.Serie;
 import fr.limayrac.pfeback.service.IAnimationService;
+import fr.limayrac.pfeback.service.ISerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -13,6 +16,8 @@ import java.util.List;
 public class AnimationController implements IApiRestController<Animation, Long>{
     @Autowired
     private IAnimationService animationService;
+    @Autowired
+    private ISerieService serieService;
 
     @Override
     @GetMapping("/all")
@@ -49,5 +54,12 @@ public class AnimationController implements IApiRestController<Animation, Long>{
     public Animation patch(Animation entity) {
         // A voir si c'est réellement utile
         return null;
+    }
+
+    @GetMapping("/serie/{serieId}")
+    public Collection<Animation> getAnimationsBySeriesId(@PathVariable Long serieId) {
+        Serie serie = serieService.findById(serieId);
+        //TODO Check si l'utilisateur connecté à le droit de voir cette série
+        return serie.getAnimations();
     }
 }

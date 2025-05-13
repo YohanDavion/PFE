@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Animation } from '../models/animation.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Animation} from '../interfaces/animation';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +30,8 @@ export class AnimationService {
   deleteAnimation(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-} 
+
+  getAnimationBySerie(serieId:number) : Observable<Animation[]> {
+    return this.http.get<Animation[]>(`${this.apiUrl}/serie/${serieId}`);
+  }
+}
