@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animation")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class AnimationController implements IApiRestController<Animation, Long>{
     @Autowired
     private IAnimationService animationService;
