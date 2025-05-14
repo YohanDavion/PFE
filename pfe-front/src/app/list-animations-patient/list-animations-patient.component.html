@@ -1,0 +1,20 @@
+<div class="surface-card p-4 shadow-2 border-round" style="max-width: 800px">
+  <div class="text-center mb-5">
+    <p-card>
+      <ng-template #header>
+        <img alt="Card" class="w-full" [src]="'data:image/gif;base64, ' + animations[currentIndex].contenu"/>
+      </ng-template>
+      <ng-template #title>{{animations[currentIndex].valide}}</ng-template>
+      <ng-template #footer>
+        <div class="flex gap-4 mt-1">
+          <p-button label="Photo" class="w-full" styleClass="w-full"/>
+          <p-button label="Son" class="w-full" styleClass="w-full"/>
+          <p-button label="Dessin" class="w-full" styleClass="w-full"/>
+        </div>
+        <div class="flex gap-4 mt-1">
+          <p-button label="Suivant" class="w-full" styleClass="w-full" (onClick)="nextAnimation()" />
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

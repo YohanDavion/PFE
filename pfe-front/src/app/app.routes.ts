@@ -5,6 +5,7 @@ import {ListOrthophonistesComponent} from './list-orthophonistes/list-orthophoni
 import {LoginComponent} from './login/login.component';
 import {CreateUserComponent} from './create-user/create-user.component';
 import {ListSeriesPatientComponent} from './list-series-patient/list-series-patient.component';
+import {ListAnimationsPatientComponent} from './list-animations-patient/list-animations-patient.component';
 
 export const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent},
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
   // Patient
   { path: 'list-series-patient', component: ListSeriesPatientComponent},
+  { path: 'list-animations-patient', component: ListAnimationsPatientComponent},
 ];

@@ -7,18 +7,18 @@ import {ButtonModule} from 'primeng/button';
 import {AnimationService} from '../services/animation.service';
 import {SerieService} from '../services/serie.service';
 import {Animation} from "../interfaces/animation";
-import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-series-patient',
   imports: [CommonModule, ButtonModule],
   providers: [MessageService, SerieService, AnimationService],
   templateUrl: './list-series-patient.component.html',
+  standalone: true,
   styleUrl: './list-series-patient.component.scss'
 })
 export class ListSeriesPatientComponent {
   series: Serie[] = [];
-  animations: any = [];
+  animations: Animation[] = [];
 
   constructor(
     private router: Router,
@@ -43,13 +43,13 @@ export class ListSeriesPatientComponent {
   }
 
   startSerie(serieId: number) {
-    this.animationService.getAnimationBySerie(serieId).pipe(
-      tap(animations => this.animations = animations)
-    ).subscribe();
-    console.log(this.animations);
+    this.animationService.getAnimationBySerie(serieId).subscribe(animations => {
+      console.log({queryParams : {animations}})
+      this.goToPage('/list-animations-patient', {queryParams : {animations}});
+    });
   }
 
-  goToPage(pageName:string){
-    this.router.navigate([`${pageName}`]);
+  goToPage(pageName:string, data:any){
+    this.router.navigate([`${pageName}`], data);
   }
 }
