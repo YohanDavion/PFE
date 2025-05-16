@@ -61,6 +61,6 @@ public class AnimationController implements IApiRestController<Animation, Long>{
     public Collection<Animation> getAnimationsBySeriesId(@PathVariable Long serieId) {
         Serie serie = serieService.findById(serieId);
         //TODO Check si l'utilisateur connecté à le droit de voir cette série
-        return serie.getAnimations();
+        return animationService.findBySerie(serie);
     }
 }

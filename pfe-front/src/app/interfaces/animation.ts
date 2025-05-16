@@ -1,11 +1,17 @@
-export class Animation {
-    id: number;
-    contenu: string;
-    valide: boolean;
+import {Media} from '../models/media.model';
 
-    constructor(id: number,contenu: string,valide: boolean){
+export class Animation {
+  id: number;
+  active: boolean;
+  gif: Media;
+  image: Media;
+  son: Media;
+
+    constructor(id: number,active: boolean, gif : Media, image:Media, son: Media){
         this.id=id;
-        this.contenu=contenu;
-        this.valide=valide;
+        this.active=active;
+        this.gif = gif;
+        this.image = image;
+        this.son = son;
     }
 }

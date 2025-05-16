@@ -1,6 +1,5 @@
 package fr.limayrac.pfeback.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,10 @@ public class Serie {
     private Long id;
     private String libelle;
     @ManyToMany
-    @JsonManagedReference
+    @JoinTable(
+            name = "serie_animations",
+            joinColumns = @JoinColumn(name = "series_id"),
+            inverseJoinColumns = @JoinColumn(name = "animations_id"))
     // Le lien peut être utile s'il y a des problèmes pour récupérer le JSON
     // https://stackoverflow.com/questions/76869015/bidirectional-many-to-many-relationships-in-spring-jpa-hibernate
     private Collection<Animation> animations;

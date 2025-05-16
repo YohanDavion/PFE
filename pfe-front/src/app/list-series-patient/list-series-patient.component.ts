@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Serie} from '../interfaces/serie';
+import {Serie} from '../models/serie.model';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {CommonModule} from "@angular/common";
@@ -29,24 +29,13 @@ export class ListSeriesPatientComponent {
   }
 
   ngOnInit(): void {
-    this.initializeTestData();
-  }
-
-  initializeTestData() {
-    const animation1 = new Animation(1, "Animation 1 contenu", true);
-    const animation2 = new Animation(2, "Animation 2 contenu", false);
-
-    const serie1 = new Serie(1, "Série 1", [animation1, animation2]);
-    const serie2 = new Serie(2, "Série 2", [animation1, animation2]);
-
-    this.series = [serie1, serie2];
+    this.serieService.getAllSeries().subscribe((series) => {
+      this.series = series;
+    })
   }
 
   startSerie(serieId: number) {
-    this.animationService.getAnimationBySerie(serieId).subscribe(animations => {
-      console.log({queryParams : {animations}})
-      this.goToPage('/list-animations-patient', {queryParams : {animations}});
-    });
+    this.goToPage('/list-animations-patient', {queryParams : {serieId}});
   }
 
   goToPage(pageName:string, data:any){

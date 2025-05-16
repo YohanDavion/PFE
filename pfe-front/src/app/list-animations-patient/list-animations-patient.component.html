@@ -2,9 +2,9 @@
   <div class="text-center mb-5">
     <p-card>
       <ng-template #header>
-        <img alt="Card" class="w-full" src="{{currentMode == 0 ? 'data:image/gif;base64, ' + animations[currentIndex].contenu : 'data:image/png;base64, ' + animations[currentIndex].valide}}"/>
+        <img alt="Card" class="w-full" src="{{'data:' + this.animations[this.currentIndex].gif.mimetype + ';base64, ' + this.animations[this.currentIndex].gif.data }}"/>
       </ng-template>
-      <ng-template #title>{{animations[currentIndex].valide}}</ng-template>
+      <ng-template #title>{{animations[currentIndex] != null ? animations[currentIndex].id : 'noob'}}</ng-template>
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
           <p-button label="Photo" class="w-full" styleClass="w-full" (onClick)="changeMode(0)"/>

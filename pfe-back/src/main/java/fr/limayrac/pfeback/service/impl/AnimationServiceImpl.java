@@ -1,11 +1,13 @@
 package fr.limayrac.pfeback.service.impl;
 
 import fr.limayrac.pfeback.model.Animation;
+import fr.limayrac.pfeback.model.Serie;
 import fr.limayrac.pfeback.repository.AnimationRepository;
 import fr.limayrac.pfeback.service.IAnimationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -36,5 +38,10 @@ public class AnimationServiceImpl implements IAnimationService {
     @Override
     public void delete(Long id) {
         animationRepository.deleteById(id);
+    }
+
+    @Override
+    public Collection<Animation> findBySerie(Serie serie) {
+        return animationRepository.findBySeries(List.of(serie));
     }
 }

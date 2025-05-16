@@ -5,6 +5,7 @@ import org.flywaydb.core.api.migration.Context;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.*;
+import java.util.Base64;
 
 public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements SpringJDBCTemplateProvider{
 
@@ -12,7 +13,9 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
     public void migrate(Context context) throws Exception {
         JdbcTemplate jdbcTemplate = jdbcTemplate(context);
         creationTable(jdbcTemplate);
-        insertData(jdbcTemplate);
+        insertAnimation(jdbcTemplate);
+        insertSeries(jdbcTemplate);
+        insertRelations(jdbcTemplate);
     }
 
     public void creationTable(final JdbcTemplate jdbcTemplate) {
@@ -32,9 +35,20 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
                 "FOREIGN KEY (son) references media(id)" +
                 ")");
 
+        jdbcTemplate.execute("CREATE TABLE serie(" +
+                "id BIGINT NOT NULL primary key auto_increment," +
+                "active BOOLEAN NOT NULL," +
+                "libelle VARCHAR(255) NOT NULL" +
+                ")");
+
+        jdbcTemplate.execute("CREATE TABLE serie_animations(" +
+                "series_id BIGINT NOT NULL, " +
+                "animations_id BIGINT NOT NULL, " +
+                "FOREIGN KEY (series_id) references serie(id)," +
+                "FOREIGN KEY (animations_id) references animation(id))");
     }
 
-    public void insertData(final JdbcTemplate jdbcTemplate) throws IOException {
+    public void insertAnimation(final JdbcTemplate jdbcTemplate) throws IOException {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
         InputStream stream = loader.getResourceAsStream("image/gif/chien.gif");
@@ -48,7 +62,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("image/jpg/chien.jpg");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (2, 'image/jpg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (2, 'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -56,7 +70,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("son/chien.mp3");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (3, 'audio/mpeg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (3, 'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -67,7 +81,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         //Chat
         try {
             stream = loader.getResourceAsStream("image/gif/chat.gif");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (4, 'image/gif', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (4, 'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -75,7 +89,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("image/jpg/chat.jpg");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (5, 'image/jpg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (5, 'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -83,7 +97,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("son/chat.mp3");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (6, 'audio/mpeg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (6, 'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -94,7 +108,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         //Hamster
         try {
             stream = loader.getResourceAsStream("image/gif/hamster.gif");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (7,'image/gif', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (7,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -102,7 +116,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("image/jpg/hamster.jpg");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (8,'image/jpg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (8,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -110,7 +124,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("son/hamster.mp3");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (9,'audio/mpeg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (9,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -121,7 +135,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         // Lapin
         try {
             stream = loader.getResourceAsStream("image/gif/lapin.gif");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (10,'image/gif', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (10,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -129,7 +143,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("image/jpg/lapin.jpg");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (11,'image/jpg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (11,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -137,7 +151,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("son/lapin.mp3");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (12,'audio/mpeg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (12,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -148,7 +162,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         // Poisson
         try {
             stream = loader.getResourceAsStream("image/gif/poisson.gif");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (13,'image/gif', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (13,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -156,7 +170,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("image/jpg/poisson.jpg");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (14,'image/jpg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (14,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -164,7 +178,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         }
         try {
             stream = loader.getResourceAsStream("son/poisson.mp3");
-            jdbcTemplate.execute("insert into media (id,mimetype,data) values (15,'audio/mpeg', '" + stream.readAllBytes() + "')");
+            jdbcTemplate.execute("insert into media (id,mimetype,data) values (15,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -173,5 +187,15 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (5, true, 13, 14, 15)");
     }
 
+    public void insertSeries(final JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.execute("INSERT INTO serie (id, active, libelle) VALUES (1, true, 'Animaux domestiques'), " +
+                "(2, true, 'Animaux de la ferme'), " +
+                "(3, true, 'Animaux de la jungle')");
+    }
 
+    public void insertRelations(final JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.execute("INSERT INTO serie_animations(series_id, animations_id) VALUES " +
+                "(1, 1), (1,2), (1,3), (1,4), (1,5), " +
+                "(2, 4)");
+    }
 }

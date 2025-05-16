@@ -1,9 +1,10 @@
 import {Serie} from './serie.model';
+import {Media} from './media.model';
 
 export interface Animation {
     id: number;
-    nom: string;
-    description: string;
-    url: string;
-    serie?: Serie;
+    active: string;
+    gif: Media;
+    image: Media;
+    son: Media;
 }

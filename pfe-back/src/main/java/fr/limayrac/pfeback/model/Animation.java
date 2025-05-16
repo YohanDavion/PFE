@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Setter
 public class Animation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,28 @@ public class Animation {
     @JsonIgnore
     private List<Serie> series;
     private Boolean active;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Media getGif() {
+        return gif;
+    }
+
+    public Media getImage() {
+        return image;
+    }
+
+    public Media getSon() {
+        return son;
+    }
+
+    public List<Serie> getSeries() {
+        return series;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
 }

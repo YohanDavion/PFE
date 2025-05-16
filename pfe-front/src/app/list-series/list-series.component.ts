@@ -34,20 +34,20 @@ export class ListSeriesComponent {
   }
 
   initializeTestData() {
-    const animation1 = new Animation(1, "Animation 1 contenu", true);
-    const animation2 = new Animation(2, "Animation 2 contenu", false);
-
-    this.animations = [animation1, animation2];
-
-    const serie1 = new Serie(1, "Série 1", [animation1, animation2]);
-    const serie2 = new Serie(2, "Série 2", [animation1, animation2]);
-
-    this.series = [serie1, serie2];
+    // const animation1 = new Animation(1, "Animation 1 contenu", true);
+    // const animation2 = new Animation(2, "Animation 2 contenu", false);
+    //
+    // this.animations = [animation1, animation2];
+    //
+    // const serie1 = new Serie(1, "Série 1", [animation1, animation2]);
+    // const serie2 = new Serie(2, "Série 2", [animation1, animation2]);
+    //
+    // this.series = [serie1, serie2];
   }
 
   test(){
 
-  } 
+  }
 
   goToPage(pageName:string){
     this.router.navigate([`${pageName}`]);
