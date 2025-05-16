@@ -13,12 +13,15 @@ public class Animation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "LONGTEXT")
-    private String photo;
-    @Column(columnDefinition = "LONGTEXT")
-    private String dessin;
-    @Column(columnDefinition = "LONGTEXT")
-    private String son;
+    @ManyToOne
+    @JoinColumn(name = "gif")
+    private Media gif;
+    @ManyToOne
+    @JoinColumn(name = "image")
+    private Media image;
+    @ManyToOne
+    @JoinColumn(name = "son")
+    private Media son;
     @ManyToMany(mappedBy = "animations")
     @JsonIgnore
     private List<Serie> series;
