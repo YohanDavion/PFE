@@ -2,14 +2,14 @@
   <div class="text-center mb-5">
     <p-card>
       <ng-template #header>
-        <img alt="Card" class="w-full" [src]="'data:image/gif;base64, ' + animations[currentIndex].contenu"/>
+        <img alt="Card" class="w-full" src="{{currentMode == 0 ? 'data:image/gif;base64, ' + animations[currentIndex].contenu : 'data:image/png;base64, ' + animations[currentIndex].valide}}"/>
       </ng-template>
       <ng-template #title>{{animations[currentIndex].valide}}</ng-template>
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
-          <p-button label="Photo" class="w-full" styleClass="w-full"/>
-          <p-button label="Son" class="w-full" styleClass="w-full"/>
-          <p-button label="Dessin" class="w-full" styleClass="w-full"/>
+          <p-button label="Photo" class="w-full" styleClass="w-full" (onClick)="changeMode(0)"/>
+          <p-button label="Son" class="w-full" styleClass="w-full" (onClick)="playSound()"/>
+          <p-button label="Dessin" class="w-full" styleClass="w-full" (onClick)="changeMode(1)"/>
         </div>
         <div class="flex gap-4 mt-1">
           <p-button label="Suivant" class="w-full" styleClass="w-full" (onClick)="nextAnimation()" />

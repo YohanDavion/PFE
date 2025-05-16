@@ -13,8 +13,11 @@ public class Animation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "LONGTEXT")
     private String photo;
+    @Column(columnDefinition = "LONGTEXT")
     private String dessin;
+    @Column(columnDefinition = "LONGTEXT")
     private String son;
     @ManyToMany(mappedBy = "animations")
     @JsonIgnore
