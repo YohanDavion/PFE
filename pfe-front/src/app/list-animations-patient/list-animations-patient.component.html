@@ -2,7 +2,8 @@
   <div class="text-center mb-5">
     <p-card>
       <ng-template #header>
-        <img alt="Card" class="w-full" src="{{'data:' + this.animations[this.currentIndex].gif.mimetype + ';base64, ' + this.animations[this.currentIndex].gif.data }}"/>
+        <img alt="Card" style="height: 40vh;width: 100%;" *ngIf="this.animations[this.currentIndex] != null && currentMode == 0"  src="{{'data:' + this.animations[this.currentIndex].gif.mimetype + ';base64, ' + this.animations[this.currentIndex].gif.data }}"/>
+        <img alt="Card" style="height: 40vh;width: 100%;" *ngIf="this.animations[this.currentIndex] != null && currentMode == 1" class="w-full" src="{{'data:' + this.animations[this.currentIndex].image.mimetype + ';base64, ' + this.animations[this.currentIndex].image.data }}"/>
       </ng-template>
       <ng-template #title>{{animations[currentIndex] != null ? animations[currentIndex].id : 'noob'}}</ng-template>
       <ng-template #footer>

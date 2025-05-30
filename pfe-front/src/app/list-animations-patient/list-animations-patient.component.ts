@@ -23,7 +23,6 @@ export class ListAnimationsPatientComponent {
   currentMode = 0;
   animations: Animation[] = [];
 
-
   state$: Observable<object> | undefined;
 
   constructor(
@@ -33,13 +32,13 @@ export class ListAnimationsPatientComponent {
     private serieService: SerieService,
     private animationService: AnimationService) {
   }
+
   async ngOnInit(): Promise<void> {
     this.activatedRoute.queryParams.subscribe(params => {
       let serieId = params['serieId'];
       if (serieId != null) {
         this.animationService.getAnimationBySerie(serieId).subscribe(animations => {
           this.animations = animations;
-          console.log(JSON.stringify(animations))
         })
       }
     })
@@ -54,7 +53,10 @@ export class ListAnimationsPatientComponent {
 
 
   playSound() {
-    //TODO trouver une librairie pour jouer un son
+    let audio = new Audio();
+    audio.src = 'data:' + this.animations[this.currentIndex].son.mimetype + ';base64, ' + this.animations[this.currentIndex].son.data;
+    audio.load();
+    audio.play();
   }
 
   nextAnimation() {
