@@ -3,8 +3,6 @@ package fr.limayrac.pfeback.model;
 import jakarta.persistence.*;
 import lombok.Setter;
 
-import java.util.Base64;
-
 @Entity
 @Setter
 public class Media {
@@ -12,8 +10,9 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mimetype;
+    @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private String data;
+    private byte[] data;
 
     public Long getId() {
         return id;
@@ -23,13 +22,13 @@ public class Media {
         return mimetype;
     }
 
-    public String getData() {
+    public byte[] getData() {
         return data;
     }
 
-    @Transient
-    public String getDataBase64() {
-        byte[] bytes = data.getBytes();
-        return Base64.getEncoder().encodeToString(data.getBytes());
-    }
+//    @Transient
+//    public String getDataBase64() {
+//        byte[] bytes = data.getBytes();
+//        return Base64.getEncoder().encodeToString(data.getBytes());
+//    }
 }
