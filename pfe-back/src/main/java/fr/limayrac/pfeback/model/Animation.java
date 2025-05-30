@@ -13,6 +13,7 @@ public class Animation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String libelle;
     @ManyToOne
     @JoinColumn(name = "gif")
     private Media gif;
@@ -29,6 +30,10 @@ public class Animation {
 
     public Long getId() {
         return id;
+    }
+
+    public String getLibelle() {
+        return libelle;
     }
 
     public Media getGif() {

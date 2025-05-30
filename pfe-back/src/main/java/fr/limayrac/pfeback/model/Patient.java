@@ -1,6 +1,7 @@
 package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public class Patient extends User {
     private String adresse;
     private String photo;
     private Collection<CoordonneeBancaire> coordonneeBancaires;
+
+    @ManyToOne
+    private Orthophoniste orthophoniste;
 
     @OneToMany(mappedBy = "user")
     public Collection<CoordonneeBancaire> getCoordonneeBancaires() {

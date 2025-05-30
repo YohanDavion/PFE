@@ -23,8 +23,6 @@ export class ListAnimationsPatientComponent {
   currentMode = 0;
   animations: Animation[] = [];
 
-  state$: Observable<object> | undefined;
-
   constructor(
     private router: Router,
     public activatedRoute: ActivatedRoute,

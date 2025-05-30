@@ -28,6 +28,7 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
 
         jdbcTemplate.execute("CREATE TABLE animation (" +
                 "id BIGINT NOT NULL PRIMARY KEY auto_increment, " +
+                "libelle VARCHAR(255) not null," +
                 "active BOOLEAN NOT NULL," +
                 "gif BIGINT not null," +
                 "image BIGINT NOT NULL, " +
@@ -78,157 +79,27 @@ public class V1_0_1__AjoutAnimations extends BaseJavaMigration implements Spring
         insertMedia(jdbcTemplate, 1L, "image/gif", "image/gif/chien.gif");
         insertMedia(jdbcTemplate, 2L, "image/jpg", "image/jpg/chien.jpg");
         insertMedia(jdbcTemplate, 3L, "audio/mpeg", "son/chien.mp3");
+        jdbcTemplate.execute("insert into animation (id, libelle, active, gif, image, son) values (1, 'Chien', true, 1, 2, 3)");
         // Chat
         insertMedia(jdbcTemplate, 4L, "image/gif", "image/gif/chat.gif");
         insertMedia(jdbcTemplate, 5L, "image/jpg", "image/jpg/chat.jpg");
         insertMedia(jdbcTemplate, 6L, "audio/mpeg", "son/chat.mp3");
+        jdbcTemplate.execute("insert into animation (id, libelle, active, gif, image, son) values (2, 'Chat', true, 4, 5, 6)");
         // Hamster
         insertMedia(jdbcTemplate, 7L, "image/gif", "image/gif/hamster.gif");
         insertMedia(jdbcTemplate, 8L, "image/jpg", "image/jpg/hamster.jpg");
         insertMedia(jdbcTemplate, 9L, "audio/mpeg", "son/hamster.mp3");
+        jdbcTemplate.execute("insert into animation (id, libelle, active, gif, image, son) values (3, 'Hamster', true, 7, 8, 9)");
         // Lapin
         insertMedia(jdbcTemplate, 10L, "image/gif", "image/gif/lapin.gif");
         insertMedia(jdbcTemplate, 11L, "image/jpg", "image/jpg/lapin.jpg");
         insertMedia(jdbcTemplate, 12L, "audio/mpeg", "son/lapin.mp3");
+        jdbcTemplate.execute("insert into animation (id, libelle, active, gif, image, son) values (4, 'Lapin', true, 10, 11, 12)");
         // Poisson
         insertMedia(jdbcTemplate, 13L, "image/gif", "image/gif/poisson.gif");
         insertMedia(jdbcTemplate, 14L, "image/jpg", "image/jpg/poisson.jpg");
         insertMedia(jdbcTemplate, 15L, "audio/mpeg", "son/poisson.mp3");
-
-//        InputStream stream = loader.getResourceAsStream("image/gif/chien.gif");
-        //Chien
-//        try {
-//            jdbcTemplate.execute("insert into media (id, mimetype,data) values (1, 'image/gif', '" + stream.readAllBytes() + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("image/jpg/chien.jpg");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (2, 'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("son/chien.mp3");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (3, 'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-        jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (1, true, 1, 2, 3)");
-
-        //Chat
-//        try {
-//            stream = loader.getResourceAsStream("image/gif/chat.gif");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (4, 'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("image/jpg/chat.jpg");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (5, 'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("son/chat.mp3");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (6, 'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-        jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (2, true, 4, 5, 6)");
-
-        //Hamster
-//        try {
-//            stream = loader.getResourceAsStream("image/gif/hamster.gif");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (7,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("image/jpg/hamster.jpg");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (8,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("son/hamster.mp3");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (9,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-        jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (3, true, 7, 8, 9)");
-
-        // Lapin
-//        try {
-//            stream = loader.getResourceAsStream("image/gif/lapin.gif");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (10,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("image/jpg/lapin.jpg");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (11,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("son/lapin.mp3");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (12,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-        jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (4, true, 10, 11, 12)");
-
-        // Poisson
-//        try {
-//            stream = loader.getResourceAsStream("image/gif/poisson.gif");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (13,'image/gif', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("image/jpg/poisson.jpg");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (14,'image/jpg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-//        try {
-//            stream = loader.getResourceAsStream("son/poisson.mp3");
-//            jdbcTemplate.execute("insert into media (id,mimetype,data) values (15,'audio/mpeg', '" + Base64.getEncoder().encodeToString(stream.readAllBytes()) + "')");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            stream.close();
-//        }
-        jdbcTemplate.execute("insert into animation (id, active, gif, image, son) values (5, true, 13, 14, 15)");
+        jdbcTemplate.execute("insert into animation (id, libelle, active, gif, image, son) values (5, 'Poisson', true, 13, 14, 15)");
     }
 
     public void insertSeries(final JdbcTemplate jdbcTemplate) {

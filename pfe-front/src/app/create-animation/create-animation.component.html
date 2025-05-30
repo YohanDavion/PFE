@@ -1,0 +1,24 @@
+<p-card class="flex justify-content-center" styleClass="p-shadow-10">
+  <h1>Création Utilisateur :</h1>
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="libelle">Libellé</label>
+      <input id="libelle" pInputText type="text" formControlName="libelle">
+    </div>
+
+    <div class="form-group">
+      <label for="gif">Gif : </label>
+      <input id="gif" pInputText type="file" formControlName="gif" accept="image/gif">
+    </div>
+
+    <div class="form-group">
+      <label for="dessin">Dessin : </label>
+      <input id="dessin" pInputText type="file" formControlName="dessin" accept="image/jpeg">
+    </div>
+
+    <div class="form-group">
+      <label for="son">Son : </label>
+      <input id="son" pInputText type="file" formControlName="son" accept=".mp3">
+    </div>
+  </form>
+</p-card>
