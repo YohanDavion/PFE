@@ -91,6 +91,10 @@ export class NavBarComponent {
                     {
                         label: 'Paramètres',
                         icon: 'pi pi-cog',
+                        routerLink: ['/settings'],
+                        routerLinkActiveOptions: {
+                        exact: true
+                    }
                     },
                     {
                         separator: true,
