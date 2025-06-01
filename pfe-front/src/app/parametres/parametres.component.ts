@@ -5,6 +5,7 @@ import { OrthophonisteService } from '../services/orthophoniste.service';
 import { AdministrateurService } from '../services/administrateur.service';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-parametres',
@@ -20,18 +21,20 @@ export class ParametresComponent implements OnInit {
   loading: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
+  isEditingPatient: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
     private orthophonisteService: OrthophonisteService,
     private administrateurService: AdministrateurService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.parametresForm = this.fb.group({
-      nom: [{value: '', disabled: true}, Validators.required],
-      prenom: [{value: '', disabled: true}, Validators.required],
-      email: [{value: '', disabled: true}, [Validators.required, Validators.email]],
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
       adresse: [''],
       dateNaissance: [''],
@@ -40,7 +43,38 @@ export class ParametresComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUserData();
+    this.route.queryParams.subscribe(params => {
+      const patientId = params['patientId'];
+      if (patientId) {
+        this.isEditingPatient = true;
+        this.userType = 'PATIENT';
+        this.userId = patientId;
+        this.loadPatientData(patientId);
+      } else {
+        this.parametresForm.get('nom')?.disable();
+        this.parametresForm.get('prenom')?.disable();
+        this.parametresForm.get('email')?.disable();
+        this.loadUserData();
+      }
+    });
+  }
+
+  loadPatientData(patientId: number): void {
+    this.patientService.getPatient(patientId).subscribe(
+      patient => {
+        this.parametresForm.patchValue({
+          nom: patient.nom,
+          prenom: patient.prenom,
+          email: patient.email,
+          telephone: patient.telephone,
+          adresse: patient.adresse,
+          dateNaissance: patient.dateNaissance
+        });
+      },
+      error => {
+        this.errorMessage = 'Erreur lors du chargement des données du patient';
+      }
+    );
   }
 
   loadUserData(): void {

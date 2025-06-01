@@ -1,10 +1,7 @@
 .parametres-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 64px);
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 2rem;
 }
 
 .parametres-card {
@@ -24,76 +21,81 @@ h1 {
 }
 
 .parametres-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 1rem;
+  margin-bottom: 1rem;
+
+  .form-group {
+    flex: 1;
+  }
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  margin-bottom: 1.5rem;
 
-label {
-  font-weight: 500;
-  color: #555;
-}
-
-.form-control {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #2196f3;
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
   }
 
-  &[readonly] {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-    color: #666;
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+
+    &.readonly {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
   }
 }
 
 .error-message {
-  color: #f44336;
+  color: #dc3545;
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
 
 .success-message {
-  color: #4caf50;
+  color: #28a745;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+  padding: 0.5rem;
+  background-color: #d4edda;
+  border-radius: 4px;
 }
 
-.messages {
-  margin-top: 1rem;
+.form-actions {
+  margin-top: 2rem;
+  text-align: right;
 }
 
 .submit-button {
-  background-color: #2196f3;
+  background-color: #4a90e2;
   color: white;
-  padding: 0.75rem 1.5rem;
   border: none;
+  padding: 0.75rem 1.5rem;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-top: 1rem;
 
   &:hover:not(:disabled) {
-    background-color: #1976d2;
+    background-color: #357abd;
   }
 
   &:disabled {

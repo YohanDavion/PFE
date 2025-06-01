@@ -8,6 +8,7 @@ import {ListSeriesPatientComponent} from './list-series-patient/list-series-pati
 import {ListAnimationsPatientComponent} from './list-animations-patient/list-animations-patient.component';
 import {CreateAnimationComponent} from './create-animation/create-animation.component';
 import { ParametresComponent } from './parametres/parametres.component';
+import { CreatePatientComponent } from './create-patient/create-patient.component';
 
 export const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'list-orthophonistes', component: ListOrthophonistesComponent},
   { path: 'create-user', component: CreateUserComponent},
   { path: 'create-animation', component: CreateAnimationComponent},
+  { path: 'create-patient', component: CreatePatientComponent},
   { path: 'login', component: LoginComponent},
   { path: 'list-series-patient', component: ListSeriesPatientComponent},
   { path: 'list-animations-patient', component: ListAnimationsPatientComponent},

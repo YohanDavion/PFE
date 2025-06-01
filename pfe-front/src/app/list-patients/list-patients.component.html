@@ -1,5 +1,6 @@
 <h1>Patients :</h1>
 <div class="card">
+<p-confirmDialog></p-confirmDialog>
 <p-table
     [value]="patients"
     [paginator]="true"
@@ -26,13 +27,13 @@
             <td>{{patient.nomPatient}}</td>
             <td>
                 <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="test()"></button>
-                <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="test()"></button>
-                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="editPatient(patient)"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deletePatient(patient)"></button>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-list')"></p-button>
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-patient')"></p-button>
     </ng-template>
 </p-table>
 <p-toast></p-toast>
