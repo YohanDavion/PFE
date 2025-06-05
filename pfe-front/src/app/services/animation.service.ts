@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Animation} from '../interfaces/animation';
+
 // import {Animation} from '../models/animation.model';
 
 @Injectable({
@@ -24,6 +25,9 @@ export class AnimationService {
     return this.http.post<Animation>(this.apiUrl, animation);
   }
 
+  createAnimationFormData(formData : FormData) : Observable<Animation> {
+    return this.http.post<Animation>(this.apiUrl, formData)
+  }
   updateAnimation(animation: Animation): Observable<Animation> {
     return this.http.put<Animation>(`${this.apiUrl}/${animation.id}`, animation);
   }

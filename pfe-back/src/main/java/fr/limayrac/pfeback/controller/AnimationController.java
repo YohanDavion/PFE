@@ -1,13 +1,17 @@
 package fr.limayrac.pfeback.controller;
 
 import fr.limayrac.pfeback.model.Animation;
+import fr.limayrac.pfeback.model.Media;
 import fr.limayrac.pfeback.model.Serie;
 import fr.limayrac.pfeback.service.IAnimationService;
 import fr.limayrac.pfeback.service.ISerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -63,4 +67,38 @@ public class AnimationController implements IApiRestController<Animation, Long>{
         //TODO Check si l'utilisateur connecté à le droit de voir cette série
         return animationService.findBySerie(serie);
     }
+
+    @PostMapping/*("/api/animations")*/
+    public ResponseEntity<?> uploadAnimation(
+            @RequestParam(value = "libelle") String libelle,
+            @RequestParam(value = "gif") MultipartFile gif,
+            @RequestParam(value = "dessin") MultipartFile dessin,
+            @RequestParam(value = "son") MultipartFile son) throws IOException {
+
+        Animation animation = new Animation();
+        animation.setLibelle(libelle);
+
+        Media media = new Media();
+        media.setData(gif.getBytes());
+        media.setMimetype(gif.getContentType());
+        animation.setGif(media);
+
+        media = new Media();
+        media.setData(dessin.getBytes());
+        media.setMimetype(dessin.getContentType());
+        animation.setImage(media);
+
+        media = new Media();
+        media.setData(son.getBytes());
+        media.setMimetype(son.getContentType());
+        animation.setSon(media);
+        //Par défaut, à la création les animations sont actives
+        animation.setActive(true);
+
+        animation = animationService.save(animation);
+
+
+        return ResponseEntity.ok("Fichiers reçus");
+    }
+
 }

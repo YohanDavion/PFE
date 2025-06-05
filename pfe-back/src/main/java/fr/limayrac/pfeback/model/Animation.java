@@ -2,7 +2,6 @@ package fr.limayrac.pfeback.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
@@ -14,13 +13,13 @@ public class Animation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gif")
     private Media gif;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image")
     private Media image;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "son")
     private Media son;
     @ManyToMany(mappedBy = "animations")

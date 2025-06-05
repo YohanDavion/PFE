@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {CommonModule} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
+import {AnimationService} from '../services/animation.service';
 
 @Component({
   selector: 'app-create-animation',
@@ -20,19 +22,46 @@ import {CommonModule} from '@angular/common';
 export class CreateAnimationComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  // Fichiers sélectionnés
+  files: { [key: string]: File } = {};
+
+  constructor(private fb: FormBuilder,
+              private http: HttpClient,
+              private animationService: AnimationService) {
     this.form = this.fb.group({
-      libelle: ['', Validators.required],
-      gif: ['', [Validators.required]],
-      dessin: ['', Validators.required],
-      son: ['', Validators.required],
+      libelle: ['', Validators.required]
     });
   }
-  ngOnInit(): void {
+
+  onFileSelected(event: any, field: string) {
+    const file = event.target.files[0];
+    if (file) {
+      this.files[field] = file;
+    }
   }
 
-  // Soumission du formulaire
   submitForm() {
-    console.log(this.form.value);
+    if (this.form.invalid || !this.files['gif'] || !this.files['dessin'] || !this.files['son']) {
+      console.log('Formulaire invalide');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('libelle', this.form.get('libelle')?.value);
+
+    if (this.files['gif']) {
+      formData.append('gif', this.files['gif']);
+    }
+
+    if (this.files['dessin']) {
+      formData.append('dessin', this.files['dessin']);
+    }
+
+    if (this.files['son']) {
+      formData.append('son', this.files['son']);
+    }
+
+    this.animationService.createAnimationFormData(formData).subscribe(animation => console.log(animation));
+
   }
 }
