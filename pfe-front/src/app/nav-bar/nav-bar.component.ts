@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { MenubarModule } from 'primeng/menubar';
+import {Component} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+import {MenubarModule} from 'primeng/menubar';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,7 +14,7 @@ export class NavBarComponent {
     ngOnInit() {
         this.items = [
             {
-                label: 'Séries',
+                label: 'Séries et Animations',
                 icon: 'pi pi-list-check',
                 items: [
                     {
@@ -26,9 +26,25 @@ export class NavBarComponent {
                         }
                     },
                     {
+                        label: 'Liste Animations',
+                        icon: 'pi pi-list',
+                        routerLink: ['/list-animations'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                    {
                         label: 'Créer Séries',
                         icon: 'pi pi-plus-circle',
                         routerLink: ['/create-series'],
+                        routerLinkActiveOptions: {
+                            exact: true
+                        }
+                    },
+                    {
+                        label: 'Créer Animation',
+                        icon: 'pi pi-plus-circle',
+                        routerLink: ['/create-animation'],
                         routerLinkActiveOptions: {
                             exact: true
                         }

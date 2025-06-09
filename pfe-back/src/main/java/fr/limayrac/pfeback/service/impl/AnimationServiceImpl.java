@@ -44,4 +44,9 @@ public class AnimationServiceImpl implements IAnimationService {
     public Collection<Animation> findBySerie(Serie serie) {
         return animationRepository.findBySeries(List.of(serie));
     }
+
+    @Override
+    public Collection<Animation> findByIds(Collection<Long> ids) {
+        return animationRepository.findAllById(ids);
+    }
 }

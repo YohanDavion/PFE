@@ -7,4 +7,6 @@ import java.util.Collection;
 
 public interface IAnimationService extends IAbstractService<Animation> {
     Collection<Animation> findBySerie(Serie serie);
+
+    Collection<Animation> findByIds(Collection<Long> ids);
 }

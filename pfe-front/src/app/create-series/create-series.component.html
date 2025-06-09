@@ -1,1 +1,28 @@
-<p>create-series works!</p>
+<p-card>
+  <h2>Créer une série</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submitSerieForm()">
+    <div class="form-group">
+      <label>Libellé :</label>
+      <input pInputText formControlName="libelle" />
+    </div>
+
+    <div class="form-group">
+      <label>Animations associées :</label>
+      <p-multiSelect
+        [options]="animations"
+        formControlName="animations"
+        optionLabel="libelle"
+        placeholder="Choisir les animations">
+      </p-multiSelect>
+    </div>
+
+    <button pButton type="button" label="Créer une animation" icon="pi pi-plus" (click)="openCreateAnimationDialog()"></button>
+
+    <button pButton type="submit" label="Enregistrer la série" [disabled]="form.invalid"></button>
+  </form>
+</p-card>
+
+<p-dialog header="Nouvelle animation" [(visible)]="showCreateAnimationDialog" [modal]="true" [style]="{width: '50vw'}">
+  <app-create-animation (animationCreated)="onAnimationCreated($event)"></app-create-animation>
+</p-dialog>

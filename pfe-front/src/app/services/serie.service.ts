@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Serie } from '../models/serie.model';
-import { Animation } from '../models/animation.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Serie} from '../models/serie.model';
+import {Animation} from '../models/animation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class SerieService {
     return this.http.get<Serie[]>(`${this.apiUrl}/all`);
   }
 
-  createSerie(serie: Serie): Observable<Serie> {
+  createSerie(serie: {}): Observable<Serie> {
     return this.http.post<Serie>(this.apiUrl, serie);
   }
 
@@ -39,4 +39,4 @@ export class SerieService {
   getAnimationsBySerie(serieId: number): Observable<Animation[]> {
     return this.http.get<Animation[]>(`${this.apiUrl}/user/${serieId}/animations`);
   }
-} 
+}

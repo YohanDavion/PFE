@@ -69,7 +69,7 @@ public class AnimationController implements IApiRestController<Animation, Long>{
     }
 
     @PostMapping/*("/api/animations")*/
-    public ResponseEntity<?> uploadAnimation(
+    public ResponseEntity<Animation> uploadAnimation(
             @RequestParam(value = "libelle") String libelle,
             @RequestParam(value = "gif") MultipartFile gif,
             @RequestParam(value = "dessin") MultipartFile dessin,
@@ -98,7 +98,7 @@ public class AnimationController implements IApiRestController<Animation, Long>{
         animation = animationService.save(animation);
 
 
-        return ResponseEntity.ok("Fichiers reçus");
+        return ResponseEntity.ok(animation);
     }
 
 }

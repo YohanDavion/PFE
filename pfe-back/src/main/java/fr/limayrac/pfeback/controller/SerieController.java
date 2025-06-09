@@ -1,6 +1,8 @@
 package fr.limayrac.pfeback.controller;
 
+import fr.limayrac.pfeback.dto.CreateSerieDTO;
 import fr.limayrac.pfeback.model.*;
+import fr.limayrac.pfeback.service.IAnimationService;
 import fr.limayrac.pfeback.service.IDroitAccesService;
 import fr.limayrac.pfeback.service.ISerieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 public class SerieController implements IApiRestController<Serie, Long> {
     @Autowired
     private ISerieService serieService;
+    @Autowired
+    private IAnimationService animationService;
     @Autowired
     private IDroitAccesService droitAccesService;
 
@@ -31,7 +35,7 @@ public class SerieController implements IApiRestController<Serie, Long> {
     }
 
     @Override
-    @PostMapping
+//    @PostMapping
     public Serie create(Serie entity) {
         return serieService.save(entity);
     }
@@ -74,5 +78,17 @@ public class SerieController implements IApiRestController<Serie, Long> {
             // L'utilisateur n'a pas les droits pour cette série
             return null;
         }
+    }
+
+    @PostMapping
+    public Serie createSerie(@RequestBody CreateSerieDTO dto) {
+        Serie serie = new Serie();
+        serie.setActive(true);
+        serie.setLibelle(dto.getLibelle());
+
+        Collection<Animation> animations = animationService.findByIds(dto.getAnimationIds());
+        serie.setAnimations(animations);
+
+        return serieService.save(serie);
     }
 }

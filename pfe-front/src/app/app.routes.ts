@@ -7,14 +7,18 @@ import {CreateUserComponent} from './create-user/create-user.component';
 import {ListSeriesPatientComponent} from './list-series-patient/list-series-patient.component';
 import {ListAnimationsPatientComponent} from './list-animations-patient/list-animations-patient.component';
 import {CreateAnimationComponent} from './create-animation/create-animation.component';
-import { ParametresComponent } from './parametres/parametres.component';
-import { CreatePatientComponent } from './create-patient/create-patient.component';
+import {ParametresComponent} from './parametres/parametres.component';
+import {CreatePatientComponent} from './create-patient/create-patient.component';
+import {CreateSerieComponent} from './create-series/create-series.component';
+import {ListAnimationsComponent} from './list-animations/list-animations.component';
 
 export const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent},
+  { path: 'list-animations', component: ListAnimationsComponent},
   { path: 'list-patients', component: ListPatientsComponent},
   { path: 'list-orthophonistes', component: ListOrthophonistesComponent},
   { path: 'create-user', component: CreateUserComponent},
+  { path: 'create-series', component: CreateSerieComponent},
   { path: 'create-animation', component: CreateAnimationComponent},
   { path: 'create-patient', component: CreatePatientComponent},
   { path: 'login', component: LoginComponent},
