@@ -6,9 +6,7 @@ import {SerieService} from '../services/serie.service';
 import {AnimationService} from '../services/animation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Animation} from '../interfaces/animation';
-import {Observable} from 'rxjs';
 import {Card} from 'primeng/card';
-import {Media} from '../models/media.model';
 
 @Component({
   selector: 'app-list-animations-patient',
@@ -63,21 +61,4 @@ export class ListAnimationsPatientComponent {
     }
   }
 
-  getCurrentMedia() : Media {
-    let none = {data: '', id: 0, mimetype: '', dataBase64:''};
-    if (this.currentMode === 0) {
-      {
-        // console.log(this.animations[this.currentIndex])
-        // return this.animations[this.currentIndex] != null ? this.animations[this.currentIndex].gif : none;
-      }
-      {
-        // return this.animations[this.currentIndex] != null ? this.animations[this.currentIndex].image : none;
-      }
-    } else {
-      {
-        // return this.animations[this.currentIndex] != null ? this.animations[this.currentIndex].image : none;
-      }
-    }
-    return none;
-  }
 }

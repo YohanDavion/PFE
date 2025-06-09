@@ -13,11 +13,11 @@ public class Serie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
-    @ManyToMany
-    @JoinTable(
-            name = "serie_animations",
-            joinColumns = @JoinColumn(name = "series_id"),
-            inverseJoinColumns = @JoinColumn(name = "animations_id"))
+    @ManyToMany(mappedBy = "series")
+//    @JoinTable(
+//            name = "serie_animations",
+//            joinColumns = @JoinColumn(name = "series_id"),
+//            inverseJoinColumns = @JoinColumn(name = "animations_id"))
     // Le lien peut être utile s'il y a des problèmes pour récupérer le JSON
     // https://stackoverflow.com/questions/76869015/bidirectional-many-to-many-relationships-in-spring-jpa-hibernate
     private Collection<Animation> animations;

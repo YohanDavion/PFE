@@ -1,0 +1,33 @@
+<p-card class="flex justify-content-center" styleClass="p-shadow-10">
+  <h1>Modifier l'animation</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label for="libelle">Libellé</label>
+      <input id="libelle" pInputText type="text" formControlName="libelle" />
+    </div>
+
+    <div class="form-group">
+      <label>Gif actuel :</label><br />
+      <img *ngIf="animationData?.gif" [src]="getMediaUrl(animationData.gif)" width="150" />
+
+      <input type="file" accept="image/gif" (change)="onFileSelected($event, 'gif')" />
+    </div>
+
+    <div class="form-group">
+      <label>Dessin actuel :</label><br />
+      <img *ngIf="animationData?.image" [src]="getMediaUrl(animationData.image)" width="150" />
+
+      <input type="file" accept="image/jpeg" (change)="onFileSelected($event, 'dessin')" />
+    </div>
+
+    <div class="form-group">
+      <label>Son actuel :</label><br />
+      <audio *ngIf="animationData?.son" [src]="getMediaUrl(animationData.son)" controls></audio>
+
+      <input type="file" accept=".mp3" (change)="onFileSelected($event, 'son')" />
+    </div>
+
+    <button pButton type="submit" label="Enregistrer" [disabled]="form.invalid"></button>
+  </form>
+</p-card>

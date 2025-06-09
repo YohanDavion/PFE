@@ -21,15 +21,14 @@ export class AnimationService {
     return this.http.get<Animation[]>(`${this.apiUrl}/all`);
   }
 
-  createAnimation(animation: Animation): Observable<Animation> {
-    return this.http.post<Animation>(this.apiUrl, animation);
-  }
-
   createAnimationFormData(formData : FormData) : Observable<Animation> {
     return this.http.post<Animation>(this.apiUrl, formData)
   }
   updateAnimation(animation: Animation): Observable<Animation> {
     return this.http.put<Animation>(`${this.apiUrl}/${animation.id}`, animation);
+  }
+  updateAnimationFormData(animationId:number, formData: FormData): Observable<Animation> {
+    return this.http.put<Animation>(`${this.apiUrl}/${animationId}`, formData);
   }
 
   deleteAnimation(id: number): Observable<void> {

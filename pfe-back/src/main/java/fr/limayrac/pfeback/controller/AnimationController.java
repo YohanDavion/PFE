@@ -50,7 +50,14 @@ public class AnimationController implements IApiRestController<Animation, Long>{
 
     @Override
     @PutMapping("/{id}")
-    public Animation put(Animation entity) {
+    public Animation put(@RequestBody Animation entity) {
+        // On ne souhaite pas perdre la liaison avec les séries
+        Animation animation = animationService.findById(entity.getId());
+        animation.setLibelle(entity.getLibelle());
+        animation.setActive(entity.getActive());
+        animation.setImage(entity.getImage());
+        animation.setGif(entity.getGif());
+        animation.setSon(entity.getSon());
         return animationService.save(entity);
     }
 

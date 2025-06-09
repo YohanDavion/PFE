@@ -22,7 +22,12 @@ public class Animation {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "son")
     private Media son;
-    @ManyToMany(mappedBy = "animations")
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "serie_animations",
+            joinColumns = @JoinColumn(name = "animations_id"),
+            inverseJoinColumns = @JoinColumn(name = "series_id")
+    )
     @JsonIgnore
     private List<Serie> series;
     private Boolean active;

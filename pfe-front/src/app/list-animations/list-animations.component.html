@@ -1,0 +1,66 @@
+<h1>Séries :</h1>
+<div class="card">
+  <p-table
+    [value]="animations"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Affichage des animations {first} à {last} | Total des animations : {totalRecords} "
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:20%">ID</th>
+        <th style="width:20%">Libelle</th>
+        <th style="width:20%">Statut</th>
+        <th style="width:20%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-animation>
+      <tr>
+        <td>{{animation.id}}</td>
+        <td>{{animation.libelle}}</td>
+        <td>
+          <p-badge [value]="animation.active ? 'Active' : 'Inactive'" [severity]="animation.active ? 'success' : 'danger'"/>
+        </td>
+        <td>
+          <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-play-circle" (click)="showAnimationDetails(animation)"></button>
+          <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="goToEdit(animation.id)"></button>
+          <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deleteOrDeactivate(animation)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-list')"></p-button>
+    </ng-template>
+  </p-table>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  <p-dialog
+    header="Détails de l'Animation"
+    [(visible)]="displayDialog"
+    [modal]="true"
+    [style]="{width: '500px'}"
+    [closable]="true">
+
+    <div *ngIf="selectedAnimation">
+      <h3>{{ selectedAnimation.libelle }}</h3>
+
+      <div *ngIf="selectedAnimation.gif">
+        <p><strong>Gif :</strong></p>
+        <img [src]="getImageUrl(selectedAnimation.gif)" width="100" />
+      </div>
+
+      <div *ngIf="selectedAnimation.image">
+        <p><strong>Image :</strong></p>
+        <img [src]="getImageUrl(selectedAnimation.image)" width="100" />
+      </div>
+
+      <div *ngIf="selectedAnimation.son">
+        <p><strong>Son :</strong></p>
+        <audio [src]="getAudioUrl(selectedAnimation.son)" controls></audio>
+      </div>
+    </div>
+  </p-dialog>
+</div>
