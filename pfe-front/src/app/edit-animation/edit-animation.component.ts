@@ -46,16 +46,40 @@ export class EditAnimationComponent implements OnInit {
       this.animationId = params['id'];
       this.animationService.getAnimation(this.animationId).subscribe(data => {
         this.animationData = data;
-        this.form.patchValue({ libelle: data.libelle });
+        this.form.patchValue({ libelle: this.animationData.libelle });
       });
     });
   }
 
   onFileSelected(event: any, field: string) {
-    const file = event.target.files[0];
-    if (file) {
-      this.files[field] = file;
-    }
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = reader.result as string; // format: data:[type];base64,[base64string]
+
+      const [meta, base64] = result.split(',');
+      const mimeMatch = meta.match(/data:(.*);base64/);
+
+      const type = mimeMatch ? mimeMatch[1] : '';
+      switch (field) {
+        case 'gif' : {
+          this.animationData.gif.data = base64;
+          break;
+        }
+        case 'dessin' : {
+          this.animationData.image.data = base64;
+          break;
+        }
+        case 'son' : {
+          this.animationData.son.data = base64;
+          break;
+        }
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   getMediaUrl(media: any): string {
@@ -66,21 +90,11 @@ export class EditAnimationComponent implements OnInit {
     if (this.form.invalid) {
       console.log('Formulaire invalide');
       return;
-    }
+    } else {
+      this.animationData.libelle = this.form.get('libelle')?.value;
 
-    const formData = new FormData();
-    formData.append('libelle', this.form.get('libelle')?.value);
-    if (this.files['gif']) {
-      formData.append('gif', this.files['gif']);
+      this.animationService.updateAnimation(this.animationData)
+        .subscribe(() => this.router.navigate(['/list-animations']));
     }
-    if (this.files['dessin']) {
-      formData.append('dessin', this.files['dessin']);
-    }
-    if (this.files['son']) {
-      formData.append('son', this.files['son']);
-    }
-
-    this.animationService.updateAnimationFormData(this.animationId, formData)
-      .subscribe(() => this.router.navigate(['/list-animations']));
   }
 }
