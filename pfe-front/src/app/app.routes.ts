@@ -12,6 +12,7 @@ import {CreatePatientComponent} from './create-patient/create-patient.component'
 import {CreateSerieComponent} from './create-series/create-series.component';
 import {ListAnimationsComponent} from './list-animations/list-animations.component';
 import {EditAnimationComponent} from './edit-animation/edit-animation.component';
+import {EditSerieComponent} from './edit-serie/edit-serie.component';
 
 export const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent},
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'create-animation', component: CreateAnimationComponent},
   { path: 'create-patient', component: CreatePatientComponent},
   { path: 'edit-animation', component: EditAnimationComponent},
+  { path: 'edit-serie', component: EditSerieComponent},
   { path: 'login', component: LoginComponent},
   { path: 'list-series-patient', component: ListSeriesPatientComponent},
   { path: 'list-animations-patient', component: ListAnimationsPatientComponent},

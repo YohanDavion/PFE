@@ -42,13 +42,31 @@ public class SerieController implements IApiRestController<Serie, Long> {
 
     @Override
     @DeleteMapping("/{id}")
-    public void delete(Long entity) {
-        serieService.delete(entity);
+    public void delete(@PathVariable Long id) {
+        Serie serie = serieService.findById(id);
+        //On enlève toute les combinaisons des animations
+        for (Animation animation : serie.getAnimations()) {
+            animation.getSeries().remove(serie);
+//            if (animation.getSeries().isEmpty()) {
+//                animationService.delete(animation);
+//            } else {
+            // TODO Demander si l'on supprime une série et qu'une animation est relié qu'à cette série, la supprime-t-on ?
+//            }
+            animationService.save(animation);
+        }
+        serieService.delete(id);
     }
 
     @Override
     @PutMapping("/{id}")
-    public Serie put(Serie entity) {
+    public Serie put(@RequestBody Serie entity) {
+        Serie serie = serieService.findById(entity.getId());
+        serie.setLibelle(entity.getLibelle());
+        serie.setActive(serie.getActive());
+
+        for (Animation animation : animationService.findBySerie(serie)) {
+            // TODO retrer si jamais
+        }
         return serieService.save(entity);
     }
 

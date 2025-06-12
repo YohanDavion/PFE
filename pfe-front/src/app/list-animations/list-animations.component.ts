@@ -74,7 +74,6 @@ export class ListAnimationsComponent {
         this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Animation désactivée'});
       });
     } else {
-      console.log(animation)
       this.confirmationService.confirm({
         message: 'Voulez-vous vraiment supprimer cette animation ?',
         acceptLabel: 'Oui',

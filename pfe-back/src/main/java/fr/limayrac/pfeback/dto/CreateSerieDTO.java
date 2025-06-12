@@ -3,8 +3,17 @@ package fr.limayrac.pfeback.dto;
 import java.util.Collection;
 
 public class CreateSerieDTO {
+    private Long id;
     private String libelle;
     private Collection<Long> animationIds;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLibelle() {
         return libelle;

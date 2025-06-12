@@ -2,12 +2,11 @@ package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Collection;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +21,20 @@ public class Serie {
     // https://stackoverflow.com/questions/76869015/bidirectional-many-to-many-relationships-in-spring-jpa-hibernate
     private Collection<Animation> animations;
     private Boolean active;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public void setAnimations(Collection<Animation> animations) {
+        this.animations = animations;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

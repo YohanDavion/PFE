@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Serie} from '../models/serie.model';
+import {Serie} from '../interfaces/serie';
 import {Animation} from '../models/animation.model';
 
 @Injectable({
@@ -24,8 +24,8 @@ export class SerieService {
     return this.http.post<Serie>(this.apiUrl, serie);
   }
 
-  updateSerie(serie: Serie): Observable<Serie> {
-    return this.http.put<Serie>(`${this.apiUrl}/${serie.id}`, serie);
+  updateSerie(id : number, serie: {}): Observable<Serie> {
+    return this.http.put<Serie>(`${this.apiUrl}/${id}`, serie);
   }
 
   deleteSerie(id: number): Observable<void> {

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Serie} from '../models/serie.model';
+import {Serie} from '../interfaces/serie';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {CommonModule} from "@angular/common";
