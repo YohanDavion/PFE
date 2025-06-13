@@ -49,4 +49,9 @@ public class AnimationServiceImpl implements IAnimationService {
     public Collection<Animation> findByIds(Collection<Long> ids) {
         return animationRepository.findAllById(ids);
     }
+
+    @Override
+    public List<Animation> saveAll(List<Animation> animations) {
+        return animationRepository.saveAll(animations);
+    }
 }

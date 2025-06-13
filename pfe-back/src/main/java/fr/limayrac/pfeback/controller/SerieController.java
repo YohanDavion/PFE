@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,9 +66,20 @@ public class SerieController implements IApiRestController<Serie, Long> {
         serie.setLibelle(entity.getLibelle());
         serie.setActive(serie.getActive());
 
-        for (Animation animation : animationService.findBySerie(serie)) {
-            // TODO retrer si jamais
+        List<Animation> animations = new ArrayList<>();
+        for (Animation animation : animationService.findAll()) {
+            if (entity.getAnimations().contains(animation)) {
+                // On retire la liaison entre la série et l'animation
+                //On évite d'ajouter un doublon
+                if (!animation.getSeries().contains(serie)) {
+                    animation.getSeries().add(serie);
+                }
+            } else {
+                animation.getSeries().remove(serie);
+            }
+            animations.add(animation);
         }
+        animationService.saveAll(animations);
         return serieService.save(entity);
     }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Setter
@@ -58,5 +59,22 @@ public class Animation {
 
     public Boolean getActive() {
         return active;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Animation) {
+            return Objects.equals(id, ((Animation) obj).id);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (this.id == null ? 0 : this.id.intValue());
+        return result;
     }
 }

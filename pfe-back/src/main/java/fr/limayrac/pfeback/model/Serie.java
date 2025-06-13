@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -36,5 +37,22 @@ public class Serie {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Serie) {
+            return Objects.equals(id, ((Serie) obj).id);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (this.id == null ? 0 : this.id.intValue());
+        return result;
     }
 }
