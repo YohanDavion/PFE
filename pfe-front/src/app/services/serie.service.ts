@@ -20,6 +20,10 @@ export class SerieService {
     return this.http.get<Serie[]>(`${this.apiUrl}/all`);
   }
 
+  getAllSerieByPatient(): Observable<Serie[]> {
+    return this.http.get<Serie[]>(`${this.apiUrl}/all-patient`);
+  }
+
   createSerie(serie: {}): Observable<Serie> {
     return this.http.post<Serie>(this.apiUrl, serie);
   }

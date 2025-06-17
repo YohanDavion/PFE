@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, tap} from 'rxjs';
 
 interface User {
   id: number;
@@ -14,36 +13,34 @@ interface User {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(
-      JSON.parse(localStorage.getItem('currentUser') || 'null')
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
-
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<any>(`${this.apiUrl}/login`, {email, password})
-      .pipe(map(user => {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return user;
-      }));
+  login(login: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { login, password })
+      .pipe(
+        tap(response => {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('jwt_token', response.token);
+          }
+        })
+      );
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('jwt_token');
+    }
   }
 
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
+  getToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('jwt_token');
+    }
+    return null;
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUserSubject.value;
+    return this.getToken() !== null;
   }
 
   refreshToken(): Observable<any> {

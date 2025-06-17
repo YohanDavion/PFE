@@ -29,7 +29,7 @@ export class ListSeriesPatientComponent {
   }
 
   ngOnInit(): void {
-    this.serieService.getAllSeries().subscribe((series) => {
+    this.serieService.getAllSerieByPatient().subscribe((series) => {
       this.series = series;
     })
   }

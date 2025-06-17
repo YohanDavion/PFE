@@ -5,8 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 public enum Role implements GrantedAuthority {
-    PROFESSEUR(0, "Professeur"),
-    ADMIN(1, "Administrateur");
+    ADMINISTRATEUR(0, "Administrateur"),
+    ORTHOPHONISTE(1, "Orthophoniste"),
+    PATIENT(1, "Patient");
 
     private int id;
     private String libelle;

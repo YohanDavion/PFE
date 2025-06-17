@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PatientService } from '../services/patient.service';
-import { OrthophonisteService } from '../services/orthophoniste.service';
-import { AdministrateurService } from '../services/administrateur.service';
-import { AuthService } from '../services/auth.service';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {PatientService} from '../services/patient.service';
+import {OrthophonisteService} from '../services/orthophoniste.service';
+import {AdministrateurService} from '../services/administrateur.service';
+import {AuthService} from '../services/auth.service';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-parametres',
@@ -78,7 +78,11 @@ export class ParametresComponent implements OnInit {
   }
 
   loadUserData(): void {
-    const user = this.authService.getCurrentUser();
+    // const user = this.authService.getCurrentUser();
+    let user = {
+      id:0,
+      role:"type"
+    }
     if (user) {
       this.userType = user.role;
       this.userId = user.id;
@@ -176,4 +180,4 @@ export class ParametresComponent implements OnInit {
       }
     }
   }
-} 
+}

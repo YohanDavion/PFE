@@ -25,6 +25,7 @@ public class CoordonneeBancaire {
     }
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }

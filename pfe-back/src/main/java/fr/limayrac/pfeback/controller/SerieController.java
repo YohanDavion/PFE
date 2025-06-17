@@ -2,6 +2,7 @@ package fr.limayrac.pfeback.controller;
 
 import fr.limayrac.pfeback.dto.CreateSerieDTO;
 import fr.limayrac.pfeback.model.*;
+import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IAnimationService;
 import fr.limayrac.pfeback.service.IDroitAccesService;
 import fr.limayrac.pfeback.service.ISerieService;
@@ -34,6 +35,21 @@ public class SerieController implements IApiRestController<Serie, Long> {
     @GetMapping("/all")
     public Collection<Serie> findAll() {
         return serieService.findAll();
+    }
+
+    @GetMapping("/all-patient")
+    public Collection<Serie> findAllPatient() {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //
+        if (principal != null) {
+            if (principal.getUser() instanceof Patient patient) {
+                Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
+                return droitAcces.stream().map(DroitAcces::getSerie).toList();
+            } else {
+                return serieService.findAll();
+            }
+        }
+        return null;
     }
 
     @Override
