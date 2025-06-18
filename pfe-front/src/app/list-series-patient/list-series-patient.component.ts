@@ -41,4 +41,13 @@ export class ListSeriesPatientComponent {
   goToPage(pageName:string, data:any){
     this.router.navigate([`${pageName}`], data);
   }
+
+  getSeverity(statut : string) : "success" | "warn" | "secondary" | "help" {
+    switch (statut) {
+      case "TERMINE" : return "success";
+      case "EN_COURS" : return "warn";
+      case "A_FAIRE" : return "secondary";
+      default : return "help";
+    }
+  }
 }

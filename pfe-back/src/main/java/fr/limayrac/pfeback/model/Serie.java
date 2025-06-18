@@ -22,6 +22,7 @@ public class Serie {
     // https://stackoverflow.com/questions/76869015/bidirectional-many-to-many-relationships-in-spring-jpa-hibernate
     private Collection<Animation> animations;
     private Boolean active;
+    private Statut statut;
 
     public void setId(Long id) {
         this.id = id;
@@ -37,6 +38,15 @@ public class Serie {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @Transient
+    public Statut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Statut statut) {
+        this.statut = statut;
     }
 
     @Override

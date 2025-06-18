@@ -43,4 +43,8 @@ export class SerieService {
   getAnimationsBySerie(serieId: number): Observable<Animation[]> {
     return this.http.get<Animation[]>(`${this.apiUrl}/user/${serieId}/animations`);
   }
+
+  validateSerie(serieId : number) {
+    return this.http.get<Serie>(`${this.apiUrl}/${serieId}/validate`);
+  }
 }

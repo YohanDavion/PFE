@@ -6,12 +6,14 @@ import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IAnimationService;
 import fr.limayrac.pfeback.service.IDroitAccesService;
 import fr.limayrac.pfeback.service.ISerieService;
+import fr.limayrac.pfeback.service.ISerieStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,8 @@ public class SerieController implements IApiRestController<Serie, Long> {
     private IAnimationService animationService;
     @Autowired
     private IDroitAccesService droitAccesService;
+    @Autowired
+    private ISerieStatusService serieStatusService;
 
     @Override
     @GetMapping("/{id}")
@@ -40,13 +44,58 @@ public class SerieController implements IApiRestController<Serie, Long> {
     @GetMapping("/all-patient")
     public Collection<Serie> findAllPatient() {
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //
         if (principal != null) {
+            List<Serie> allSeries = serieService.findAll();
+            //Trie par ordre alphabétique
+            allSeries.sort(Comparator.comparing(Serie::getLibelle));
+            List<Serie> serieToReturn = new ArrayList<>();
             if (principal.getUser() instanceof Patient patient) {
-                Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
-                return droitAcces.stream().map(DroitAcces::getSerie).toList();
+                List<Serie> serieEffectue = serieStatusService.findByPatient(patient);
+
+                if (patient.getOrthophoniste() != null) {
+                    // On affiche seulement les séries dont il a les droits
+                    Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
+                    for (Serie serie : allSeries) {
+                        for (DroitAcces droitAccesLooped : droitAcces) {
+                            // S'il à les droits pour la série, on l'ajoute à la liste à afficher
+                            if (serie.equals(droitAccesLooped.getSerie())) {
+                                if (serieEffectue.contains(serie)) {
+                                    serie.setStatut(Statut.TERMINE);
+                                } else {
+                                    serie.setStatut(Statut.EN_COURS);
+                                }
+                                serieToReturn.add(serie);
+                                break;
+                            }
+                        }
+                    }
+                    return serieToReturn;
+                } else {
+                    // Patient public
+                    Serie derniereTermine = null;
+                    for (Serie serie : allSeries) {
+                        // On récupère la dernière série terminée
+                        if (serieEffectue.contains(serie)) {
+                            derniereTermine = serie;
+                            serie.setStatut(Statut.TERMINE);
+                        } else {
+                            serie.setStatut(Statut.A_FAIRE);
+                        }
+                        serieToReturn.add(serie);
+                    }
+
+                    int index = allSeries.indexOf(derniereTermine);
+                    if (index < allSeries.size() - 2) {
+                        allSeries.get(index+1).setStatut(Statut.EN_COURS);
+                    }
+
+                    return serieToReturn;
+                }
             } else {
-                return serieService.findAll();
+//                for (Serie serie : allSeries) {
+//                    serie.setStatut(Statut.TERMINE);
+//                }
+//                return allSeries;
             }
         }
         return null;
@@ -137,5 +186,19 @@ public class SerieController implements IApiRestController<Serie, Long> {
         serie.setAnimations(animations);
 
         return serieService.save(serie);
+    }
+
+
+    @GetMapping("/{id}/validate")
+    public Serie validateSerie(@PathVariable Long id) {
+        Serie serie = serieService.findById(id);
+        Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        SerieStatus serieStatus = new SerieStatus();
+        serieStatus.setSerie(serie);
+        serieStatus.setPatient(patient);
+        serieStatusService.save(serieStatus);
+
+        return serie;
     }
 }

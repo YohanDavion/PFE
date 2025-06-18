@@ -19,6 +19,7 @@ import {Card} from 'primeng/card';
 export class ListAnimationsPatientComponent {
   currentIndex = 0;
   currentMode = 0;
+  serieId : number | null = null;
   animations: Animation[] = [];
 
   constructor(
@@ -31,9 +32,9 @@ export class ListAnimationsPatientComponent {
 
   async ngOnInit(): Promise<void> {
     this.activatedRoute.queryParams.subscribe(params => {
-      let serieId = params['serieId'];
-      if (serieId != null) {
-        this.animationService.getAnimationBySerie(serieId).subscribe(animations => {
+      this.serieId = params['serieId'];
+      if (this.serieId != null) {
+        this.animationService.getAnimationBySerie(this.serieId).subscribe(animations => {
           this.animations = animations;
         })
       }
@@ -55,9 +56,20 @@ export class ListAnimationsPatientComponent {
     audio.play();
   }
 
+  goToPage(pageName:string){
+    this.router.navigate([`${pageName}`]);
+  }
+
   nextAnimation() {
     if (this.currentIndex < this.animations.length-1) {
       this.currentIndex++;
+    } else {
+      // Fin de la série, on peut la valider
+      if (this.serieId != null) {
+        this.serieService.validateSerie(this.serieId).subscribe(() => {
+          this.goToPage('list-series-patient')
+        });
+      }
     }
   }
 
