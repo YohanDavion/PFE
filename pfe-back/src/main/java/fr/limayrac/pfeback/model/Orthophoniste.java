@@ -1,5 +1,6 @@
 package fr.limayrac.pfeback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -77,6 +78,7 @@ public class Orthophoniste extends User implements Serializable {
     }
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
         return coordonneeBancaires;
     }

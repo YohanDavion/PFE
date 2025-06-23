@@ -43,6 +43,10 @@ export class AuthService {
     return this.getToken() !== null;
   }
 
+  getUserLogged() : Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/user`);
+  }
+
   refreshToken(): Observable<any> {
     return this.http.post(`${this.apiUrl}/refresh-token`, {}, { withCredentials: true });
   }

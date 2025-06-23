@@ -1,5 +1,6 @@
 package fr.limayrac.pfeback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -14,6 +15,7 @@ public class Patient extends User {
     private String prenomParent;
     private String adresse;
     private byte[] photo;
+    @JsonIgnore
     private Collection<CoordonneeBancaire> coordonneeBancaires;
     private Orthophoniste orthophoniste;
 
@@ -22,7 +24,8 @@ public class Patient extends User {
         setRole(Role.PATIENT);
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
         return coordonneeBancaires;
     }
@@ -89,5 +92,15 @@ public class Patient extends User {
 
     public void setOrthophoniste(Orthophoniste orthophoniste) {
         this.orthophoniste = orthophoniste;
+    }
+
+    @Override
+    public String getTelephone() {
+        return super.getTelephone();
+    }
+
+    @Override
+    public void setTelephone(String telephone) {
+        super.setTelephone(telephone);
     }
 }

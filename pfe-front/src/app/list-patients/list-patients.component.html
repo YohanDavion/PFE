@@ -7,7 +7,7 @@
     [rows]="5"
     [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Affichage des patients {first} à {last} | Total de séries : {totalRecords} "
+    currentPageReportTemplate="Affichage des patients {first} à {last} | Total de patients : {totalRecords} "
     [rowsPerPageOptions]="[5, 10, 20]"
 >
     <ng-template pTemplate="header">
@@ -23,8 +23,8 @@
         <tr>
             <td>{{patient.prenomParent}}</td>
             <td>{{patient.nomParent}}</td>
-            <td>{{patient.prenomPatient}}</td>
-            <td>{{patient.nomPatient}}</td>
+            <td>{{patient.prenom}}</td>
+            <td>{{patient.nom}}</td>
             <td>
                 <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="test()"></button>
                 <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="editPatient(patient)"></button>

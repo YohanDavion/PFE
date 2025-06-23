@@ -4,6 +4,8 @@ import fr.limayrac.pfeback.UserService;
 import fr.limayrac.pfeback.config.JWTService;
 import fr.limayrac.pfeback.dto.LoginRequest;
 import fr.limayrac.pfeback.dto.LoginResponse;
+import fr.limayrac.pfeback.model.User;
+import fr.limayrac.pfeback.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,7 +49,7 @@ public class LoginController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<?> currentUser(Authentication authentication) {
-        return ResponseEntity.ok(authentication.getName());
+    public User currentUser() {
+        return ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 }

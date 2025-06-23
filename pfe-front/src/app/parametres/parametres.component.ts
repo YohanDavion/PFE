@@ -6,13 +6,15 @@ import {AdministrateurService} from '../services/administrateur.service';
 import {AuthService} from '../services/auth.service';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
+import {UserService} from '../services/user.service';
+import {User} from '../interfaces/user';
 
 @Component({
   selector: 'app-parametres',
   templateUrl: './parametres.component.html',
   styleUrls: ['./parametres.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ParametresComponent implements OnInit {
   parametresForm: FormGroup;
@@ -22,9 +24,12 @@ export class ParametresComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   isEditingPatient: boolean = false;
+  currentUser!: User;
+
 
   constructor(
     private fb: FormBuilder,
+    private userService : UserService,
     private patientService: PatientService,
     private orthophonisteService: OrthophonisteService,
     private administrateurService: AdministrateurService,
@@ -37,8 +42,7 @@ export class ParametresComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
       adresse: [''],
-      dateNaissance: [''],
-      numeroAdeli: ['']
+      // numeroAdeli: ['']
     });
   }
 
@@ -47,89 +51,26 @@ export class ParametresComponent implements OnInit {
       const patientId = params['patientId'];
       if (patientId) {
         this.isEditingPatient = true;
-        this.userType = 'PATIENT';
-        this.userId = patientId;
-        this.loadPatientData(patientId);
+        this.userService.getUser(patientId).subscribe((user) => {
+          this.currentUser = user;
+          this.userType = user.role;
+          console.log(user);
+          this.userId = user.id;
+        })
       } else {
-        this.parametresForm.get('nom')?.disable();
-        this.parametresForm.get('prenom')?.disable();
-        this.parametresForm.get('email')?.disable();
-        this.loadUserData();
+        this.authService.getUserLogged().subscribe(user => {
+          this.currentUser = user;
+          this.userId = user.id;
+          this.userType = user.role;
+          this.parametresForm.get('nom')?.disable();
+          this.parametresForm.get('prenom')?.disable();
+          this.parametresForm.get('email')?.disable();
+          this.parametresForm.get('telephone')?.disable();
+          this.parametresForm.get('adresse')?.disable();
+          }
+        );
       }
     });
-  }
-
-  loadPatientData(patientId: number): void {
-    this.patientService.getPatient(patientId).subscribe(
-      patient => {
-        this.parametresForm.patchValue({
-          nom: patient.nom,
-          prenom: patient.prenom,
-          email: patient.email,
-          telephone: patient.telephone,
-          adresse: patient.adresse,
-          dateNaissance: patient.dateNaissance
-        });
-      },
-      error => {
-        this.errorMessage = 'Erreur lors du chargement des données du patient';
-      }
-    );
-  }
-
-  loadUserData(): void {
-    // const user = this.authService.getCurrentUser();
-    let user = {
-      id:0,
-      role:"type"
-    }
-    if (user) {
-      this.userType = user.role;
-      this.userId = user.id;
-
-      switch (this.userType) {
-        case 'PATIENT':
-          this.patientService.getPatient(this.userId).subscribe(
-            patient => {
-              this.parametresForm.patchValue({
-                nom: patient.nom,
-                prenom: patient.prenom,
-                email: patient.email,
-                telephone: patient.telephone,
-                adresse: patient.adresse,
-                dateNaissance: patient.dateNaissance
-              });
-            }
-          );
-          break;
-        case 'ORTHOPHONISTE':
-          this.orthophonisteService.getOrthophoniste(this.userId).subscribe(
-            orthophoniste => {
-              this.parametresForm.patchValue({
-                nom: orthophoniste.nom,
-                prenom: orthophoniste.prenom,
-                email: orthophoniste.email,
-                telephone: orthophoniste.telephone,
-                adresse: orthophoniste.adresse,
-                numeroAdeli: orthophoniste.numeroAdeli
-              });
-            }
-          );
-          break;
-        case 'ADMIN':
-          this.administrateurService.getAdministrateur(this.userId).subscribe(
-            admin => {
-              this.parametresForm.patchValue({
-                nom: admin.nom,
-                prenom: admin.prenom,
-                email: admin.email,
-                telephone: admin.telephone
-              });
-            }
-          );
-          break;
-      }
-    }
   }
 
   onSubmit(): void {

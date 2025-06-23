@@ -42,6 +42,21 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 orthoId // orthophonisteId
         );
 
+        //Patient public
+        insertPatient(
+                jdbcTemplate,
+                "patient2@limayrac.cfr",                     // login
+                new BCryptPasswordEncoder().encode("patient"), // password
+                "0789456123",                                 // téléphone
+                "Martin",                                     // nom
+                "Léo",                                        // prénom
+                "Martin",                                     // nomParent
+                "Claire",                                     // prénomParent
+                "15 avenue Victor Hugo",                      // adresse
+                null,                                         // photo
+                null                                          // orthophonisteId
+        );
+
         //Administrateur
         insertAdministrateur(
                 jdbcTemplate,

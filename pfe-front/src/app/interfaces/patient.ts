@@ -1,15 +1,23 @@
-export class Patient {
-    id: number;
-    nomParent: string;
-    prenomParent: string;
-    nomPatient: string;
-    prenomPatient: string;
+import {User} from './user';
 
-    constructor(id: number, nomParent: string, prenomParent: string, nomPatient: string, prenomPatient: string){
-        this.id = id;
-        this.nomParent = nomParent;
-        this.prenomParent = prenomParent;
-        this.nomPatient = nomPatient;
-        this.prenomPatient = prenomPatient;
-    }
+export class Patient extends User{
+  nom: string;
+  prenom: string;
+  nomParent: string;
+  prenomParent: string;
+  adresse: string;
+  photo: string;
+
+  constructor(id: number, login : string, role : string, telephone : string,
+              nom: string, prenom: string, nomParent: string, prenomParent:
+              string, adresse: string, photo : string){
+    super(id, login, role, telephone);
+    this.nom = nom;
+    this.prenom = prenom;
+    this.nomParent = nomParent;
+    this.prenomParent = prenomParent;
+    this.adresse = adresse;
+    this.telephone = telephone;
+    this.photo = photo;
+  }
 }

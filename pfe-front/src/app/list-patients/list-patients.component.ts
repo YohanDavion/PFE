@@ -1,16 +1,15 @@
-import { Component,NgModule } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DataViewModule } from 'primeng/dataview';
-import { Patient } from '../interfaces/patient';
-import {Animation} from '../interfaces/animation';
-import { TagModule } from 'primeng/tag';
-import { CommonModule } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { Router } from '@angular/router';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { PatientService } from '../services/patient.service';
+import {Component} from '@angular/core';
+import {ButtonModule} from 'primeng/button';
+import {DataViewModule} from 'primeng/dataview';
+import {Patient} from '../interfaces/patient';
+import {TagModule} from 'primeng/tag';
+import {CommonModule} from '@angular/common';
+import {ToastModule} from 'primeng/toast';
+import {Router} from '@angular/router';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {TableModule} from 'primeng/table';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {PatientService} from '../services/patient.service';
 
 @Component({
   selector: 'app-list-patients',
@@ -32,24 +31,12 @@ export class ListPatientsComponent {
   }
 
   ngOnInit(): void {
-    const mockPatients = [
-      new Patient(1, 'Dupont', 'Marie', 'Dupont', 'Lucas'),
-      new Patient(2, 'Martin', 'Pierre', 'Martin', 'Emma'),
-      new Patient(3, 'Dubois', 'Sophie', 'Dubois', 'Noah'),
-      new Patient(4, 'Lefebvre', 'Thomas', 'Lefebvre', 'Chloé'),
-      new Patient(5, 'Moreau', 'Claire', 'Moreau', 'Louis'),
-      new Patient(6, 'aze', 'aze', 'Dupont', 'Lucas'),
-      new Patient(7, 'Martin', 'aze', 'Martin', 'Emma'),
-      new Patient(8, 'Dubois', 'Sophie', 'aze', 'Noah'),
-      new Patient(9, 'Lefebvre', 'Thomas', 'aze', 'Chloé'),
-      new Patient(10, 'Moreau', 'Claire', 'Moreau', 'aze')
-    ];
-    this.patients = mockPatients;
+    this.patientService.getAllPatients().subscribe(patients => this.patients = patients);
   }
 
   test(){
 
-  } 
+  }
 
   goToPage(pageName:string){
     this.router.navigate([`${pageName}`]);
