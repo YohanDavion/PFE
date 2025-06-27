@@ -44,19 +44,39 @@
           <label for="adresse">Adresse</label>
           <input type="text" id="adresse" formControlName="adresse" class="form-control">
         </div>
+
+        <div class="form-group">
+          <label>Photo de profil</label>
+          <div class="photo-preview">
+            <img [src]="'data:image/png;base64,' + parametresForm.get('photo')?.value"  alt="Photo de profil" *ngIf="parametresForm.get('photo')?.value" style="max-width: 150px; max-height: 150px; margin-bottom: 1rem;">
+          </div>
+          <input type="file" accept="image/*" (change)="onPhotoSelected($event)"
+                 class="form-control" [disabled]="!isEditingPatient">
+        </div>
       }
 
-<!--      @if (userType === 'PATIENT') {-->
-<!--        <div class="form-group">-->
-<!--          <label for="dateNaissance">Date de naissance</label>-->
-<!--          <input type="date" id="dateNaissance" formControlName="dateNaissance" class="form-control">-->
-<!--        </div>-->
-<!--      }-->
+      @if (userType === 'PATIENT') {
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nomParent">Nom du parent</label>
+            <input type="text" id="nomParent" formControlName="nomParent" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="prenomParent">Prénom du parent</label>
+            <input type="text" id="prenomParent" formControlName="prenomParent" class="form-control">
+          </div>
+        </div>
+      }
 
       @if (userType === 'ORTHOPHONISTE') {
         <div class="form-group">
-          <label for="numeroAdeli">Numéro Adeli</label>
-          <input type="text" id="numeroAdeli" formControlName="numeroAdeli" class="form-control">
+          <label for="rpps">Numéro RPPS</label>
+          <input type="text" id="rpps" formControlName="rpps" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="siret">Numéro SIRET</label>
+          <input type="text" id="siret" formControlName="siret" class="form-control">
         </div>
       }
 
