@@ -5,5 +5,5 @@ export interface Orthophoniste {
     email: string;
     telephone: string;
     adresse: string;
-    numeroAdeli: string;
-} 
+    // numeroAdeli: string;
+}

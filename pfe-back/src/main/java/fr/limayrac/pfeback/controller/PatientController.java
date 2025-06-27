@@ -1,8 +1,13 @@
 package fr.limayrac.pfeback.controller;
 
+import fr.limayrac.pfeback.model.Administrateur;
+import fr.limayrac.pfeback.model.Orthophoniste;
 import fr.limayrac.pfeback.model.Patient;
+import fr.limayrac.pfeback.model.User;
+import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +24,15 @@ public class PatientController implements IApiRestController<Patient, Long>{
     @Override
     @GetMapping("/all")
     public List<Patient> findAll() {
-        return patientService.findAll();
+        CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = currentUser.getUser();
+        if (user instanceof Administrateur) {
+            return patientService.findAll();
+        } else if (user instanceof Orthophoniste) {
+            return patientService.findByOrthophoniste((Orthophoniste) user);
+        } else {
+            return null;
+        }
     }
 
     @Override

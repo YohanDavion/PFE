@@ -1,6 +1,7 @@
 package fr.limayrac.pfeback.service.impl;
 
 import fr.limayrac.pfeback.dto.UserUpdateDTO;
+import fr.limayrac.pfeback.model.Orthophoniste;
 import fr.limayrac.pfeback.model.Patient;
 import fr.limayrac.pfeback.repository.PatientRepository;
 import fr.limayrac.pfeback.service.IPatientService;
@@ -63,5 +64,10 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public void delete(Long id) {
         patientRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Patient> findByOrthophoniste(Orthophoniste orthophoniste) {
+        return patientRepository.findByOrthophoniste(orthophoniste);
     }
 }
