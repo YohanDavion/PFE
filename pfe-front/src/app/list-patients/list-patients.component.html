@@ -26,9 +26,9 @@
             <td>{{patient.prenom}}</td>
             <td>{{patient.nom}}</td>
             <td>
-                <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="test()"></button>
+                <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="editPatient(patient)"></button>
                 <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="editPatient(patient)"></button>
-                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deletePatient(patient)"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deleteOrDeactivate(patient)"></button>
             </td>
         </tr>
     </ng-template>

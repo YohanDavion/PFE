@@ -27,15 +27,11 @@ export class ListPatientsComponent {
     private confirmationService: ConfirmationService,
     private patientService: PatientService
   )
-    {
+  {
   }
 
   ngOnInit(): void {
     this.patientService.getAllPatients().subscribe(patients => this.patients = patients);
-  }
-
-  test(){
-
   }
 
   goToPage(pageName:string){
@@ -43,35 +39,35 @@ export class ListPatientsComponent {
   }
 
   showSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'Succés', detail: 'Suppréssion du Client' });
+    this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Suppression du Client' });
   }
   showError() {
-    this.messageService.add({ severity: 'error', summary: 'Echec', detail: 'Echec de la suppréssion du Client' });
-}
+    this.messageService.add({ severity: 'error', summary: 'Echec', detail: 'Echec de la suppression du Client' });
+  }
 
-editPatient(patient: Patient) {
-  this.router.navigate(['/settings'], { queryParams: { patientId: patient.id } });
-}
+  editPatient(patient: Patient) {
+    this.router.navigate(['/settings'], { queryParams: { patientId: patient.id } });
+  }
 
-deletePatient(patient: Patient) {
-  this.confirmationService.confirm({
-    message: 'Êtes-vous sûr de vouloir supprimer ce patient ?',
-    header: 'Confirmation de suppression',
-    icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Oui',
-    rejectLabel: 'Non',
-    accept: () => {
-      this.patientService.deletePatient(patient.id).subscribe({
-        next: () => {
-          this.patients = this.patients.filter(p => p.id !== patient.id);
-          this.showSuccess();
-        },
-        error: (error) => {
-          console.error('Erreur lors de la suppression:', error);
-          this.showError();
+  deleteOrDeactivate(patient: Patient) {
+    console.log(patient);
+    if (patient.actif) {
+      patient.actif = false;
+      this.patientService.updatePatient(patient).subscribe(() => {
+        this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Patient désactivé'});
+      });
+    } else {
+      this.confirmationService.confirm({
+        message: 'Voulez-vous vraiment supprimer cette série ?',
+        acceptLabel: 'Oui',
+        rejectLabel: 'Non',
+        accept: () => {
+          this.patientService.deletePatient(patient.id).subscribe(() => {
+            this.patients = this.patients.filter(p => p.id !== patient.id);
+            this.messageService.add({severity: 'success', summary: 'Supprimée', detail: 'Patient supprimé'});
+          });
         }
       });
     }
-  });
-}
+  }
 }

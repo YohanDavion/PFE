@@ -17,6 +17,7 @@ public class User {
     private Role role;
     @Getter
     private String telephone;
+    private Boolean actif;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     public Long getId() {
@@ -33,5 +34,10 @@ public class User {
     @Column(name = "role")
     public Role getRole() {
         return role;
+    }
+
+    @Column(name = "actif")
+    public Boolean getActif() {
+        return actif;
     }
 }

@@ -76,6 +76,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "password VARCHAR(255)," +
                 "role tinyint(1) NOT NULL," +
                 "telephone VARCHAR(255), " +
+                "actif bit(1) NOT NULL," +
                 "user_type VARCHAR(50) NOT NULL" +
                 ")");
 
@@ -124,8 +125,8 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
     }
 
     private Long insertUser(JdbcTemplate jdbcTemplate, String login, String password, int role, String telephone, String userType) {
-        jdbcTemplate.update("INSERT INTO users (login, password, role, telephone, user_type) VALUES (?, ?, ?, ?, ?)",
-                login, password, role, telephone, userType);
+        jdbcTemplate.update("INSERT INTO users (login, password, role, telephone, actif, user_type) VALUES (?, ?, ?, ?, ?, ?)",
+                login, password, role, telephone, true, userType);
 
         return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
     }

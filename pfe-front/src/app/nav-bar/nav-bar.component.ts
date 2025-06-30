@@ -66,7 +66,7 @@ export class NavBarComponent {
                     {
                         label: 'Créer Patients',
                         icon: 'pi pi-user-plus',
-                        routerLink: ['/create-user'],
+                        routerLink: ['/create-patient'],
                         routerLinkActiveOptions: {
                             exact: true
                         }

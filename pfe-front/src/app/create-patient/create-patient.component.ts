@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { PatientService } from '../services/patient.service';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {Router} from '@angular/router';
+import {PatientService} from '../services/patient.service';
+import {MessageService} from 'primeng/api';
+import {ToastModule} from 'primeng/toast';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-create-patient',
@@ -37,12 +37,14 @@ export class CreatePatientComponent implements OnInit {
     this.patientForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      login: ['', [Validators.required, Validators.email]],
+      password : ['', Validators.required],
       telephone: ['', Validators.required],
       adresse: [''],
       dateNaissance: [''],
       nomParent: ['', Validators.required],
-      prenomParent: ['', Validators.required]
+      prenomParent: ['', Validators.required],
+      photo : ['']
     });
   }
 
@@ -52,6 +54,7 @@ export class CreatePatientComponent implements OnInit {
     if (this.patientForm.valid) {
       this.loading = true;
       const patientData = this.patientForm.value;
+      console.log(patientData)
 
       this.patientService.createPatient(patientData).subscribe({
         next: () => {
@@ -81,7 +84,38 @@ export class CreatePatientComponent implements OnInit {
     }
   }
 
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+
+    // Crée un clone isolé du fichier
+    const safeFile = new Blob([file], { type: file.type });
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64Image = reader.result as string;
+      this.patientForm.patchValue({ photo: base64Image.split(',')[1] });
+    };
+
+    reader.onerror = (error) => {
+      console.error("Erreur de lecture du fichier :", error);
+    };
+
+    try {
+      reader.readAsDataURL(safeFile);
+    } catch (err) {
+      console.error("Erreur DOMException :", err);
+    }
+
+    // Important : vider le champ input après usage
+    input.value = '';
+  }
+
   cancel(): void {
     this.router.navigate(['/list-patients']);
   }
-} 
+}

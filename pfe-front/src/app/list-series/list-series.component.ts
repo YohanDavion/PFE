@@ -40,7 +40,6 @@ export class ListSeriesComponent {
 
   deleteOrDeactivate(serie: Serie) {
     if (serie.active) {
-      console.log(serie)
       serie.active = false;
       this.serieService.updateSerie(serie.id, serie).subscribe(() => {
         this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Série désactivée'});

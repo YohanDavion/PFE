@@ -8,10 +8,8 @@ import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,17 +40,30 @@ public class PatientController implements IApiRestController<Patient, Long>{
     }
 
     @Override
-    public Patient create(Patient entity) {
+    @PostMapping
+    public Patient create(@RequestBody Patient entity) {
+        // Chiffrage du mdp
+        entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
+        // Actif par défaut à la création
+        entity.setActif(true);
+        CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = currentUser.getUser();
+        if (user instanceof Orthophoniste) {
+            entity.setOrthophoniste((Orthophoniste) user);
+        }
         return patientService.save(entity);
     }
 
     @Override
-    public void delete(Long entity) {
-        patientService.delete(entity);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        patientService.delete(id);
     }
 
     @Override
-    public Patient put(Patient entity) {
+    @PutMapping("/{id}")
+    public Patient put(@RequestBody Patient entity) {
+        // TODO récupérer les coordonnées bancaire pour ne pas les supprimer
         return patientService.save(entity);
     }
 

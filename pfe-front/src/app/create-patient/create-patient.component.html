@@ -24,17 +24,17 @@
         <div class="form-row">
           <div class="form-group">
             <label for="email">Email *</label>
-            <input pInputText type="email" id="email" formControlName="email" class="form-control" />
-            @if (patientForm.get('email')?.invalid && patientForm.get('email')?.touched) {
+            <input pInputText type="email" id="email" formControlName="login" class="form-control" />
+            @if (patientForm.get('login')?.invalid && patientForm.get('login')?.touched) {
               <div class="error-message">L'email est invalide</div>
             }
           </div>
 
           <div class="form-group">
-            <label for="telephone">Téléphone *</label>
-            <input pInputText type="tel" id="telephone" formControlName="telephone" class="form-control" />
-            @if (patientForm.get('telephone')?.invalid && patientForm.get('telephone')?.touched) {
-              <div class="error-message">Le téléphone est requis</div>
+            <label for="password">Password *</label>
+            <input pInputText type="password" id="password" formControlName="password" class="form-control" />
+            @if (patientForm.get('password')?.invalid && patientForm.get('password')?.touched) {
+              <div class="error-message">Le password est invalide</div>
             }
           </div>
         </div>
@@ -46,9 +46,23 @@
           </div>
 
           <div class="form-group">
-            <label for="dateNaissance">Date de naissance</label>
-            <input pInputText type="date" id="dateNaissance" formControlName="dateNaissance" class="form-control" />
+            <label for="telephone">Téléphone *</label>
+            <input pInputText type="tel" id="telephone" formControlName="telephone" class="form-control" />
+            @if (patientForm.get('telephone')?.invalid && patientForm.get('telephone')?.touched) {
+              <div class="error-message">Le téléphone est requis</div>
+            }
           </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Photo de profil</label>
+          <div class="photo-preview">
+            <img [src]="'data:image/png;base64,' + patientForm.get('photo')?.value"  alt="Photo de profil" *ngIf="patientForm.get('photo')?.value" style="max-width: 150px; max-height: 150px; margin-bottom: 1rem;">
+          </div>
+          <input type="file" accept="image/*" (change)="onPhotoSelected($event)"
+                 class="form-control">
         </div>
       </div>
 
@@ -75,10 +89,10 @@
 
       <div class="form-actions">
         <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancel()"></button>
-        <button pButton type="submit" label="Créer le patient" [disabled]="!patientForm.valid || loading" 
+        <button pButton type="submit" label="Créer le patient" [disabled]="!patientForm.valid || loading"
                 [loading]="loading" class="p-button-primary"></button>
       </div>
     </form>
   </p-card>
 </div>
-<p-toast></p-toast> 
+<p-toast></p-toast>

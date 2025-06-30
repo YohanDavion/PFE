@@ -7,8 +7,6 @@ import {AuthService} from '../services/auth.service';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../services/user.service';
-import {User} from '../interfaces/user';
-import {Patient} from '../interfaces/patient';
 
 @Component({
   selector: 'app-parametres',
@@ -25,7 +23,7 @@ export class ParametresComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   isEditingPatient: boolean = false;
-  currentUser!: {};
+  currentUser : any = null;
 
 
   constructor(
