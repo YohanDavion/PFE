@@ -7,13 +7,16 @@ import {AuthService} from '../services/auth.service';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../services/user.service';
+import {MultiSelect} from 'primeng/multiselect';
+import {Serie} from '../interfaces/serie';
+import {SerieService} from '../services/serie.service';
 
 @Component({
   selector: 'app-parametres',
   templateUrl: './parametres.component.html',
   styleUrls: ['./parametres.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MultiSelect],
 })
 export class ParametresComponent implements OnInit {
   parametresForm: FormGroup;
@@ -24,12 +27,14 @@ export class ParametresComponent implements OnInit {
   errorMessage: string = '';
   isEditingPatient: boolean = false;
   currentUser : any = null;
-
+  droitAcces : Serie[]  = [];
+  series : Serie[] = [];
 
   constructor(
     private fb: FormBuilder,
     private userService : UserService,
     private patientService: PatientService,
+    private serieService: SerieService,
     private orthophonisteService: OrthophonisteService,
     private administrateurService: AdministrateurService,
     private authService: AuthService,
@@ -43,6 +48,7 @@ export class ParametresComponent implements OnInit {
       adresse: [''],
       nomParent: [''],
       prenomParent: [''],
+      series : [[]],
       rpps: [''],
       siret: [''],
       photo: [''],
@@ -60,7 +66,8 @@ export class ParametresComponent implements OnInit {
           this.userType = user.role;
           this.userId = user.id;
           this.patchForm(user);
-        })
+          this.initDroitAcces(patientId);
+        });
       } else {
         this.authService.getUserLogged().subscribe(user => {
           this.currentUser = user;
@@ -68,10 +75,26 @@ export class ParametresComponent implements OnInit {
           this.userType = user.role;
           this.patchForm(user)
           this.disableForm()
-          }
-        );
+          this.initDroitAcces(user.id);
+        });
       }
     });
+  }
+
+  initDroitAcces(patientId : number) {
+    this.serieService.getAllSeries().subscribe((series) => {
+      // On récupère toutes les séries
+      this.series = series;
+      // On récupère les séries dont l'user possède les droits
+      this.patientService.getDroitAcces(patientId).subscribe(
+        (droitAcces) => {
+          this.droitAcces = droitAcces;
+          this.parametresForm.patchValue({
+            series: droitAcces
+          });
+        })
+
+    })
   }
 
   disableForm() {
@@ -173,52 +196,9 @@ export class ParametresComponent implements OnInit {
 
     this.userService.updateUser(formData).subscribe(
       (response) => {
-        console.log(response)
         this.successMessage = "Utilisateur mis à jour avec succès";
         this.loading = false;
       })
-
-    // switch (this.userType) {
-    //   case 'PATIENT':
-    //     this.patientService.updatePatient(formData).subscribe(
-    //       () => {
-    //         this.successMessage = 'Patient mis à jour avec succès';
-    //         this.loading = false;
-    //       },
-    //       error => {
-    //         this.errorMessage = 'Erreur lors de la mise à jour du patient';
-    //         this.loading = false;
-    //       }
-    //     );
-    //     break;
-    //   case 'ORTHOPHONISTE':
-    //     this.orthophonisteService.updateOrthophoniste(formData).subscribe(
-    //       () => {
-    //         this.successMessage = 'Orthophoniste mis à jour avec succès';
-    //         this.loading = false;
-    //       },
-    //       error => {
-    //         this.errorMessage = 'Erreur lors de la mise à jour de l’orthophoniste';
-    //         this.loading = false;
-    //       }
-    //     );
-    //     break;
-    //   case 'ADMINISTRATEUR':
-    //     this.administrateurService.updateAdministrateur(formData).subscribe(
-    //       () => {
-    //         this.successMessage = 'Administrateur mis à jour avec succès';
-    //         this.loading = false;
-    //       },
-    //       error => {
-    //         this.errorMessage = 'Erreur lors de la mise à jour de l’administrateur';
-    //         this.loading = false;
-    //       }
-    //     );
-    //     break;
-    //   default:
-    //     this.errorMessage = 'Rôle utilisateur non reconnu';
-    //     this.loading = false;
-    // }
   }
 
 }

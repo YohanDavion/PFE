@@ -21,7 +21,7 @@ public class PatientServiceImpl implements IPatientService {
         return patientRepository.findAll();
     }
 
-    public void updatePatient(UserUpdateDTO dto) {
+    public Patient updatePatient(UserUpdateDTO dto) {
         Patient patient = patientRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé"));
 
@@ -38,7 +38,7 @@ public class PatientServiceImpl implements IPatientService {
             patient.setPhoto(imageBytes);
         }
 
-        patientRepository.save(patient);
+        return patientRepository.save(patient);
     }
 
     private byte[] decodeBase64Image(String base64Image) {

@@ -1,5 +1,9 @@
 package fr.limayrac.pfeback.dto;
 
+import fr.limayrac.pfeback.model.Serie;
+
+import java.util.List;
+
 public class UserUpdateDTO {
     private Long id;
     private String nom;
@@ -13,6 +17,7 @@ public class UserUpdateDTO {
     private String siret;
     private String photo; // base64 image
     private String role;
+    private List<Serie> series;
 
     public Long getId() {
         return id;
@@ -108,5 +113,13 @@ public class UserUpdateDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Serie> getSeries() {
+        return series;
+    }
+
+    public void setSeries(List<Serie> series) {
+        this.series = series;
     }
 }

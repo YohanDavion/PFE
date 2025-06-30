@@ -1,16 +1,15 @@
 package fr.limayrac.pfeback.controller;
 
-import fr.limayrac.pfeback.model.Administrateur;
-import fr.limayrac.pfeback.model.Orthophoniste;
-import fr.limayrac.pfeback.model.Patient;
-import fr.limayrac.pfeback.model.User;
+import fr.limayrac.pfeback.model.*;
 import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IPatientService;
+import fr.limayrac.pfeback.service.ISerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -18,6 +17,8 @@ import java.util.List;
 public class PatientController implements IApiRestController<Patient, Long>{
     @Autowired
     private IPatientService patientService;
+    @Autowired
+    private ISerieService serieService;
 
     @Override
     @GetMapping("/all")
@@ -70,5 +71,10 @@ public class PatientController implements IApiRestController<Patient, Long>{
     @Override
     public Patient patch(Patient entity) {
         return null;
+    }
+
+    @GetMapping("/droit-acces/{id}")
+    public Collection<Serie> droitAcces(@PathVariable Long id) {
+        return serieService.findByPatient(patientService.findById(id));
     }
 }

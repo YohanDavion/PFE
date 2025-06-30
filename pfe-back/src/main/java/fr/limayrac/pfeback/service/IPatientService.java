@@ -9,7 +9,7 @@ import java.util.List;
 public interface IPatientService extends IAbstractService<Patient> {
     List<Patient> findAll();
 
-    void updatePatient(UserUpdateDTO userDto);
+    Patient updatePatient(UserUpdateDTO userDto);
 
     List<Patient> findByOrthophoniste(Orthophoniste orthophoniste);
 }

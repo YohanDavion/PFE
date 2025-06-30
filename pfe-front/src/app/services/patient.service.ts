@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Patient} from '../interfaces/patient';
+import {Serie} from '../interfaces/serie';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class PatientService {
 
   deletePatient(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getDroitAcces(id : number): Observable<Serie[]> {
+    return this.http.get<Serie[]>(`${this.apiUrl}/droit-acces/${id}`);
   }
 }

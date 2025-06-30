@@ -80,6 +80,19 @@
         </div>
       }
 
+      @if (userType === 'PATIENT') {
+        <div class="form-group" style="margin-top: 1rem;">
+          <label>Droit d'accès :</label>
+          <p-multiSelect
+            [options]="series"
+            optionLabel="libelle"
+            formControlName="series"
+            display="chip"
+            placeholder="Sélectionner une série"
+          ></p-multiSelect>
+        </div>
+      }
+
       <div class="messages">
         @if (successMessage) {
           <div class="success-message">{{ successMessage }}</div>

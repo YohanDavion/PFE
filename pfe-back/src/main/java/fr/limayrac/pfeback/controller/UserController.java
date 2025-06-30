@@ -1,11 +1,11 @@
 package fr.limayrac.pfeback.controller;
 
 import fr.limayrac.pfeback.dto.UserUpdateDTO;
+import fr.limayrac.pfeback.model.DroitAcces;
+import fr.limayrac.pfeback.model.Patient;
+import fr.limayrac.pfeback.model.Serie;
 import fr.limayrac.pfeback.model.User;
-import fr.limayrac.pfeback.service.IAdministrateurService;
-import fr.limayrac.pfeback.service.IOrthophonisteService;
-import fr.limayrac.pfeback.service.IPatientService;
-import fr.limayrac.pfeback.service.IUserService;
+import fr.limayrac.pfeback.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,8 @@ public class UserController {
 
     @Autowired
     private IAdministrateurService administrateurService;
+    @Autowired
+    private IDroitAccesService droitAccesService;
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
@@ -46,7 +48,14 @@ public class UserController {
                 if (isEmpty(userDto.getAdresse()) || isEmpty(userDto.getNomParent()) || isEmpty(userDto.getPrenomParent())) {
                     return ResponseEntity.badRequest().body(Map.of("error", "Champs obligatoires manquants pour un patient"));
                 }
-                patientService.updatePatient(userDto);
+                Patient patient = patientService.updatePatient(userDto);
+                for (Serie serie : userDto.getSeries()) {
+                    DroitAcces droitAcces = new DroitAcces();
+                    droitAcces.setSerie(serie);
+                    droitAcces.setPatient(patient);
+                    droitAcces.setValide(true);
+                    droitAccesService.save(droitAcces);
+                }
                 return ResponseEntity.ok(Map.of("message", "Enregistrement du patient ok"));
 
             case "ORTHOPHONISTE":
