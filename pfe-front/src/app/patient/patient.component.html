@@ -1,0 +1,68 @@
+<div class="p-4">
+  <p-toast></p-toast>
+  
+  <p-card header="Modifier les informations du patient">
+    <ng-container *ngIf="isLoading">
+      <div class="flex justify-content-center">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    </ng-container>
+    
+    <form [formGroup]="patientForm" *ngIf="!isLoading">
+      <div class="grid">
+        <div class="col-12 md:col-6 mb-3">
+          <label for="prenom" class="block mb-2">Prénom</label>
+          <input id="prenom" type="text" pInputText class="w-full" formControlName="prenom">
+          <small *ngIf="patientForm.get('prenom')?.invalid && patientForm.get('prenom')?.touched" class="p-error">
+            Le prénom est requis
+          </small>
+        </div>
+        
+        <div class="col-12 md:col-6 mb-3">
+          <label for="nom" class="block mb-2">Nom</label>
+          <input id="nom" type="text" pInputText class="w-full" formControlName="nom">
+          <small *ngIf="patientForm.get('nom')?.invalid && patientForm.get('nom')?.touched" class="p-error">
+            Le nom est requis
+          </small>
+        </div>
+        
+        <div class="col-12 md:col-6 mb-3">
+          <label for="email" class="block mb-2">Email</label>
+          <input id="email" type="email" pInputText class="w-full" formControlName="email">
+          <small *ngIf="patientForm.get('email')?.invalid && patientForm.get('email')?.touched" class="p-error">
+            Veuillez entrer une adresse email valide
+          </small>
+        </div>
+        
+        <div class="col-12 md:col-6 mb-3">
+          <label for="telephone" class="block mb-2">Téléphone</label>
+          <input id="telephone" type="text" pInputText class="w-full" formControlName="telephone">
+          <small *ngIf="patientForm.get('telephone')?.invalid && patientForm.get('telephone')?.touched" class="p-error">
+            Le numéro de téléphone est requis
+          </small>
+        </div>
+        
+        <div class="col-12 md:col-6 mb-3">
+          <label for="dateNaissance" class="block mb-2">Date de naissance</label>
+          <p-calendar id="dateNaissance" formControlName="dateNaissance" [showIcon]="true" dateFormat="dd/mm/yy" class="w-full"></p-calendar>
+          <small *ngIf="patientForm.get('dateNaissance')?.invalid && patientForm.get('dateNaissance')?.touched" class="p-error">
+            La date de naissance est requise
+          </small>
+        </div>
+        
+        <div class="col-12 mb-3">
+          <label for="adresse" class="block mb-2">Adresse</label>
+          <input id="adresse" type="text" pInputText class="w-full" formControlName="adresse">
+          <small *ngIf="patientForm.get('adresse')?.invalid && patientForm.get('adresse')?.touched" class="p-error">
+            L'adresse est requise
+          </small>
+        </div>
+      </div>
+      
+      <div class="flex justify-content-end gap-2 mt-4">
+        <p-button label="Annuler" icon="pi pi-times" styleClass="p-button-outlined" (click)="cancel()"></p-button>
+        <p-button label="Enregistrer" icon="pi pi-check" [disabled]="patientForm.invalid" (click)="savePatient()"></p-button>
+      </div>
+    </form>
+  </p-card>
+</div> 

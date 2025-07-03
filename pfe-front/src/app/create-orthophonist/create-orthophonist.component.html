@@ -1,0 +1,27 @@
+<div class="create-orthophonist-panel">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label>Nom</label>
+      <input pInputText formControlName="nom" />
+    </div>
+    <div>
+      <label>Prénom</label>
+      <input pInputText formControlName="prenom" />
+    </div>
+    <div>
+      <label>Email</label>
+      <input pInputText formControlName="email" />
+    </div>
+    <div>
+      <label>Téléphone</label>
+      <input pInputText formControlName="telephone" />
+    </div>
+    <div>
+      <label>Adresse</label>
+      <input pInputText formControlName="adresse" />
+    </div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <button pButton type="submit" label="Valider" [disabled]="loading || form.invalid"></button>
+    <button pButton type="button" label="Annuler" (click)="cancel()"></button>
+  </form>
+</div> 

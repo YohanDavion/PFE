@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.p-error {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .md\:col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+} 

@@ -1,0 +1,9 @@
+<div class="orthophonist-patients-panel">
+  <h2>Patients affectés</h2>
+  <ul>
+    <li *ngFor="let patient of patients">
+      {{ patient.nom }} {{ patient.prenom }} ({{ patient.email }})
+    </li>
+  </ul>
+  <div *ngIf="!patients.length && !loading">Aucun patient affecté.</div>
+</div> 

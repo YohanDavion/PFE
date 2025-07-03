@@ -1,0 +1,6 @@
+<div class="assign-patients-panel">
+  <h2>Affecter des patients à l'orthophoniste</h2>
+  <p-multiSelect [options]="patients" [(ngModel)]="selectedPatients" optionLabel="nom" display="chip" placeholder="Sélectionner des patients"></p-multiSelect>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <button pButton type="button" label="Valider" (click)="assign()" [disabled]="loading || !selectedPatients.length"></button>
+</div> 
