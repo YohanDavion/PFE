@@ -2,8 +2,10 @@ package fr.limayrac.pfeback.controller;
 
 import fr.limayrac.pfeback.model.*;
 import fr.limayrac.pfeback.security.CustomUserDetails;
+import fr.limayrac.pfeback.service.IDroitAccesService;
 import fr.limayrac.pfeback.service.IPatientService;
 import fr.limayrac.pfeback.service.ISerieService;
+import fr.limayrac.pfeback.service.ISerieStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +21,10 @@ public class PatientController implements IApiRestController<Patient, Long>{
     private IPatientService patientService;
     @Autowired
     private ISerieService serieService;
+    @Autowired
+    private ISerieStatusService serieStatusService;
+    @Autowired
+    private IDroitAccesService droitAccesService;
 
     @Override
     @GetMapping("/all")
@@ -58,13 +64,15 @@ public class PatientController implements IApiRestController<Patient, Long>{
     @Override
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        Patient patient = patientService.findById(id);
+        serieStatusService.deleteAll(serieStatusService.findByPatient(patient));
+        droitAccesService.deleteAll(droitAccesService.findByPatient(patient));
         patientService.delete(id);
     }
 
     @Override
     @PutMapping("/{id}")
     public Patient put(@RequestBody Patient entity) {
-        // TODO récupérer les coordonnées bancaire pour ne pas les supprimer
         return patientService.save(entity);
     }
 

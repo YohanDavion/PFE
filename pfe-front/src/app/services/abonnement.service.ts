@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Abonnement } from '../models/abonnement.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Abonnement} from '../models/abonnement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +30,8 @@ export class AbonnementService {
   deleteAbonnement(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-} 
+
+  checkoutSession(id : number) : Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/checkout/${id}`)
+  }
+}

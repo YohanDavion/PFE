@@ -1,0 +1,8 @@
+<h2>Choisissez votre abonnement</h2>
+<div class="plans">
+  <div class="plan" *ngFor="let abonnement of abonnements">
+    <h3>{{abonnement.libelle}}</h3>
+    <p>{{abonnement.montant}} €/mois</p>
+    <button (click)="choisirAbonnement(abonnement.id)">S'abonner</button>
+  </div>
+</div>

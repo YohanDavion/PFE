@@ -7,7 +7,6 @@ import fr.limayrac.pfeback.service.IDroitAccesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -40,7 +39,12 @@ public class DroitAccesServiceImpl implements IDroitAccesService {
     }
 
     @Override
-    public Collection<DroitAcces> findByPatient(Patient patient) {
+    public List<DroitAcces> findByPatient(Patient patient) {
         return droitAccesRepository.findByPatient(patient);
+    }
+
+    @Override
+    public void deleteAll(List<DroitAcces> droitAcces) {
+        droitAccesRepository.deleteAll(droitAcces);
     }
 }

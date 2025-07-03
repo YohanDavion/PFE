@@ -37,9 +37,11 @@ public class LoginController {
             );
 
             if (authentication.isAuthenticated()) {
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                 String token = jwtService.generateToken(loginRequest.getLogin());
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(token);
+                loginResponse.setRole(userDetails.getUser().getRole());
                 return ResponseEntity.ok(loginResponse);
             }
         } catch (AuthenticationException e) {

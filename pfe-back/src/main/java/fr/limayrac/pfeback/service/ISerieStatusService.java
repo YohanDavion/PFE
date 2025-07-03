@@ -7,5 +7,10 @@ import fr.limayrac.pfeback.model.SerieStatus;
 import java.util.List;
 
 public interface ISerieStatusService extends IAbstractService<SerieStatus> {
-    List<Serie> findByPatient(Patient patient);
+    List<Serie> findSerieByPatient(Patient patient);
+    List<SerieStatus> findByPatient(Patient patient);
+
+    void deleteByPatient(Patient patient);
+
+    void deleteAll(List<SerieStatus> serieStatuses);
 }

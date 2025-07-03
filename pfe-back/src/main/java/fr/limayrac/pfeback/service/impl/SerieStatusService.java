@@ -15,7 +15,12 @@ public class SerieStatusService implements ISerieStatusService {
     @Autowired
     private SerieStatusRepository serieStatusRepository;
     @Override
-    public List<Serie> findByPatient(Patient patient) {
+    public List<Serie> findSerieByPatient(Patient patient) {
+        return serieStatusRepository.findSerieByPatient(patient);
+    }
+
+    @Override
+    public List<SerieStatus> findByPatient(Patient patient) {
         return serieStatusRepository.findByPatient(patient);
     }
 
@@ -42,5 +47,15 @@ public class SerieStatusService implements ISerieStatusService {
     @Override
     public void delete(Long id) {
         serieStatusRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByPatient(Patient patient) {
+        serieStatusRepository.deleteByPatient(patient);
+    }
+
+    @Override
+    public void deleteAll(List<SerieStatus> serieStatuses) {
+        serieStatusRepository.deleteAll(serieStatuses);
     }
 }

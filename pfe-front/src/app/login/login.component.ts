@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators,FormControl,FormGroup,ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { PanelModule } from 'primeng/panel';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {PanelModule} from 'primeng/panel';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
+import {CheckboxModule} from 'primeng/checkbox';
 import {StyleClassModule} from 'primeng/styleclass';
-import { AuthService } from '../services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {AuthService} from '../services/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     greeting = {};
-  
+
     constructor(
       private fb: FormBuilder,
       private authService: AuthService,
@@ -30,15 +30,28 @@ export class LoginComponent implements OnInit {
         password: ['', Validators.required]
       });
     }
-  
+
     ngOnInit(): void {}
-  
+
     onSubmit(): void {
       if (this.loginForm.valid) {
         const { login, password } = this.loginForm.value;
         this.authService.login(login, password).subscribe({
           next: (response) => {
-            this.router.navigate(['/list-patients']);
+            switch (response.role) {
+              case 'PATIENT' : {
+                this.router.navigate(['/list-series-patient']);
+                break;
+              }
+              case 'ORTHOPHONISTE' : {
+                this.router.navigate(['/list-patients']);
+                break;
+              }
+              case 'ADMINISTRATEUR' : {
+                this.router.navigate(['/list-patients']);
+                break;
+              }
+            }
           },
           error: (error) => {
             console.error('Erreur de connexion', error);
@@ -47,4 +60,3 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-  

@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface DroitAccesRepository extends JpaRepository<DroitAcces, Long> {
-    Collection<DroitAcces> findByPatient(Patient patient);
+    List<DroitAcces> findByPatient(Patient patient);
     @Query("select da.serie from DroitAcces da where da.patient = :patient")
     Collection<Serie> findSeriesByPatient(Patient patient);
 }

@@ -1,9 +1,6 @@
 package fr.limayrac.pfeback.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.util.Collection;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
@@ -15,8 +12,8 @@ public class Patient extends User {
     private String prenomParent;
     private String adresse;
     private byte[] photo;
-    @JsonIgnore
-    private Collection<CoordonneeBancaire> coordonneeBancaires;
+//    @JsonIgnore
+//    private Collection<CoordonneeBancaire> coordonneeBancaires;
     private Orthophoniste orthophoniste;
 
     public Patient() {
@@ -24,11 +21,11 @@ public class Patient extends User {
         setRole(Role.PATIENT);
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
-        return coordonneeBancaires;
-    }
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
+//        return coordonneeBancaires;
+//    }
 
     public String getNom() {
         return nom;
@@ -80,9 +77,9 @@ public class Patient extends User {
         this.photo = photo;
     }
 
-    public void setCoordonneeBancaires(Collection<CoordonneeBancaire> coordonneeBancaires) {
-        this.coordonneeBancaires = coordonneeBancaires;
-    }
+//    public void setCoordonneeBancaires(Collection<CoordonneeBancaire> coordonneeBancaires) {
+//        this.coordonneeBancaires = coordonneeBancaires;
+//    }
 
     @ManyToOne
     @JoinColumn(name = "orthophoniste", columnDefinition = "BIGINT")

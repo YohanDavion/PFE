@@ -5,12 +5,22 @@ import org.flywaydb.core.api.migration.Context;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
+
 public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCTemplateProvider{
 
     @Override
     public void migrate(Context context) throws Exception {
         JdbcTemplate jdbcTemplate = jdbcTemplate(context);
         createTable(jdbcTemplate);
+
+        // Charger les photos
+        byte[] photoOrtho = loadImage("image/jpg/ortho.png");
+        byte[] photoPatient = loadImage("image/jpg/patient.png");
+        byte[] photoPatientPublic = loadImage("image/jpg/public.jpg");
+
         //Orthophoniste
         insertOrthophoniste(
                 jdbcTemplate,
@@ -22,7 +32,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "5 rue des Écoles", // adresse
                 "12345678900012", // SIRET
                 "987654321", // RPPS
-                null // photo
+                photoOrtho // photo
         );
         Long orthoId = jdbcTemplate.queryForObject("SELECT user_id FROM orthophoniste join users on id = user_id WHERE login = 'ortho@limayrac.fr'", Long.class);
 
@@ -38,7 +48,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "Durand", // nomParent
                 "Julie", // prénomParent
                 "42 rue des Lilas", // adresse
-                null, // photo
+                photoPatient, // photo
                 orthoId // orthophonisteId
         );
 
@@ -53,7 +63,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "Martin",                                     // nomParent
                 "Claire",                                     // prénomParent
                 "15 avenue Victor Hugo",                      // adresse
-                null,                                         // photo
+                photoPatientPublic,                                         // photo
                 null                                          // orthophonisteId
         );
 
@@ -67,6 +77,16 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "Camille" // prénom
         );
 
+    }
+
+    public byte[] loadImage(String fileName) {
+        InputStream stream = Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(fileName), "Fichier non trouvé : " + fileName);
+        try {
+            byte[] data = stream.readAllBytes();
+            return data;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void createTable(final JdbcTemplate jdbcTemplate) {
@@ -112,16 +132,6 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "user_id BIGINT NOT NULL," +
                 "CONSTRAINT `fk_administrateur_user` FOREIGN KEY (user_id) REFERENCES users(id)" +
                 ")");
-
-//        jdbcTemplate.execute("CREATE TABLE coordonnee_bancaire (" +
-//                "    id BIGINT PRIMARY KEY AUTO_INCREMENT," +
-//                "    code VARCHAR(255)," +
-//                "    date_expiration VARCHAR(255)," +
-//                "    crypto VARCHAR(255)," +
-//                "    titulaire VARCHAR(255)," +
-//                "    user_id BIGINT," +
-//                "    CONSTRAINT fk_cb_user FOREIGN KEY (user_id) REFERENCES users(id)" +
-//                ");");
     }
 
     private Long insertUser(JdbcTemplate jdbcTemplate, String login, String password, int role, String telephone, String userType) {

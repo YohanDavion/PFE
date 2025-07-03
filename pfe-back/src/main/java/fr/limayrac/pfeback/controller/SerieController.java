@@ -50,8 +50,7 @@ public class SerieController implements IApiRestController<Serie, Long> {
             allSeries.sort(Comparator.comparing(Serie::getLibelle));
             List<Serie> serieToReturn = new ArrayList<>();
             if (principal.getUser() instanceof Patient patient) {
-                List<Serie> serieEffectue = serieStatusService.findByPatient(patient);
-
+                List<Serie> serieEffectue = serieStatusService.findSerieByPatient(patient);
                 if (patient.getOrthophoniste() != null) {
                     // On affiche seulement les séries dont il a les droits
                     Collection<DroitAcces> droitAcces = droitAccesService.findByPatient(patient);
