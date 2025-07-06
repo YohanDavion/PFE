@@ -16,10 +16,12 @@ import {EditSerieComponent} from './edit-serie/edit-serie.component';
 import {AuthGuard} from './guards/auth.guard';
 import {RoleGuard} from './guards/role.guard';
 import {AbonnementComponent} from './abonnement/abonnement.component';
+import {SuccessAbonnementComponent} from './success-abonnement/success-abonnement.component';
 
 export const routes: Routes = [
   { path: '', redirectTo : 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'success', component: SuccessAbonnementComponent },
 
   // Routes accessibles uniquement si connecté
   { path: 'list-series', component: ListSeriesComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },

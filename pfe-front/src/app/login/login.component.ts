@@ -40,7 +40,11 @@ export class LoginComponent implements OnInit {
           next: (response) => {
             switch (response.role) {
               case 'PATIENT' : {
-                this.router.navigate(['/list-series-patient']);
+                if (response.abonnementOk) {
+                  this.router.navigate(['/list-series-patient']);
+                } else {
+                  this.router.navigate(['/abonnements'])
+                }
                 break;
               }
               case 'ORTHOPHONISTE' : {

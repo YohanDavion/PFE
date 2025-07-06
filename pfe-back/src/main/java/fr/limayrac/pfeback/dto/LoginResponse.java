@@ -6,6 +6,7 @@ public class LoginResponse {
 
     private String token;
     private Role role;
+    private Boolean abonnementOk;
 
     public String getToken() {
         return token;
@@ -21,5 +22,13 @@ public class LoginResponse {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Boolean getAbonnementOk() {
+        return abonnementOk;
+    }
+
+    public void setAbonnementOk(Boolean abonnementOk) {
+        this.abonnementOk = abonnementOk;
     }
 }

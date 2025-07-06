@@ -34,4 +34,8 @@ export class AbonnementService {
   checkoutSession(id : number) : Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/checkout/${id}`)
   }
+
+  affectAbonnement(abonnementId : number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/affectAbonnement?abonnementId=${abonnementId}`)
+  }
 }

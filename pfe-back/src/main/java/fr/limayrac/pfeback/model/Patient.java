@@ -12,20 +12,13 @@ public class Patient extends User {
     private String prenomParent;
     private String adresse;
     private byte[] photo;
-//    @JsonIgnore
-//    private Collection<CoordonneeBancaire> coordonneeBancaires;
     private Orthophoniste orthophoniste;
+    private Abonnement abonnement;
 
     public Patient() {
         super();
         setRole(Role.PATIENT);
     }
-
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
-//        return coordonneeBancaires;
-//    }
 
     public String getNom() {
         return nom;
@@ -77,10 +70,6 @@ public class Patient extends User {
         this.photo = photo;
     }
 
-//    public void setCoordonneeBancaires(Collection<CoordonneeBancaire> coordonneeBancaires) {
-//        this.coordonneeBancaires = coordonneeBancaires;
-//    }
-
     @ManyToOne
     @JoinColumn(name = "orthophoniste", columnDefinition = "BIGINT")
     public Orthophoniste getOrthophoniste() {
@@ -99,5 +88,15 @@ public class Patient extends User {
     @Override
     public void setTelephone(String telephone) {
         super.setTelephone(telephone);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "abonnement", columnDefinition = "BIGINT")
+    public Abonnement getAbonnement() {
+        return abonnement;
+    }
+
+    public void setAbonnement(Abonnement abonnement) {
+        this.abonnement = abonnement;
     }
 }

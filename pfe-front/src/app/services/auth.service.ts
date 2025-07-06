@@ -22,6 +22,7 @@ export class AuthService {
           if (typeof window !== 'undefined') {
             localStorage.setItem('jwt_token', response.token);
             localStorage.setItem('user_role', response.role);
+            localStorage.setItem('abonnementOk', response.abonnementOk);
           }
         })
       );

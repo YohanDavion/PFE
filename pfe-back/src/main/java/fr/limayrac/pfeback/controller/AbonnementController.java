@@ -5,11 +5,15 @@ import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import fr.limayrac.pfeback.model.Abonnement;
+import fr.limayrac.pfeback.model.Patient;
+import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IAbonnementService;
+import fr.limayrac.pfeback.service.IPatientService;
 import fr.limayrac.pfeback.service.StripeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +30,9 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
     private StripeService stripeService;
     @Autowired
     private IAbonnementService abonnementService;
+    @Autowired
+    private IPatientService patientService;
+
     @Override
     @GetMapping("/{id}")
     public Abonnement findById(@PathVariable Long id) {
@@ -100,5 +107,16 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         return ResponseEntity.ok("");
     }
 
+    @GetMapping("/affectAbonnement")
+    public Map<String, String> affectAbonnement(@RequestParam Long abonnementId) {
+        Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        Abonnement abonnement = abonnementService.findById(abonnementId);
+        patient.setAbonnement(abonnement);
+        patientService.save(patient);
+        //TODO Enregistrer la date de paiement de l'abonnement
+        Map<String, String> map = new HashMap<>();
+        map.put("abonnement", "Abonnement effectué avec succès");
+        return map;
+    }
 
 }

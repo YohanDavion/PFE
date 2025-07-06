@@ -4,6 +4,7 @@ import fr.limayrac.pfeback.UserService;
 import fr.limayrac.pfeback.config.JWTService;
 import fr.limayrac.pfeback.dto.LoginRequest;
 import fr.limayrac.pfeback.dto.LoginResponse;
+import fr.limayrac.pfeback.model.Patient;
 import fr.limayrac.pfeback.model.User;
 import fr.limayrac.pfeback.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,9 @@ public class LoginController {
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(token);
                 loginResponse.setRole(userDetails.getUser().getRole());
+                if (userDetails.getUser() instanceof Patient) {
+                    loginResponse.setAbonnementOk(((Patient) userDetails.getUser()).getAbonnement() != null);
+                }
                 return ResponseEntity.ok(loginResponse);
             }
         } catch (AuthenticationException e) {

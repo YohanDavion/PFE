@@ -55,7 +55,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
         //Patient public
         insertPatient(
                 jdbcTemplate,
-                "patient2@limayrac.cfr",                     // login
+                "patient2@limayrac.fr",                     // login
                 new BCryptPasswordEncoder().encode("patient"), // password
                 "0789456123",                                 // téléphone
                 "Martin",                                     // nom
@@ -122,6 +122,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "orthophoniste BIGINT," +
                 "CONSTRAINT `fk_orthophoniste`FOREIGN KEY (orthophoniste) REFERENCES orthophoniste(user_id)," +
                 "photo_patient LONGBLOB," +
+                "abonnement BIGINT," +
                 "user_id BIGINT NOT NULL," +
                 "CONSTRAINT `fk_patient_user` FOREIGN KEY (user_id) REFERENCES users(id)" +
                 ")");
