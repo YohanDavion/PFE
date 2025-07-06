@@ -123,6 +123,7 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 "CONSTRAINT `fk_orthophoniste`FOREIGN KEY (orthophoniste) REFERENCES orthophoniste(user_id)," +
                 "photo_patient LONGBLOB," +
                 "abonnement BIGINT," +
+                "acces_gratuit DATE," +
                 "user_id BIGINT NOT NULL," +
                 "CONSTRAINT `fk_patient_user` FOREIGN KEY (user_id) REFERENCES users(id)" +
                 ")");

@@ -81,16 +81,37 @@
       }
 
       @if (userType === 'PATIENT') {
-        <div class="form-group" style="margin-top: 1rem;">
-          <label>Droit d'accès :</label>
-          <p-multiSelect
-            [options]="series"
-            optionLabel="libelle"
-            formControlName="series"
-            display="chip"
-            placeholder="Sélectionner une série"
-          ></p-multiSelect>
+        <div class="form-row">
+          <div class="form-group" style="margin-top: 1rem;">
+            <label>Droit d'accès :</label>
+            <p-multiSelect
+              [options]="series"
+              optionLabel="libelle"
+              formControlName="series"
+              display="chip"
+              placeholder="Sélectionner une série"
+            ></p-multiSelect>
+          </div>
+
+          @if (userTypeLogged === 'ADMINISTRATEUR') {
+            <div class="form-group" style="margin-top: 1rem;">
+              <label>Orthophoniste :</label>
+              <p-select
+                [options]="orthophonistes"
+                optionLabel="nom"
+                formControlName="orthophoniste"
+                placeholder="Sélectionner un orthophoniste"
+              ></p-select>
+            </div>
+          }
         </div>
+
+        @if (userTypeLogged === 'ADMINISTRATEUR') {
+          <div class="form-group" style="margin-top: 1rem;">
+            <label for="accesGratuit">Accès gratuit jusqu'au</label>
+            <input type="date" id="accesGratuit" formControlName="accesGratuit" class="form-control">
+          </div>
+        }
       }
 
       <div class="messages">

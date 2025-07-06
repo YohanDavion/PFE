@@ -1,7 +1,9 @@
 package fr.limayrac.pfeback.dto;
 
+import fr.limayrac.pfeback.model.Orthophoniste;
 import fr.limayrac.pfeback.model.Serie;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class UserUpdateDTO {
@@ -18,6 +20,8 @@ public class UserUpdateDTO {
     private String photo; // base64 image
     private String role;
     private List<Serie> series;
+    private Orthophoniste orthophoniste;
+    private LocalDate accesGratuit;
 
     public Long getId() {
         return id;
@@ -121,5 +125,21 @@ public class UserUpdateDTO {
 
     public void setSeries(List<Serie> series) {
         this.series = series;
+    }
+
+    public Orthophoniste getOrthophoniste() {
+        return orthophoniste;
+    }
+
+    public void setOrthophoniste(Orthophoniste orthophoniste) {
+        this.orthophoniste = orthophoniste;
+    }
+
+    public LocalDate getAccesGratuit() {
+        return accesGratuit;
+    }
+
+    public void setAccesGratuit(LocalDate accesGratuit) {
+        this.accesGratuit = accesGratuit;
     }
 }

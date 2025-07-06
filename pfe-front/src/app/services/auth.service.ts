@@ -31,6 +31,8 @@ export class AuthService {
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('jwt_token');
+      localStorage.removeItem('user_role');
+      localStorage.removeItem('abonnementOk');
     }
   }
 

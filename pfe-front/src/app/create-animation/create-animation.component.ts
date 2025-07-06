@@ -6,6 +6,8 @@ import {CommonModule} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {AnimationService} from '../services/animation.service';
 import {Animation} from '../interfaces/animation';
+import {ButtonDirective} from 'primeng/button';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-animation',
@@ -15,6 +17,7 @@ import {Animation} from '../interfaces/animation';
     CommonModule,
     CardModule,
     ReactiveFormsModule,
+    ButtonDirective,
   ],
   templateUrl: './create-animation.component.html',
   standalone: true,
@@ -31,6 +34,7 @@ export class CreateAnimationComponent {
 
   constructor(private fb: FormBuilder,
               private http: HttpClient,
+              private router: Router,
               private animationService: AnimationService) {
     this.form = this.fb.group({
       libelle: ['', Validators.required]
@@ -69,7 +73,7 @@ export class CreateAnimationComponent {
       if (this.animationCreated.observed) {
         this.animationCreated.emit(animation);
       }
+      this.router.navigate(['/list-animations']);
     });
-
   }
 }

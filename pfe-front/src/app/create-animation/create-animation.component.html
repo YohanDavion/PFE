@@ -1,30 +1,41 @@
-<p-card class="flex justify-content-center" styleClass="p-shadow-10">
-  <h1>Création Utilisateur :</h1>
-  <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <div class="form-group">
-      <label for="libelle">Libellé</label>
-      <input id="libelle" pInputText type="text" formControlName="libelle" required>
-    </div>
+<p-card class="flex justify-content-center p-4" styleClass="p-shadow-10 w-full md:w-8 lg:w-6">
+  <h1 class="text-xl font-bold mb-4 text-center">Création Utilisateur</h1>
+  <form [formGroup]="form" (ngSubmit)="submitForm()" class="space-y-4">
 
     <div class="form-group">
-      <label for="gif">Gif : </label>
-      <input id="gif" type="file" (change)="onFileSelected($event, 'gif')" accept="image/gif" required>
+      <label for="libelle" class="block font-medium mb-1">Libellé</label>
+      <input id="libelle" pInputText type="text" formControlName="libelle" required class="w-full">
     </div>
 
     <div class="form-group">
-      <label for="dessin">Dessin : </label>
-      <input id="dessin" type="file" (change)="onFileSelected($event, 'dessin')" accept="image/jpeg" required>
+      <label class="block font-medium mb-1">Gif</label>
+      <button pButton type="button" icon="pi pi-upload" label="Choisir un GIF" (click)="gifInput.click()" class="w-full"></button>
+      <input #gifInput type="file" (change)="onFileSelected($event, 'gif')" accept="image/gif" hidden>
+      <small *ngIf="files['gif']">{{ files['gif'].name }}</small>
     </div>
 
     <div class="form-group">
-      <label for="son">Son : </label>
-      <input id="son" type="file" (change)="onFileSelected($event, 'son')" accept=".mp3" required>
+      <label class="block font-medium mb-1">Dessin</label>
+      <button pButton type="button" icon="pi pi-upload" label="Choisir un dessin" (click)="dessinInput.click()" class="w-full"></button>
+      <input #dessinInput type="file" (change)="onFileSelected($event, 'dessin')" accept="image/jpeg" hidden>
+      <small *ngIf="files['dessin']">{{ files['dessin'].name }}</small>
     </div>
 
-    <div>
-      <span>Attention, toutes les images et son déposés doivent être libre de droit</span>
+    <div class="form-group">
+      <label class="block font-medium mb-1">Son</label>
+      <button pButton type="button" icon="pi pi-upload" label="Choisir un son" (click)="sonInput.click()" class="w-full"></button>
+      <input #sonInput type="file" (change)="onFileSelected($event, 'son')" accept=".mp3" hidden>
+      <small *ngIf="files['son']">{{ files['son'].name }}</small>
     </div>
 
-    <input type="submit" value="Envoyer">
+    <div class="text-center text-xs text-gray-400 mt-2">
+      <p>⚠️ Toutes les images et sons déposés doivent être libres de droits.</p>
+      <p>La responsabilité en cas de litige incombe au dépositaire des fichiers.</p>
+    </div>
+
+    <div class="text-center">
+      <input type="submit" value="Envoyer" class="p-button p-component w-32 text-center">
+    </div>
+
   </form>
 </p-card>

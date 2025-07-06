@@ -10,17 +10,20 @@ import {UserService} from '../services/user.service';
 import {MultiSelect} from 'primeng/multiselect';
 import {Serie} from '../interfaces/serie';
 import {SerieService} from '../services/serie.service';
+import {Select} from 'primeng/select';
+import {Orthophoniste} from '../models/orthophoniste.model';
 
 @Component({
   selector: 'app-parametres',
   templateUrl: './parametres.component.html',
   styleUrls: ['./parametres.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MultiSelect],
+  imports: [CommonModule, ReactiveFormsModule, MultiSelect, Select],
 })
 export class ParametresComponent implements OnInit {
   parametresForm: FormGroup;
   userType: string = '';
+  userTypeLogged: string | null = '';
   userId: number = 0;
   loading: boolean = false;
   successMessage: string = '';
@@ -29,6 +32,7 @@ export class ParametresComponent implements OnInit {
   currentUser : any = null;
   droitAcces : Serie[]  = [];
   series : Serie[] = [];
+  orthophonistes : Orthophoniste[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -52,11 +56,14 @@ export class ParametresComponent implements OnInit {
       rpps: [''],
       siret: [''],
       photo: [''],
+      orthophoniste: [''],
+      accesGratuit : ['']
       // numeroAdeli: ['']
     });
   }
 
   ngOnInit(): void {
+    this.userTypeLogged = localStorage.getItem('user_role');
     this.route.queryParams.subscribe(params => {
       const patientId = params['patientId'];
       if (patientId) {
@@ -65,17 +72,25 @@ export class ParametresComponent implements OnInit {
           this.currentUser = user;
           this.userType = user.role;
           this.userId = user.id;
-          this.patchForm(user);
-          this.initDroitAcces(patientId);
+          this.orthophonisteService.getAllOrthophonistes().subscribe(orthos => {
+            this.orthophonistes = orthos;
+            this.parametresForm.patchValue({orthophoniste : user.orthophoniste});
+            this.patchForm(user);
+            this.initDroitAcces(patientId);
+          });
         });
       } else {
         this.authService.getUserLogged().subscribe(user => {
           this.currentUser = user;
           this.userId = user.id;
           this.userType = user.role;
-          this.patchForm(user)
-          this.disableForm()
-          this.initDroitAcces(user.id);
+          this.orthophonisteService.getAllOrthophonistes().subscribe(orthos => {
+            this.orthophonistes = orthos;
+            this.parametresForm.patchValue({orthophoniste : user.orthophoniste});
+            this.patchForm(user);
+            this.disableForm();
+            this.initDroitAcces(patientId);
+          });
         });
       }
     });
@@ -128,6 +143,7 @@ export class ParametresComponent implements OnInit {
         this.parametresForm.patchValue({prenomParent : user.prenomParent});
         this.parametresForm.get("prenomParent")?.addValidators(Validators.required)
         this.parametresForm.patchValue({photo : user.photo});
+        this.parametresForm.patchValue({accesGratuit : user.accesGratuit});
         break;
       }
       case 'ORTHOPHONISTE' : {

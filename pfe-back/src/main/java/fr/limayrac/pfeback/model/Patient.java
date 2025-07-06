@@ -2,6 +2,8 @@ package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
 @DiscriminatorValue("PATIENT")
@@ -14,6 +16,7 @@ public class Patient extends User {
     private byte[] photo;
     private Orthophoniste orthophoniste;
     private Abonnement abonnement;
+    private LocalDate accesGratuit;
 
     public Patient() {
         super();
@@ -98,5 +101,14 @@ public class Patient extends User {
 
     public void setAbonnement(Abonnement abonnement) {
         this.abonnement = abonnement;
+    }
+
+    @Column(name = "acces_gratuit")
+    public LocalDate getAccesGratuit() {
+        return accesGratuit;
+    }
+
+    public void setAccesGratuit(LocalDate accesGratuit) {
+        this.accesGratuit = accesGratuit;
     }
 }

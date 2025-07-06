@@ -32,6 +32,8 @@ public class PatientServiceImpl implements IPatientService {
         patient.setAdresse(dto.getAdresse());
         patient.setNomParent(dto.getNomParent());
         patient.setPrenomParent(dto.getPrenomParent());
+        patient.setOrthophoniste(dto.getOrthophoniste());
+        patient.setAccesGratuit(dto.getAccesGratuit());
 
         if (dto.getPhoto() != null && dto.getPhoto().startsWith("data:image")) {
             byte[] imageBytes = decodeBase64Image(dto.getPhoto());

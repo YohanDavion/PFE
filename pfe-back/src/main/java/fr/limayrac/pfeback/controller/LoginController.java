@@ -17,6 +17,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/auth")
@@ -44,7 +46,13 @@ public class LoginController {
                 loginResponse.setToken(token);
                 loginResponse.setRole(userDetails.getUser().getRole());
                 if (userDetails.getUser() instanceof Patient) {
-                    loginResponse.setAbonnementOk(((Patient) userDetails.getUser()).getAbonnement() != null);
+                    boolean abonnementOk = ((Patient) userDetails.getUser()).getAbonnement() != null;
+                    boolean accesGratuitOk = false;
+                    if (((Patient) userDetails.getUser()).getAccesGratuit() != null) {
+                        accesGratuitOk = ((Patient) userDetails.getUser()).getAccesGratuit().isAfter(LocalDate.now())
+                        || ((Patient) userDetails.getUser()).getAccesGratuit().equals(LocalDate.now());
+                    }
+                    loginResponse.setAbonnementOk(abonnementOk || accesGratuitOk);
                 }
                 return ResponseEntity.ok(loginResponse);
             }
