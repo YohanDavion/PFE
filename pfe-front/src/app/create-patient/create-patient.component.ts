@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PatientService} from '../services/patient.service';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
@@ -32,6 +32,7 @@ export class CreatePatientComponent implements OnInit {
     private fb: FormBuilder,
     private patientService: PatientService,
     private router: Router,
+    private route : ActivatedRoute,
     private messageService: MessageService
   ) {
     this.patientForm = this.fb.group({
@@ -54,27 +55,51 @@ export class CreatePatientComponent implements OnInit {
     if (this.patientForm.valid) {
       this.loading = true;
       const patientData = this.patientForm.value;
-      console.log(patientData)
 
-      this.patientService.createPatient(patientData).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Succès',
-            detail: 'Patient créé avec succès'
-          });
-          this.router.navigate(['/list-patients']);
-        },
-        error: (error) => {
-          console.error('Erreur lors de la création du patient:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erreur',
-            detail: 'Erreur lors de la création du patient'
-          });
-          this.loading = false;
-        }
-      });
+      const mode = this.route.snapshot.data['mode'];
+
+      if (mode == 'inscription') {
+        this.patientService.inscription(patientData).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Succès',
+              detail: 'Compte créé avec succès'
+            });
+            window.location.href = 'login';
+          },
+          error: (error) => {
+            console.error('Erreur lors de la création du compte:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erreur',
+              detail: 'Erreur lors de la création du compte'
+            });
+            this.loading = false;
+          }
+        })
+      } else {
+        this.patientService.createPatient(patientData).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Succès',
+              detail: 'Patient créé avec succès'
+            });
+            this.router.navigate(['/list-patients']);
+          },
+          error: (error) => {
+            console.error('Erreur lors de la création du patient:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erreur',
+              detail: 'Erreur lors de la création du patient'
+            });
+            this.loading = false;
+          }
+        });
+      }
+
     } else {
       this.messageService.add({
         severity: 'error',

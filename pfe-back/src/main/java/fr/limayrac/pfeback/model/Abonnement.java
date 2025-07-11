@@ -1,9 +1,6 @@
 package fr.limayrac.pfeback.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,4 +14,9 @@ public class Abonnement {
     private String libelle;
     private String description;
     private Double montant;
+//    private Boolean multiAbonnement;
+    @Column(name = "max_abonnement")
+    private Integer maxAbonnement;
+    @ManyToOne
+    private Patient proprietaire;
 }

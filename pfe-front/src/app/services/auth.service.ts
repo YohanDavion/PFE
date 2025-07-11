@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
+import {Router} from '@angular/router';
 
 interface User {
   id: number;
@@ -13,7 +14,7 @@ interface User {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router : Router) {}
 
   login(login: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { login, password })
@@ -33,6 +34,7 @@ export class AuthService {
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('user_role');
       localStorage.removeItem('abonnementOk');
+      window.location.href = '/login';
     }
   }
 

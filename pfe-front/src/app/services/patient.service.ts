@@ -24,6 +24,10 @@ export class PatientService {
     return this.http.post<Patient>(this.apiUrl, patient);
   }
 
+  inscription(patient: Patient): Observable<Patient> {
+    return this.http.post<Patient>(`${this.apiUrl}/inscription`, patient);
+  }
+
   updatePatient(patient: Patient): Observable<Patient> {
     return this.http.put<Patient>(`${this.apiUrl}/${patient.id}`, patient);
   }

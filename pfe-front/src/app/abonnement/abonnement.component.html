@@ -4,5 +4,21 @@
     <h3>{{abonnement.libelle}}</h3>
     <p>{{abonnement.montant}} €/mois</p>
     <button (click)="choisirAbonnement(abonnement.id)">S'abonner</button>
+    @if (abonnement.maxAbonnement > 1) {
+      <button (click)="rejoindreAbonnement(abonnement.id)">Rejoindre un abonnement</button>
+    }
   </div>
 </div>
+<p-dialog header="Rejoindre un abonnement" [(visible)]="displayJoinDialog" [modal]="true" [closable]="true">
+  <div class="flex flex-col gap-3">
+    <label for="email">Email du propriétaire de l’abonnement :</label>
+    <input id="email" type="email" pInputText [(ngModel)]="ownerEmail" placeholder="ex: exemple@mail.com" />
+    <small class="text-xs text-gray-500">L'adresse doit être celle associée à l'abonnement principal.</small>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Annuler" (click)="cancelJoin()"></button>
+    <button pButton type="button" label="Rejoindre" (click)="confirmJoin()" [disabled]="!ownerEmail"></button>
+  </ng-template>
+</p-dialog>
+<p-toast></p-toast>

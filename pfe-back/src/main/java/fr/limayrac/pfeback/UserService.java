@@ -20,4 +20,8 @@ public class UserService {
 
         return "User details not found";
     }
+
+    public User findUserByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
 }

@@ -61,6 +61,15 @@ public class PatientController implements IApiRestController<Patient, Long>{
         return patientService.save(entity);
     }
 
+    @PostMapping("/inscription")
+    public Patient inscription(@RequestBody Patient entity) {
+        // Chiffrage du mdp
+        entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
+        // Actif par défaut à la création
+        entity.setActif(true);
+        return patientService.save(entity);
+    }
+
     @Override
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

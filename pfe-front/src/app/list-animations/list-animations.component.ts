@@ -68,23 +68,37 @@ export class ListAnimationsComponent {
   }
 
   deleteOrDeactivate(animation: Animation) {
-    if (animation.active) {
-      animation.active = false;
-      this.animationService.updateAnimation(animation).subscribe(() => {
-        this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Animation désactivée'});
-      });
-    } else {
-      this.confirmationService.confirm({
-        message: 'Voulez-vous vraiment supprimer cette animation ?',
-        acceptLabel: 'Oui',
-        rejectLabel: 'Non',
-        accept: () => {
-          this.animationService.deleteAnimation(animation.id).subscribe(() => {
-            this.animations = this.animations.filter(a => a.id !== animation.id);
-            this.messageService.add({severity: 'success', summary: 'Supprimée', detail: 'Animation supprimée'});
-          });
+    let role = localStorage.getItem('user_role');
+    if (role == 'ORTHOPHONISTE') {
+      // L'orthophoniste ne peut qu'activer/désactiver
+      animation.active = !animation.active;
+      this.animationService.updateAnimation(animation).subscribe((animation) => {
+        if (animation.active) {
+          this.messageService.add({severity: 'success', summary: 'Activée', detail: 'Animation activée'});
+        } else {
+          this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Animation désactivée'});
         }
       });
+    }
+    if (role == 'ADMINISTRATEUR') {
+      if (animation.active) {
+        animation.active = false;
+        this.animationService.updateAnimation(animation).subscribe(() => {
+          this.messageService.add({severity: 'warn', summary: 'Désactivée', detail: 'Animation désactivée'});
+        });
+      } else {
+        this.confirmationService.confirm({
+          message: 'Voulez-vous vraiment supprimer cette animation ?',
+          acceptLabel: 'Oui',
+          rejectLabel: 'Non',
+          accept: () => {
+            this.animationService.deleteAnimation(animation.id).subscribe(() => {
+              this.animations = this.animations.filter(a => a.id !== animation.id);
+              this.messageService.add({severity: 'success', summary: 'Supprimée', detail: 'Animation supprimée'});
+            });
+          }
+        });
+      }
     }
   }
 }

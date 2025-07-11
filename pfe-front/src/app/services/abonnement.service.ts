@@ -38,4 +38,8 @@ export class AbonnementService {
   affectAbonnement(abonnementId : number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/affectAbonnement?abonnementId=${abonnementId}`)
   }
+
+  rejoindreAbonnement(abonnementId: number, ownerEmail: string) {
+    return this.http.get<any>(`${this.apiUrl}/rejoindreAbonnement?abonnementId=${abonnementId}&mail=${ownerEmail}`)
+  }
 }

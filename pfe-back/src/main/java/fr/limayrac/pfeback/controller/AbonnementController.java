@@ -4,8 +4,10 @@ import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
+import fr.limayrac.pfeback.UserService;
 import fr.limayrac.pfeback.model.Abonnement;
 import fr.limayrac.pfeback.model.Patient;
+import fr.limayrac.pfeback.model.PatientAbonnement;
 import fr.limayrac.pfeback.security.CustomUserDetails;
 import fr.limayrac.pfeback.service.IAbonnementService;
 import fr.limayrac.pfeback.service.IPatientService;
@@ -32,6 +34,8 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
     private IAbonnementService abonnementService;
     @Autowired
     private IPatientService patientService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/{id}")
@@ -112,10 +116,38 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         Abonnement abonnement = abonnementService.findById(abonnementId);
         patient.setAbonnement(abonnement);
-        patientService.save(patient);
+        patient = patientService.save(patient);
+        if (abonnement.getMaxAbonnement() > 1) {
+            PatientAbonnement patientAbonnement = new PatientAbonnement();
+            patientAbonnement.setAbonnement(abonnement);
+            patientAbonnement.setPatient(patient);
+            patientAbonnement.setProprietaire(patient);
+            abonnementService.createProprietaire(patientAbonnement);
+        }
         //TODO Enregistrer la date de paiement de l'abonnement
         Map<String, String> map = new HashMap<>();
         map.put("abonnement", "Abonnement effectué avec succès");
+        return map;
+    }
+    @GetMapping("/rejoindreAbonnement")
+    public Map<String, Object> rejoindreAbonnement(@RequestParam Long abonnementId, @RequestParam String mail) {
+        Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        Patient owner = abonnementService.findPatientProprietaireByLogin(mail);
+        Map<String, Object> map = new HashMap<>();
+        if (owner != null) {
+            Boolean result = abonnementService.rejoindreAbonnement(abonnementId, patient, owner);
+            if (result) {
+                map.put("message", "Abonnement rejoint avec succès");
+                map.put("ok", true);
+            } else {
+                map.put("message", "Abonnement complet");
+                map.put("ok", false);
+            }
+        } else {
+            map.put("message", "Aucun utilisateur ne paye un abonnement avec ce mail");
+            map.put("ok", false);
+        }
+
         return map;
     }
 

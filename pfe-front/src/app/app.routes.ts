@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: '', redirectTo : 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'success', component: SuccessAbonnementComponent },
+  { path: 'inscription', component: CreatePatientComponent, data: { mode: 'inscription'}},
 
   // Routes accessibles uniquement si connecté
   { path: 'list-series', component: ListSeriesComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
