@@ -1,10 +1,38 @@
-<div class="surface-card shadow-2 border-round" style="max-width: 800px">
-  <div class="text-center mb-5" *ngIf="series.length > 0">
-    <div *ngFor="let serie of series" class="m-2">
-      <p-button class="" [severity]="getSeverity(serie.statut)" [disabled]="serie.statut == 'A_FAIRE'" (onClick)="startSerie(serie.id)">{{serie.libelle}}</p-button>
+<!--<div class="surface-card shadow-2 border-round">-->
+<!--  <div class="text-center mb-5" *ngIf="series.length > 0">-->
+<!--    <div *ngFor="let serie of series" class="m-2">-->
+<!--      <p-button class="" [severity]="getSeverity(serie.statut)" [disabled]="serie.statut == 'A_FAIRE'" (onClick)="startSerie(serie.id)">{{serie.libelle}}</p-button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div *ngIf="series == null || series.length == 0" class="text-center mb-5">-->
+<!--    <p>Vous n'avez accès à aucune série pour le moment</p>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="flex align-items-center justify-content-center p-4" style="background-color: #212121;">
+  <div class="surface-card p-5 shadow-2 border-round w-full md:w-8 lg:w-6 xl:w-4">
+    <div class="text-center mb-5">
+    </div>
+
+    <div *ngIf="series.length > 0">
+      <h2 class="text-center mb-4 text-white">Choisissez une série d'exercices</h2>
+      <div *ngFor="let serie of series" class="mb-3"> <p-button class="p-button-xl w-full"
+                                                                [severity]="getSeverity(serie.statut)"
+                                                                [disabled]="serie.statut == 'A_FAIRE'"
+                                                                (onClick)="startSerie(serie.id)"
+                                                                pTooltip="{{ serie.statut == 'A_FAIRE' ? 'Cette série n\'est pas encore disponible.' : '' }}"
+                                                                tooltipPosition="bottom">
+        <i *ngIf="serie.statut === 'TERMINE'" class="pi pi-check-circle mr-2"></i>
+        <i *ngIf="serie.statut === 'EN_COURS'" class="pi pi-hourglass mr-2"></i>
+        <i *ngIf="serie.statut === 'A_FAIRE'" class="pi pi-lock mr-2"></i>
+        {{serie.libelle}}
+      </p-button>
+      </div>
+    </div>
+    <div *ngIf="series == null || series.length == 0" class="text-center mb-5 text-white-alpha-80">
+      <p>Vous n'avez accès à aucune série pour le moment</p>
+      <p-button label="Contacter l'administrateur" icon="pi pi-envelope"></p-button>
     </div>
   </div>
-  <div *ngIf="series == null || series.length == 0" class="text-center mb-5">
-    <p>Vous n'avez accès à aucune série pour le moment</p>
-  </div>
 </div>
+<p-toast></p-toast>

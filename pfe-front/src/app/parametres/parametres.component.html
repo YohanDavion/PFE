@@ -124,7 +124,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" [disabled]="!parametresForm.valid || loading" class="submit-button">
+        <button type="submit" [disabled]="!parametresForm.valid || loading || !isEditingPatient" class="submit-button">
           {{ loading ? 'Enregistrement...' : (isEditingPatient ? 'Modifier le patient' : 'Enregistrer les modifications') }}
         </button>
       </div>

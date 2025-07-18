@@ -1,28 +1,37 @@
-<p-card>
-  <h2>Créer une série</h2>
+<div class="p-4 lg:p-6 surface-ground">
+  <p-card class="shadow-6 surface-card border-round p-fluid">
+    <ng-template pTemplate="header">
+      <h2>Créer une série</h2>
+    </ng-template>
 
-  <form [formGroup]="form" (ngSubmit)="submitSerieForm()">
-    <div class="form-group">
-      <label>Libellé :</label>
-      <input pInputText formControlName="libelle" />
-    </div>
+    <form [formGroup]="form" (ngSubmit)="submitSerieForm()">
+      <div class="field mb-4">
+        <label for="libelle" class="font-bold text-700 block mb-2">Libellé :</label>
+        <input id="libelle" pInputText formControlName="libelle" class="w-full"
+               placeholder="Entrez le libellé de la série" />
+      </div>
 
-    <div class="form-group">
-      <label>Animations associées :</label>
-      <p-multiSelect
-        [options]="animations"
-        formControlName="animations"
-        optionLabel="libelle"
-        placeholder="Choisir les animations">
-      </p-multiSelect>
-    </div>
+      <div class="field mb-4">
+        <label for="animations" class="font-bold text-700 block mb-2">Animations associées :</label>
+        <p-multiSelect
+          id="animations"
+          [options]="animations"
+          formControlName="animations"
+          optionLabel="libelle"
+          placeholder="Choisir les animations"
+          class="w-full"> </p-multiSelect>
+      </div>
 
-    <button pButton type="button" label="Créer une animation" icon="pi pi-plus" (click)="openCreateAnimationDialog()"></button>
-
-    <button pButton type="submit" label="Enregistrer la série" [disabled]="form.invalid"></button>
-  </form>
-</p-card>
-
-<p-dialog header="Nouvelle animation" [(visible)]="showCreateAnimationDialog" [modal]="true" [style]="{width: '50vw'}">
-  <app-create-animation (animationCreated)="onAnimationCreated($event)"></app-create-animation>
-</p-dialog>
+      <div class="flex flex-wrap gap-3 mt-5">
+        <button pButton type="button" label="Créer une animation" icon="pi pi-plus" (click)="openCreateAnimationDialog()"
+                                                      class="p-button-secondary p-button-lg white-space-nowrap"></button>
+        <button pButton type="submit" label="Enregistrer la série" [disabled]="form.invalid"
+                class="p-button-primary p-button-lg"></button>
+      </div>
+    </form>
+  </p-card>
+  <p-dialog header="Nouvelle animation" [(visible)]="showCreateAnimationDialog" [modal]="true"
+            [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw', '640px': '90vw'}">
+    <app-create-animation (animationCreated)="onAnimationCreated($event)"></app-create-animation>
+  </p-dialog>
+</div>

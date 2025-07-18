@@ -1,24 +1,72 @@
-<h2>Choisissez votre abonnement</h2>
-<div class="plans">
-  <div class="plan" *ngFor="let abonnement of abonnements">
-    <h3>{{abonnement.libelle}}</h3>
-    <p>{{abonnement.montant}} €/mois</p>
-    <button (click)="choisirAbonnement(abonnement.id)">S'abonner</button>
-    @if (abonnement.maxAbonnement > 1) {
-      <button (click)="rejoindreAbonnement(abonnement.id)">Rejoindre un abonnement</button>
-    }
-  </div>
-</div>
-<p-dialog header="Rejoindre un abonnement" [(visible)]="displayJoinDialog" [modal]="true" [closable]="true">
-  <div class="flex flex-col gap-3">
-    <label for="email">Email du propriétaire de l’abonnement :</label>
-    <input id="email" type="email" pInputText [(ngModel)]="ownerEmail" placeholder="ex: exemple@mail.com" />
-    <small class="text-xs text-gray-500">L'adresse doit être celle associée à l'abonnement principal.</small>
+<!--<h2>Choisissez votre abonnement</h2>-->
+<!--<div class="plans">-->
+<!--  <div class="plan" *ngFor="let abonnement of abonnements">-->
+<!--    <h3>{{abonnement.libelle}}</h3>-->
+<!--    <p>{{abonnement.montant}} €/mois</p>-->
+<!--    <button (click)="choisirAbonnement(abonnement.id)">S'abonner</button>-->
+<!--    @if (abonnement.maxAbonnement > 1) {-->
+<!--      <button (click)="rejoindreAbonnement(abonnement.id)">Rejoindre un abonnement</button>-->
+<!--    }-->
+<!--  </div>-->
+<!--</div>-->
+<!--<p-dialog header="Rejoindre un abonnement" [(visible)]="displayJoinDialog" [modal]="true" [closable]="true">-->
+<!--  <div class="flex flex-col gap-3">-->
+<!--    <label for="email">Email du propriétaire de l’abonnement :</label>-->
+<!--    <input id="email" type="email" pInputText [(ngModel)]="ownerEmail" placeholder="ex: exemple@mail.com" />-->
+<!--    <small class="text-xs text-gray-500">L'adresse doit être celle associée à l'abonnement principal.</small>-->
+<!--  </div>-->
+
+<!--  <ng-template pTemplate="footer">-->
+<!--    <button pButton type="button" label="Annuler" (click)="cancelJoin()"></button>-->
+<!--    <button pButton type="button" label="Rejoindre" (click)="confirmJoin()" [disabled]="!ownerEmail"></button>-->
+<!--  </ng-template>-->
+<!--</p-dialog>-->
+<!--<p-toast></p-toast>-->
+
+<div class="p-4 lg:p-6 surface-ground">
+  <h2 class="text-center text-4xl mb-6 text-900 font-bold">Choisissez votre abonnement</h2>
+
+  <div class="grid justify-content-center gap-4">
+    <div class="col-12 sm:col-6 md:col-6 lg:col-5 xl:col-4" *ngFor="let abonnement of abonnements">
+      <p-card class="h-full flex flex-column shadow-6 surface-card border-round">
+        <ng-template pTemplate="header">
+          <div class="text-center pt-4">
+            <h3 class="text-2xl font-bold text-primary">{{abonnement.libelle}}</h3>
+          </div>
+        </ng-template>
+
+        <div class="text-center my-4">
+          <p class="text-5xl font-bold text-900">{{abonnement.montant}} €/mois</p>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <div class="flex flex-column gap-3 mt-auto">
+            <button pButton pRipple label="S'abonner" (click)="choisirAbonnement(abonnement.id)"
+                    class="p-button-primary p-button-lg"></button>
+            @if (abonnement.maxAbonnement > 1) {
+              <button pButton pRipple label="Rejoindre un abonnement" (click)="rejoindreAbonnement(abonnement.id)"
+                      class="p-button-secondary p-button-lg"></button>
+            }
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
   </div>
 
-  <ng-template pTemplate="footer">
-    <button pButton type="button" label="Annuler" (click)="cancelJoin()"></button>
-    <button pButton type="button" label="Rejoindre" (click)="confirmJoin()" [disabled]="!ownerEmail"></button>
-  </ng-template>
-</p-dialog>
-<p-toast></p-toast>
+  <p-dialog header="Rejoindre un abonnement" [(visible)]="displayJoinDialog" [modal]="true" [closable]="true"
+            [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw', '640px': '90vw'}">
+    <div class="flex flex-column gap-3">
+      <label for="email" class="font-bold text-700">Email du propriétaire de l’abonnement :</label>
+      <input id="email" type="email" pInputText [(ngModel)]="ownerEmail" placeholder="ex: exemple@mail.com" class="w-full surface-400 text-900" />
+      <small class="text-500">L'adresse doit être celle associée à l'abonnement principal.</small>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-content-end gap-2">
+        <button pButton pRipple type="button" label="Annuler" (click)="cancelJoin()" class="p-button-text"></button>
+        <button pButton pRipple type="button" label="Rejoindre" (click)="confirmJoin()" [disabled]="!ownerEmail"></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <p-toast></p-toast>
+</div>

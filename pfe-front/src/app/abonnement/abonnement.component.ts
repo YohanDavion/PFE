@@ -9,13 +9,15 @@ import {InputText} from 'primeng/inputtext';
 import {ButtonDirective} from 'primeng/button';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {Toast} from 'primeng/toast';
+import {Card} from 'primeng/card';
+import {Ripple} from 'primeng/ripple';
 
 @Component({
   selector: 'app-abonnement',
   templateUrl: './abonnement.component.html',
   styleUrl: './abonnement.component.scss',
   providers : [MessageService],
-  imports: [CommonModule, Dialog, FormsModule, InputText, ButtonDirective, PrimeTemplate, Toast],
+  imports: [CommonModule, Dialog, FormsModule, InputText, ButtonDirective, PrimeTemplate, Toast, Card, Ripple],
 })
 export class AbonnementComponent implements OnInit{
   loading = false;

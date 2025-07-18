@@ -10,7 +10,7 @@ import {CardModule} from 'primeng/card';
 import {MultiSelect} from 'primeng/multiselect';
 import {Dialog} from 'primeng/dialog';
 import {CreateAnimationComponent} from '../create-animation/create-animation.component';
-import {ButtonDirective} from 'primeng/button'; // à adapter à ta structure
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-create-serie',
