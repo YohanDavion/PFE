@@ -1,5 +1,6 @@
 package fr.limayrac.pfeback.controller;
 
+import fr.limayrac.pfeback.security.PermissionRequired;
 import fr.limayrac.pfeback.model.Animation;
 import fr.limayrac.pfeback.model.Media;
 import fr.limayrac.pfeback.model.Serie;
@@ -25,30 +26,35 @@ public class AnimationController implements IApiRestController<Animation, Long>{
     private ISerieService serieService;
 
     @Override
+    @PermissionRequired("animation.read")
     @GetMapping("/all")
     public List<Animation> findAll() {
         return animationService.findAll();
     }
 
     @Override
+    @PermissionRequired("animation.read")
     @GetMapping("/{id}")
     public Animation findById(@PathVariable Long id) {
         return animationService.findById(id);
     }
 
     @Override
+    @PermissionRequired("animation.create")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Animation create(@RequestBody Animation entity) {
         return animationService.save(entity);
     }
 
     @Override
+    @PermissionRequired("animation.delete")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         animationService.delete(id);
     }
 
     @Override
+    @PermissionRequired("animation.update")
     @PutMapping("/{id}")
     public Animation put(@RequestBody Animation entity) {
         // On ne souhaite pas perdre la liaison avec les séries
@@ -68,6 +74,7 @@ public class AnimationController implements IApiRestController<Animation, Long>{
         return null;
     }
 
+    @PermissionRequired("animation.read")
     @GetMapping("/serie/{serieId}")
     public Collection<Animation> getAnimationsBySeriesId(@PathVariable Long serieId) {
         Serie serie = serieService.findById(serieId);
@@ -75,6 +82,7 @@ public class AnimationController implements IApiRestController<Animation, Long>{
         return animationService.findBySerie(serie);
     }
 
+    @PermissionRequired("animation.create")
     @PostMapping/*("/api/animations")*/
     public ResponseEntity<Animation> uploadAnimation(
             @RequestParam(value = "libelle") String libelle,
