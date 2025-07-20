@@ -9,6 +9,7 @@ import {ListAnimationsPatientComponent} from './list-animations-patient/list-ani
 import {CreateAnimationComponent} from './create-animation/create-animation.component';
 import {ParametresComponent} from './parametres/parametres.component';
 import {CreatePatientComponent} from './create-patient/create-patient.component';
+import {CreateOrthophonisteComponent} from './create-orthophoniste/create-orthophoniste.component';
 import {CreateSerieComponent} from './create-series/create-series.component';
 import {ListAnimationsComponent} from './list-animations/list-animations.component';
 import {EditAnimationComponent} from './edit-animation/edit-animation.component';
@@ -30,6 +31,7 @@ export const routes: Routes = [
   { path: 'list-patients', component: ListPatientsComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
   { path: 'list-orthophonistes', component: ListOrthophonistesComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMINISTRATEUR'] } },
   { path: 'create-user', component: CreateUserComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMINISTRATEUR'] } },
+  { path: 'create-orthophoniste', component: CreateOrthophonisteComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMINISTRATEUR'] } },
   { path: 'create-series', component: CreateSerieComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
   { path: 'create-animation', component: CreateAnimationComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
   { path: 'create-patient', component: CreatePatientComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },

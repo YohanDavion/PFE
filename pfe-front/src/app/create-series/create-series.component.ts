@@ -16,7 +16,7 @@ import {ButtonDirective} from 'primeng/button';
   selector: 'app-create-serie',
   standalone: true,
   templateUrl: './create-series.component.html',
-  styleUrls: ['./create-serie.component.scss'],
+  styleUrls: ['./create-series.component.scss'],
   imports: [
     InputTextModule,
     FormsModule,

@@ -1,0 +1,59 @@
+<div class="create-orthophoniste-container">
+  <p-card [header]="isEditMode ? 'Modification d\'un orthophoniste' : 'Création d\'un nouvel orthophoniste'" styleClass="create-orthophoniste-card">
+    <form [formGroup]="orthophonisteForm" (ngSubmit)="onSubmit()" class="create-orthophoniste-form">
+      <div class="form-section">
+        <h2>Informations de l'orthophoniste</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input pInputText id="nom" formControlName="nom" class="form-control" />
+            @if (orthophonisteForm.get('nom')?.invalid && orthophonisteForm.get('nom')?.touched) {
+              <div class="error-message">Le nom est requis</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input pInputText id="prenom" formControlName="prenom" class="form-control" />
+            @if (orthophonisteForm.get('prenom')?.invalid && orthophonisteForm.get('prenom')?.touched) {
+              <div class="error-message">Le prénom est requis</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input pInputText type="email" id="email" formControlName="email" class="form-control" />
+            @if (orthophonisteForm.get('email')?.invalid && orthophonisteForm.get('email')?.touched) {
+              <div class="error-message">L'email est invalide</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="telephone">Téléphone *</label>
+            <input pInputText type="tel" id="telephone" formControlName="telephone" class="form-control" />
+            @if (orthophonisteForm.get('telephone')?.invalid && orthophonisteForm.get('telephone')?.touched) {
+              <div class="error-message">Le téléphone est requis</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adresse">Adresse</label>
+            <input pInputText id="adresse" formControlName="adresse" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancel()"></button>
+        <button pButton type="submit" [label]="isEditMode ? 'Modifier l\'orthophoniste' : 'Créer l\'orthophoniste'" 
+                [disabled]="!orthophonisteForm.valid || loading"
+                [loading]="loading" class="p-button-primary"></button>
+      </div>
+    </form>
+  </p-card>
+</div>
+<p-toast></p-toast> 

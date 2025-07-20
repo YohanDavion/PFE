@@ -1,1 +1,39 @@
-<p>list-orthophonistes works!</p>
+<h1>Orthophonistes :</h1>
+<div class="card">
+<p-confirmDialog></p-confirmDialog>
+<p-table
+    [value]="orthophonistes"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Affichage des orthophonistes {first} à {last} | Total d'orthophonistes : {totalRecords} "
+    [rowsPerPageOptions]="[5, 10, 20]"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:20%">Nom</th>
+            <th style="width:20%">Prénom</th>
+            <th style="width:20%">Email</th>
+            <th style="width:20%">Téléphone</th>
+            <th style="width:20%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-orthophoniste>
+        <tr>
+            <td>{{orthophoniste.nom}}</td>
+            <td>{{orthophoniste.prenom}}</td>
+            <td>{{orthophoniste.email}}</td>
+            <td>{{orthophoniste.telephone}}</td>
+            <td>
+                <button type="button" style="margin-right: 15px;" severity="warn" pButton icon="pi pi-pen-to-square" (click)="editOrthophoniste(orthophoniste)"></button>
+                <button type="button" style="margin-right: 15px;" severity="danger" pButton icon="pi pi-trash" (click)="deleteOrthophoniste(orthophoniste)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="goToPage('create-orthophoniste')"></p-button>
+    </ng-template>
+</p-table>
+<p-toast></p-toast>
+</div>
