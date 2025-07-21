@@ -6,4 +6,5 @@ export interface Patient {
     telephone: string;
     dateNaissance: Date;
     adresse: string;
+    abonnementStatut?: string;
 } 

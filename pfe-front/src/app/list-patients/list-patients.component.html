@@ -12,11 +12,12 @@
 >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width:20%">Prénom Parent</th>
-            <th style="width:20%">Nom Parent</th>
-            <th style="width:20%">Prénom Patient</th>
-            <th style="width:20%">Nom Patient</th>
-            <th style="width:20%"></th>
+            <th style="width:16%">Prénom Parent</th>
+            <th style="width:16%">Nom Parent</th>
+            <th style="width:16%">Prénom Patient</th>
+            <th style="width:16%">Nom Patient</th>
+            <th style="width:20%">Statut abonnement</th>
+            <th style="width:16%"></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-patient>
@@ -25,6 +26,10 @@
             <td>{{patient.nomParent}}</td>
             <td>{{patient.prenom}}</td>
             <td>{{patient.nom}}</td>
+            <td>
+              <span *ngIf="patient.abonnementStatut; else nonAbonne">{{patient.abonnementStatut}}</span>
+              <ng-template #nonAbonne>Non abonné</ng-template>
+            </td>
             <td>
               <!-- TODO Demander si l'on doit créer une pop-up ou page pour afficher le suivi d'un patient -->
 <!--                <button type="button" style="margin-right: 15px;" severity="info" pButton icon="pi pi-chart-bar" (click)="editPatient(patient)"></button>-->
