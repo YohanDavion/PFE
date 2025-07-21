@@ -32,14 +32,22 @@ export class AbonnementService {
   }
 
   checkoutSession(id : number) : Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/checkout/${id}`)
+    return this.http.get<any>(`${this.apiUrl}/checkout/${id}`);
   }
 
   affectAbonnement(abonnementId : number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/affectAbonnement?abonnementId=${abonnementId}`)
+    return this.http.get<any>(`${this.apiUrl}/affectAbonnement?abonnementId=${abonnementId}`);
   }
 
   rejoindreAbonnement(abonnementId: number, ownerEmail: string) {
-    return this.http.get<any>(`${this.apiUrl}/rejoindreAbonnement?abonnementId=${abonnementId}&mail=${ownerEmail}`)
+    return this.http.get<any>(`${this.apiUrl}/rejoindreAbonnement?abonnementId=${abonnementId}&mail=${ownerEmail}`);
+  }
+
+  getPatientAbonnement() : Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/patients-abonnements`);
+  }
+
+  updatePatientAbonnement(patientAbonnement: any) : Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/update-patients-abonnements`, patientAbonnement);
   }
 }

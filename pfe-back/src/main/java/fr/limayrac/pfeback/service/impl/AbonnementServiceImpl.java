@@ -44,17 +44,26 @@ public class AbonnementServiceImpl implements IAbonnementService {
 
     @Override
     public Boolean rejoindreAbonnement(Long abonnementId, Patient patient, Patient owner) {
-        Abonnement abonnement = findById(abonnementId);
-        // On vérifie que l'abonnement ne soit pas complet
-        int nbUsers = patientAbonnementRepository.countProprietaireAbonnement(abonnement, owner.getLogin());
-        if (nbUsers < abonnement.getMaxAbonnement()) {
-            PatientAbonnement patientAbonnement = new PatientAbonnement();
-            patientAbonnement.setAbonnement(abonnement);
-            patientAbonnement.setPatient(patient);
-            patientAbonnement.setProprietaire(owner);
-            patientAbonnementRepository.save(patientAbonnement);
-            return true;
+        // On vérifie que le propriétaire ne soit pas qu'un abonnement simple
+        if (owner.getAbonnement().getMaxAbonnement() > 1) {
+            Abonnement abonnement = findById(abonnementId);
+
+            int nbUsers = patientAbonnementRepository.countProprietaireAbonnement(abonnement, owner.getLogin());
+
+            if (nbUsers < abonnement.getMaxAbonnement()) {
+                PatientAbonnement patientAbonnement = new PatientAbonnement();
+                patientAbonnement.setAbonnement(abonnement);
+                patientAbonnement.setPatient(patient);
+                patientAbonnement.setProprietaire(owner);
+                patientAbonnement.setValide(false);
+                patientAbonnementRepository.save(patientAbonnement);
+                return true;
+            } else {
+                // On vérifie que l'abonnement ne soit pas complet
+                return false;
+            }
         } else {
+            // Abo simple
             return false;
         }
     }
@@ -67,5 +76,25 @@ public class AbonnementServiceImpl implements IAbonnementService {
     @Override
     public void createProprietaire(PatientAbonnement patientAbonnement) {
         patientAbonnementRepository.save(patientAbonnement);
+    }
+
+    @Override
+    public PatientAbonnement findFirstByProprietaireAndAbonnement(Patient proprietaire, Abonnement abonnement) {
+        return patientAbonnementRepository.findFirstByProprietaireAndAbonnement(proprietaire, abonnement);
+    }
+
+    @Override
+    public PatientAbonnement findFirstByPatientAndProprietaireAndAbonnement(Patient patient, Patient proprietaire, Abonnement abonnement) {
+        return patientAbonnementRepository.findFirstByPatientAndProprietaireAndAbonnement(patient, proprietaire, abonnement);
+    }
+
+    @Override
+    public List<PatientAbonnement> findByProprietaire(Patient proprietaire) {
+        return patientAbonnementRepository.findByProprietaire(proprietaire);
+    }
+
+    @Override
+    public PatientAbonnement savePatientAbonnement(PatientAbonnement patientAbonnement) {
+        return patientAbonnementRepository.save(patientAbonnement);
     }
 }

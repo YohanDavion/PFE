@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -115,16 +117,26 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
     public Map<String, String> affectAbonnement(@RequestParam Long abonnementId) {
         Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         Abonnement abonnement = abonnementService.findById(abonnementId);
-        patient.setAbonnement(abonnement);
+        // Le patient n'a pas d'abonnement
+        patient.setDatePaiement(LocalDate.now());
         patient = patientService.save(patient);
-        if (abonnement.getMaxAbonnement() > 1) {
-            PatientAbonnement patientAbonnement = new PatientAbonnement();
+
+        PatientAbonnement patientAbonnement = new PatientAbonnement();
+
+        if (patient.getAbonnement() == null) {
+            patient.setAbonnement(abonnement);
+            patient = patientService.save(patient);
+
             patientAbonnement.setAbonnement(abonnement);
             patientAbonnement.setPatient(patient);
             patientAbonnement.setProprietaire(patient);
-            abonnementService.createProprietaire(patientAbonnement);
+            patientAbonnement.setValide(true);
+        } else {
+            patientAbonnement = abonnementService.findFirstByPatientAndProprietaireAndAbonnement(patient, patient, patient.getAbonnement());
+            patientAbonnement.setAbonnement(abonnement);
         }
-        //TODO Enregistrer la date de paiement de l'abonnement
+        abonnementService.createProprietaire(patientAbonnement);
+
         Map<String, String> map = new HashMap<>();
         map.put("abonnement", "Abonnement effectué avec succès");
         return map;
@@ -137,7 +149,7 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         if (owner != null) {
             Boolean result = abonnementService.rejoindreAbonnement(abonnementId, patient, owner);
             if (result) {
-                map.put("message", "Abonnement rejoint avec succès");
+                map.put("message", "Dans l'attente de la validation du propriétaire");
                 map.put("ok", true);
             } else {
                 map.put("message", "Abonnement complet");
@@ -151,4 +163,23 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         return map;
     }
 
+    @GetMapping("/patients-abonnements")
+    public List<PatientAbonnement> patientsAbonnements() {
+        Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<PatientAbonnement> pa = abonnementService.findByProprietaire(patient);
+        PatientAbonnement paAbonnementToRemove = null;
+        //TODO Retirer tout si l'user connecté n'est pas proprio
+        for (PatientAbonnement paAbonnement : pa) {
+            if (paAbonnement.getPatient().equals(patient)) {
+                paAbonnementToRemove = paAbonnement;
+            }
+        }
+        pa.remove(paAbonnementToRemove);
+        return pa;
+    }
+
+    @GetMapping("/update-patients-abonnements")
+    public PatientAbonnement update(@RequestParam PatientAbonnement patientAbonnement) {
+        return abonnementService.savePatientAbonnement(patientAbonnement);
+    }
 }

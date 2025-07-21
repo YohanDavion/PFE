@@ -3,6 +3,7 @@ package fr.limayrac.pfeback.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
@@ -16,6 +17,7 @@ public class Patient extends User {
     private byte[] photo;
     private Orthophoniste orthophoniste;
     private Abonnement abonnement;
+    private LocalDate datePaiement;
     private LocalDate accesGratuit;
 
     public Patient() {
@@ -110,5 +112,30 @@ public class Patient extends User {
 
     public void setAccesGratuit(LocalDate accesGratuit) {
         this.accesGratuit = accesGratuit;
+    }
+
+    public LocalDate getDatePaiement() {
+        return datePaiement;
+    }
+
+    public void setDatePaiement(LocalDate datePaiement) {
+        this.datePaiement = datePaiement;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Patient) {
+            return Objects.equals(getId(), ((Patient) obj).getId());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (this.getId() == null ? 0 : this.getId().intValue());
+        return result;
     }
 }

@@ -5,8 +5,10 @@ import fr.limayrac.pfeback.config.JWTService;
 import fr.limayrac.pfeback.dto.LoginRequest;
 import fr.limayrac.pfeback.dto.LoginResponse;
 import fr.limayrac.pfeback.model.Patient;
+import fr.limayrac.pfeback.model.PatientAbonnement;
 import fr.limayrac.pfeback.model.User;
 import fr.limayrac.pfeback.security.CustomUserDetails;
+import fr.limayrac.pfeback.service.IAbonnementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private IAbonnementService abonnementService;
 
     @PostMapping("/login")
     @ResponseBody
@@ -45,12 +49,18 @@ public class LoginController {
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(token);
                 loginResponse.setRole(userDetails.getUser().getRole());
-                if (userDetails.getUser() instanceof Patient) {
-                    boolean abonnementOk = ((Patient) userDetails.getUser()).getAbonnement() != null;
+                if (userDetails.getUser() instanceof Patient patient) {
+                    PatientAbonnement patientAbonnement = abonnementService.findFirstByProprietaireAndAbonnement(patient, patient.getAbonnement());
+                    boolean datePaiement = false;
+                    if (patientAbonnement != null) {
+                        LocalDate localDate = patientAbonnement.getProprietaire().getDatePaiement();
+                        datePaiement = localDate.plusMonths(1).isAfter(LocalDate.now()) && patientAbonnement.getValide();
+                    }
+                    boolean abonnementOk = patient.getAbonnement() != null && datePaiement;
                     boolean accesGratuitOk = false;
-                    if (((Patient) userDetails.getUser()).getAccesGratuit() != null) {
-                        accesGratuitOk = ((Patient) userDetails.getUser()).getAccesGratuit().isAfter(LocalDate.now())
-                        || ((Patient) userDetails.getUser()).getAccesGratuit().equals(LocalDate.now());
+                    if (patient.getAccesGratuit() != null) {
+                        accesGratuitOk = patient.getAccesGratuit().isAfter(LocalDate.now())
+                        || patient.getAccesGratuit().equals(LocalDate.now());
                     }
                     loginResponse.setAbonnementOk(abonnementOk || accesGratuitOk);
                 }

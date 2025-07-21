@@ -18,6 +18,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {RoleGuard} from './guards/role.guard';
 import {AbonnementComponent} from './abonnement/abonnement.component';
 import {SuccessAbonnementComponent} from './success-abonnement/success-abonnement.component';
+import {ValidateAbonnementComponent} from './validate-abonnement/validate-abonnement.component';
 
 export const routes: Routes = [
   { path: '', redirectTo : 'login', pathMatch: 'full' },
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'edit-animation', component: EditAnimationComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
   { path: 'edit-serie', component: EditSerieComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ORTHOPHONISTE', 'ADMINISTRATEUR'] } },
   { path: 'settings', component: ParametresComponent, canActivate: [AuthGuard] },
+  { path: 'validate-abonnement', component: ValidateAbonnementComponent, canActivate: [AuthGuard] },
 
   // Patient routes
   { path: 'list-series-patient', component: ListSeriesPatientComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['PATIENT', 'ADMINISTRATEUR'] } },
