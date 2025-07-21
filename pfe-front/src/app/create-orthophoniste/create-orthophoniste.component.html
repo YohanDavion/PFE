@@ -23,13 +23,23 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label for="email">Email *</label>
-            <input pInputText type="email" id="email" formControlName="email" class="form-control" />
-            @if (orthophonisteForm.get('email')?.invalid && orthophonisteForm.get('email')?.touched) {
+            <label for="login">Email *</label>
+            <input pInputText type="email" id="login" formControlName="login" class="form-control" />
+            @if (orthophonisteForm.get('login')?.invalid && orthophonisteForm.get('login')?.touched) {
               <div class="error-message">L'email est invalide</div>
             }
           </div>
 
+          <div class="form-group">
+            <label for="password">Mot de passe *</label>
+            <input pInputText type="password" id="password" formControlName="password" class="form-control" />
+            @if (orthophonisteForm.get('password')?.invalid && orthophonisteForm.get('password')?.touched) {
+              <div class="error-message">L'email est invalide</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
           <div class="form-group">
             <label for="telephone">Téléphone *</label>
             <input pInputText type="tel" id="telephone" formControlName="telephone" class="form-control" />
@@ -37,9 +47,7 @@
               <div class="error-message">Le téléphone est requis</div>
             }
           </div>
-        </div>
 
-        <div class="form-row">
           <div class="form-group">
             <label for="adresse">Adresse</label>
             <input pInputText id="adresse" formControlName="adresse" class="form-control" />
@@ -47,13 +55,38 @@
         </div>
       </div>
 
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rpps">RPPS *</label>
+          <input pInputText type="text" id="rpps" formControlName="rpps" class="form-control" />
+          @if (orthophonisteForm.get('rpps')?.invalid && orthophonisteForm.get('rpps')?.touched) {
+            <div class="error-message">Le numéro RPPS est requis</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="siret">SIRET</label>
+          <input pInputText id="siret" formControlName="siret" class="form-control" />
+          @if (orthophonisteForm.get('siret')?.invalid && orthophonisteForm.get('siret')?.touched) {
+            <div class="error-message">Le SIRET est requis</div>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="actif">Actif</label>
+          <input type="checkbox" id="actif" formControlName="actif" class="form-control" />
+        </div>
+      </div>
+
       <div class="form-actions">
         <button pButton type="button" label="Annuler" class="p-button-secondary" (click)="cancel()"></button>
-        <button pButton type="submit" [label]="isEditMode ? 'Modifier l\'orthophoniste' : 'Créer l\'orthophoniste'" 
+        <button pButton type="submit" [label]="isEditMode ? 'Modifier l\'orthophoniste' : 'Créer l\'orthophoniste'"
                 [disabled]="!orthophonisteForm.valid || loading"
                 [loading]="loading" class="p-button-primary"></button>
       </div>
     </form>
   </p-card>
 </div>
-<p-toast></p-toast> 
+<p-toast></p-toast>

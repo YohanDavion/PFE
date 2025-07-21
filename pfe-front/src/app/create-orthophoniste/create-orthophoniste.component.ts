@@ -41,15 +41,19 @@ export class CreateOrthophonisteComponent implements OnInit {
     this.orthophonisteForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      login: ['', [Validators.required, Validators.email]],
+      password : ['', Validators.required],
       telephone: ['', Validators.required],
-      adresse: ['']
+      adresse: [''],
+      rpps : ['', Validators.required],
+      siret : ['', Validators.required],
+      actif : [false]
     });
   }
 
   ngOnInit(): void {
     this.orthophonisteId = Number(this.route.snapshot.queryParams['orthophonisteId']);
-    
+
     if (this.orthophonisteId) {
       this.isEditMode = true;
       this.loadOrthophoniste();
@@ -63,9 +67,12 @@ export class CreateOrthophonisteComponent implements OnInit {
           this.orthophonisteForm.patchValue({
             nom: orthophoniste.nom,
             prenom: orthophoniste.prenom,
-            email: orthophoniste.email,
+            login: orthophoniste.login,
             telephone: orthophoniste.telephone,
-            adresse: orthophoniste.adresse
+            adresse: orthophoniste.adresse,
+            actif : orthophoniste.actif,
+            rpps : orthophoniste.rpps,
+            siret : orthophoniste.siret
           });
         },
         error: (error) => {
@@ -89,7 +96,7 @@ export class CreateOrthophonisteComponent implements OnInit {
         // Mode édition
         const orthophonisteToUpdate: Orthophoniste = {
           ...orthophonisteData,
-          id: this.orthophonisteId
+          id: this.orthophonisteId,
         };
 
         this.orthophonisteService.updateOrthophoniste(orthophonisteToUpdate).subscribe({
@@ -145,4 +152,4 @@ export class CreateOrthophonisteComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/list-orthophonistes']);
   }
-} 
+}

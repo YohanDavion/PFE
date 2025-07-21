@@ -3,6 +3,7 @@ package fr.limayrac.pfeback.controller;
 import fr.limayrac.pfeback.model.Orthophoniste;
 import fr.limayrac.pfeback.service.IOrthophonisteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class OrthophonisteController implements IApiRestController<Orthophoniste
 
     @Override
     @PostMapping
-    public Orthophoniste create(Orthophoniste entity) {
+    public Orthophoniste create(@RequestBody Orthophoniste entity) {
         return orthophonisteService.save(entity);
     }
 
@@ -38,7 +39,8 @@ public class OrthophonisteController implements IApiRestController<Orthophoniste
 
     @Override
     @PutMapping("/{id}")
-    public Orthophoniste put(Orthophoniste entity) {
+    public Orthophoniste put(@RequestBody Orthophoniste entity) {
+        entity.setPassword(new BCryptPasswordEncoder().encode(entity.getPassword()));
         return orthophonisteService.save(entity);
     }
 
