@@ -19,6 +19,7 @@ public class Patient extends User {
     private Abonnement abonnement;
     private LocalDate datePaiement;
     private LocalDate accesGratuit;
+    private LocalDate delaiPatient;
 
     public Patient() {
         super();
@@ -120,6 +121,14 @@ public class Patient extends User {
 
     public void setDatePaiement(LocalDate datePaiement) {
         this.datePaiement = datePaiement;
+    }
+
+    public LocalDate getDelaiPatient() {
+        return delaiPatient;
+    }
+
+    public void setDelaiPatient(LocalDate delaiPatient) {
+        this.delaiPatient = delaiPatient;
     }
 
     @Transient

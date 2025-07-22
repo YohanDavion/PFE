@@ -21,4 +21,6 @@ public interface IAbonnementService extends IAbstractService<Abonnement> {
     PatientAbonnement savePatientAbonnement(PatientAbonnement patientAbonnement);
 
     PatientAbonnement findPatientAbonnementByPatientProprietaireAbonnement(Patient patient, Patient owner, Abonnement abonnement);
+
+    void deletePatientAbonnement(PatientAbonnement patientAbonnement);
 }

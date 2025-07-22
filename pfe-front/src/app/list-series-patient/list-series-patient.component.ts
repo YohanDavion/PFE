@@ -32,7 +32,6 @@ export class ListSeriesPatientComponent implements OnInit {
   ngOnInit(): void {
     this.serieService.getAllSerieByPatient().subscribe((series) => {
       this.series = series;
-      console.log(series)
     })
   }
 

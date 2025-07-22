@@ -25,7 +25,7 @@ import {PatientService} from '../services/patient.service';
   styleUrl: './validate-abonnement.component.scss'
 })
 export class ValidateAbonnementComponent implements OnInit{
-  patientsAbonnements : []  = [];
+  patientsAbonnements : any[]  = [];
   dateExpiration : any;
 
   constructor(private abonnementService : AbonnementService,
@@ -48,15 +48,36 @@ export class ValidateAbonnementComponent implements OnInit{
   changeStatut(patientAbonnement : any) {
     if (!patientAbonnement.valide) {
       // On intègre l'user à l'abonnement
-      this.abonnementService.joinAbonnement(patientAbonnement).subscribe();
+      this.abonnementService.joinAbonnement(patientAbonnement).subscribe(response => {
+        this.messageService.add({
+          severity: response.ok ? 'success' : 'error',
+          summary: response.ok ? 'Succès' : 'Erreur',
+          detail: response.message,
+        });
+        if (response.ok) {
+          patientAbonnement.valide = response.patientAbonnement.valide;
+        }
+      });
     } else {
       // On retire l'user de l'abonnement
-      this.abonnementService.retrieveAbonnement(patientAbonnement).subscribe();
+      this.confirmationService.confirm({
+        message: "Attention, si vous supprimez cet utilisateur de votre abonnement, vous devrez attendre deux semaines avant d'en ajouter un nouveau ",
+        acceptLabel: 'Oui',
+        rejectLabel: 'Non',
+        accept: () => {
+          this.abonnementService.retrieveAbonnement(patientAbonnement).subscribe(response => {
+            this.messageService.add({
+              severity: response.ok ? 'success' : 'error',
+              summary: response.ok ? 'Succès' : 'Erreur',
+              detail: response.message,
+            });
+            if (response.ok) {
+              this.patientsAbonnements.splice(this.patientsAbonnements.indexOf(patientAbonnement), 1);
+            }
+          });
+        }
+      });
     }
-    patientAbonnement.valide = !patientAbonnement.valide;
-    // this.abonnementService.updatePatientAbonnement(patientAbonnement).subscribe();
-    // patientAbonnement.patient.datePaiement = patientAbonnement.proprietaire.datePaiement;
-    // this.patientService.updatePatient(patientAbonnement.patient).subscribe();
   }
 
 }

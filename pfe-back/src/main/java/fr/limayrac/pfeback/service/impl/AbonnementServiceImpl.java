@@ -109,4 +109,9 @@ public class AbonnementServiceImpl implements IAbonnementService {
     public PatientAbonnement findPatientAbonnementByPatientProprietaireAbonnement(Patient patient, Patient owner, Abonnement abonnement) {
         return patientAbonnementRepository.findByPatientAndProprietaireAndAbonnement(patient, owner, abonnement);
     }
+
+    @Override
+    public void deletePatientAbonnement(PatientAbonnement patientAbonnement) {
+        patientAbonnementRepository.delete(patientAbonnement);
+    }
 }

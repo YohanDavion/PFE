@@ -51,7 +51,6 @@ export class ListPatientsComponent {
   }
 
   deleteOrDeactivate(patient: Patient) {
-    console.log(patient);
     if (patient.actif) {
       patient.actif = false;
       this.patientService.updatePatient(patient).subscribe(() => {

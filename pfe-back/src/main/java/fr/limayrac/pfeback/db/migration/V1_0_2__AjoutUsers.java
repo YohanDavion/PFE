@@ -51,15 +51,42 @@ public class V1_0_2__AjoutUsers extends BaseJavaMigration implements SpringJDBCT
                 photoPatient, // photo
                 orthoId // orthophonisteId
         );
+        insertPatient(
+                jdbcTemplate,
+                "patient2@limayrac.fr", // login
+                new BCryptPasswordEncoder().encode("patient"), // password
+                "0601020304", // téléphone
+                "Durand", // nom
+                "Léa", // prénom
+                "Durand", // nomParent
+                "Julie", // prénomParent
+                "42 rue des Lilas", // adresse
+                photoPatient, // photo
+                orthoId // orthophonisteId
+        );
 
         //Patient public
         insertPatient(
                 jdbcTemplate,
-                "patient2@limayrac.fr",                     // login
+                "patient3@limayrac.fr",                     // login
                 new BCryptPasswordEncoder().encode("patient"), // password
                 "0789456123",                                 // téléphone
                 "Martin",                                     // nom
                 "Léo",                                        // prénom
+                "Martin",                                     // nomParent
+                "Claire",                                     // prénomParent
+                "15 avenue Victor Hugo",                      // adresse
+                photoPatientPublic,                                         // photo
+                null                                          // orthophonisteId
+        );
+
+        insertPatient(
+                jdbcTemplate,
+                "patient4@limayrac.fr",                     // login
+                new BCryptPasswordEncoder().encode("patient"), // password
+                "0789456123",                                 // téléphone
+                "Martin",                                     // nom
+                "Léa",                                        // prénom
                 "Martin",                                     // nomParent
                 "Claire",                                     // prénomParent
                 "15 avenue Victor Hugo",                      // adresse

@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -188,24 +190,50 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
     }
 
     @PostMapping("/joinAbonnement")
-    public PatientAbonnement joinAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
-        patientAbonnement.setValide(true);
-        Patient patient = patientAbonnement.getPatient();
-        patient.setAbonnement(patientAbonnement.getProprietaire().getAbonnement());
-        patient.setDatePaiement(patientAbonnement.getProprietaire().getDatePaiement());
-        patient = patientService.save(patient);
-        patientAbonnement.setPatient(patient);
-        return abonnementService.savePatientAbonnement(patientAbonnement);
+    public Map<String, Object> joinAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
+        Map<String, Object> map = new HashMap<>();
+        if (patientAbonnement.getProprietaire().getDelaiPatient() == null || patientAbonnement.getProprietaire().getDelaiPatient().plusWeeks(2).isBefore(LocalDate.now())) {
+            patientAbonnement.setValide(true);
+            Patient patient = patientAbonnement.getPatient();
+            patient.setAbonnement(patientAbonnement.getProprietaire().getAbonnement());
+            patient.setDatePaiement(patientAbonnement.getProprietaire().getDatePaiement());
+            patient = patientService.save(patient);
+            patientAbonnement.setPatient(patient);
+            patientAbonnement = abonnementService.savePatientAbonnement(patientAbonnement);
+            map.put("message", "Patient activé avec succès");
+            map.put("ok", true);
+            map.put("patientAbonnement", patientAbonnement);
+            return map;
+        } else {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String date = dtf.format(patientAbonnement.getProprietaire().getDelaiPatient().plusWeeks(2));
+            map.put("message", "Vous pourrez ajouter un nouveau membre à votre famille le : " + date);
+            map.put("ok", false);
+            return map;
+        }
     }
 
     @PostMapping("/retrieveAbonnement")
-    public PatientAbonnement retrieveAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
-        patientAbonnement.setValide(false);
-        Patient patient = patientAbonnement.getPatient();
-        patient.setAbonnement(null);
-        patient.setDatePaiement(null);
-        patient = patientService.save(patient);
-        patientAbonnement.setPatient(patient);
-        return abonnementService.savePatientAbonnement(patientAbonnement);
+    public Map<String, Object> retrieveAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
+        Map<String, Object> map = new HashMap<>();
+        Patient owner = patientService.findById(patientAbonnement.getProprietaire().getId());
+        if (owner.getDelaiPatient() == null || owner.getDelaiPatient().plusWeeks(2).isBefore(LocalDate.now())) {
+            Patient patient = patientAbonnement.getPatient();
+            patient.setAbonnement(null);
+            patient.setDatePaiement(null);
+            patientService.save(patient);
+            owner.setDelaiPatient(LocalDate.now());
+            patientService.save(owner);
+            abonnementService.deletePatientAbonnement(patientAbonnement);
+            map.put("message", "Patient supprimé du groupe avec succès");
+            map.put("ok", true);
+            return map;
+        } else {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String date = dtf.format(owner.getDelaiPatient().plusWeeks(2));
+            map.put("message", "Vous pourrez supprimer un nouveau membre de votre groupe le : " + date);
+            map.put("ok", false);
+            return map;
+        }
     }
 }
