@@ -5,6 +5,7 @@ import fr.limayrac.pfeback.model.Patient;
 import fr.limayrac.pfeback.model.PatientAbonnement;
 import fr.limayrac.pfeback.repository.AbonnementRepository;
 import fr.limayrac.pfeback.repository.PatientAbonnementRepository;
+import fr.limayrac.pfeback.repository.PatientRepository;
 import fr.limayrac.pfeback.service.IAbonnementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class AbonnementServiceImpl implements IAbonnementService {
     private AbonnementRepository abonnementRepository;
     @Autowired
     private PatientAbonnementRepository patientAbonnementRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+
     @Override
     public List<Abonnement> findAll() {
         return abonnementRepository.findAll();
@@ -51,6 +55,9 @@ public class AbonnementServiceImpl implements IAbonnementService {
             int nbUsers = patientAbonnementRepository.countProprietaireAbonnement(abonnement, owner.getLogin());
 
             if (nbUsers < abonnement.getMaxAbonnement()) {
+                patient.setAbonnement(abonnement);
+                patient = patientRepository.save(patient);
+
                 PatientAbonnement patientAbonnement = new PatientAbonnement();
                 patientAbonnement.setAbonnement(abonnement);
                 patientAbonnement.setPatient(patient);
@@ -69,8 +76,8 @@ public class AbonnementServiceImpl implements IAbonnementService {
     }
 
     @Override
-    public Patient findPatientProprietaireByLogin(String mail) {
-        return patientAbonnementRepository.findProprietaireByMail(mail);
+    public Patient findPatientProprietaireByLogin(Patient patient, String mail) {
+        return patientAbonnementRepository.findProprietaireByPatientAndProprietaireMail(patient, mail);
     }
 
     @Override
@@ -79,8 +86,8 @@ public class AbonnementServiceImpl implements IAbonnementService {
     }
 
     @Override
-    public PatientAbonnement findFirstByProprietaireAndAbonnement(Patient proprietaire, Abonnement abonnement) {
-        return patientAbonnementRepository.findFirstByProprietaireAndAbonnement(proprietaire, abonnement);
+    public PatientAbonnement findFirstByPatientAndAbonnement(Patient proprietaire, Abonnement abonnement) {
+        return patientAbonnementRepository.findFirstByPatientAndAbonnement(proprietaire, abonnement);
     }
 
     @Override
@@ -96,5 +103,10 @@ public class AbonnementServiceImpl implements IAbonnementService {
     @Override
     public PatientAbonnement savePatientAbonnement(PatientAbonnement patientAbonnement) {
         return patientAbonnementRepository.save(patientAbonnement);
+    }
+
+    @Override
+    public PatientAbonnement findPatientAbonnementByPatientProprietaireAbonnement(Patient patient, Patient owner, Abonnement abonnement) {
+        return patientAbonnementRepository.findByPatientAndProprietaireAndAbonnement(patient, owner, abonnement);
     }
 }

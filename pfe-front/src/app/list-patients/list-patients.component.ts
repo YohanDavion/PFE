@@ -10,10 +10,11 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {TableModule} from 'primeng/table';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {PatientService} from '../services/patient.service';
+import {Badge} from 'primeng/badge';
 
 @Component({
   selector: 'app-list-patients',
-  imports: [DataViewModule,ButtonModule,TagModule,CommonModule,ToastModule,TableModule,ConfirmDialogModule],
+  imports: [DataViewModule,ButtonModule,TagModule,CommonModule,ToastModule,TableModule,ConfirmDialogModule, Badge],
   providers: [MessageService, ConfirmationService, PatientService],
   templateUrl: './list-patients.component.html',
   styleUrl: './list-patients.component.scss'

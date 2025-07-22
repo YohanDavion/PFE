@@ -50,4 +50,12 @@ export class AbonnementService {
   updatePatientAbonnement(patientAbonnement: any) : Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/update-patients-abonnements`, patientAbonnement);
   }
+
+  joinAbonnement(patientAbonnement: any) {
+    return this.http.post<any>(`${this.apiUrl}/joinAbonnement`, patientAbonnement);
+  }
+
+  retrieveAbonnement(patientAbonnement: any) {
+    return this.http.post<any>(`${this.apiUrl}/retrieveAbonnement`, patientAbonnement);
+  }
 }

@@ -13,7 +13,6 @@ public class Abonnement {
     private String description;
     private Double montant;
     private Integer maxAbonnement;
-    private Patient proprietaire;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,15 +55,6 @@ public class Abonnement {
 
     public void setMaxAbonnement(Integer maxAbonnement) {
         this.maxAbonnement = maxAbonnement;
-    }
-
-    @ManyToOne
-    public Patient getProprietaire() {
-        return proprietaire;
-    }
-
-    public void setProprietaire(Patient proprietaire) {
-        this.proprietaire = proprietaire;
     }
 
     @Override

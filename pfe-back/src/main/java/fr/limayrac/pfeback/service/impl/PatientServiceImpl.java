@@ -72,4 +72,14 @@ public class PatientServiceImpl implements IPatientService {
     public List<Patient> findByOrthophoniste(Orthophoniste orthophoniste) {
         return patientRepository.findByOrthophoniste(orthophoniste);
     }
+
+    @Override
+    public Patient findByMail(String mail) {
+        return patientRepository.findByLogin(mail);
+    }
+
+    @Override
+    public List<Patient> saveAll(List<Patient> update) {
+        return patientRepository.saveAll(update);
+    }
 }

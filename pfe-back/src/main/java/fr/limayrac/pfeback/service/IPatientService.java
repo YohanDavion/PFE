@@ -12,4 +12,8 @@ public interface IPatientService extends IAbstractService<Patient> {
     Patient updatePatient(UserUpdateDTO userDto);
 
     List<Patient> findByOrthophoniste(Orthophoniste orthophoniste);
+
+    Patient findByMail(String mail);
+
+    List<Patient> saveAll(List<Patient> update);
 }

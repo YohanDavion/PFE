@@ -76,6 +76,7 @@ public class Patient extends User {
     }
 
     @ManyToOne
+    @JoinColumn(name = "orthophoniste")
     public Orthophoniste getOrthophoniste() {
         return orthophoniste;
     }
@@ -95,6 +96,7 @@ public class Patient extends User {
     }
 
     @ManyToOne
+    @JoinColumn(name = "abonnement")
     public Abonnement getAbonnement() {
         return abonnement;
     }
@@ -118,6 +120,24 @@ public class Patient extends User {
 
     public void setDatePaiement(LocalDate datePaiement) {
         this.datePaiement = datePaiement;
+    }
+
+    @Transient
+    public LocalDate getDateExpirationAbonnement() {
+        if (datePaiement != null) {
+            return datePaiement.plusMonths(1);
+        } else {
+            return null;
+        }
+    }
+    @Transient
+    public Boolean getAbonnementStatut() {
+        boolean abonnement = this.abonnement != null;
+        boolean datePaiement = false;
+        if (this.datePaiement != null) {
+             datePaiement = this.datePaiement.plusMonths(1).isAfter(LocalDate.now());
+        }
+        return abonnement && datePaiement;
     }
 
     @Override

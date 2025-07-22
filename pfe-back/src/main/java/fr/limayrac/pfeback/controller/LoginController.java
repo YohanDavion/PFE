@@ -50,11 +50,10 @@ public class LoginController {
                 loginResponse.setToken(token);
                 loginResponse.setRole(userDetails.getUser().getRole());
                 if (userDetails.getUser() instanceof Patient patient) {
-                    PatientAbonnement patientAbonnement = abonnementService.findFirstByProprietaireAndAbonnement(patient, patient.getAbonnement());
+                    PatientAbonnement patientAbonnement = abonnementService.findFirstByPatientAndAbonnement(patient, patient.getAbonnement());
                     boolean datePaiement = false;
                     if (patientAbonnement != null) {
-                        LocalDate localDate = patientAbonnement.getProprietaire().getDatePaiement();
-                        datePaiement = localDate.plusMonths(1).isAfter(LocalDate.now()) && patientAbonnement.getValide();
+                        datePaiement = patient.getDateExpirationAbonnement().isAfter(LocalDate.now()) && patientAbonnement.getValide();
                     }
                     boolean abonnementOk = patient.getAbonnement() != null && datePaiement;
                     boolean accesGratuitOk = false;

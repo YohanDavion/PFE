@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Patient> findByOrthophoniste(Orthophoniste orthophoniste);
+
+    Patient findByLogin(String login);
 }

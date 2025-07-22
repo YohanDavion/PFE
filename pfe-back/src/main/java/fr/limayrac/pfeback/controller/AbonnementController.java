@@ -144,22 +144,27 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
     @GetMapping("/rejoindreAbonnement")
     public Map<String, Object> rejoindreAbonnement(@RequestParam Long abonnementId, @RequestParam String mail) {
         Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        Patient owner = abonnementService.findPatientProprietaireByLogin(mail);
+        Patient owner = patientService.findByMail(mail);
         Map<String, Object> map = new HashMap<>();
         if (owner != null) {
-            Boolean result = abonnementService.rejoindreAbonnement(abonnementId, patient, owner);
-            if (result) {
-                map.put("message", "Dans l'attente de la validation du propriétaire");
-                map.put("ok", true);
-            } else {
-                map.put("message", "Abonnement complet");
+            PatientAbonnement patientAbonnement = abonnementService.findPatientAbonnementByPatientProprietaireAbonnement(patient, owner, owner.getAbonnement());
+            if (patientAbonnement != null) {
+                map.put("message", "Votre demande a déjà été envoyée");
                 map.put("ok", false);
+            } else {
+                boolean result = abonnementService.rejoindreAbonnement(abonnementId, patient, owner);
+                if (result) {
+                    map.put("message", "Dans l'attente de la validation du propriétaire");
+                    map.put("ok", true);
+                } else {
+                    map.put("message", "Abonnement complet");
+                    map.put("ok", false);
+                }
             }
         } else {
             map.put("message", "Aucun utilisateur ne paye un abonnement avec ce mail");
             map.put("ok", false);
         }
-
         return map;
     }
 
@@ -168,7 +173,6 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         Patient patient = (Patient) ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         List<PatientAbonnement> pa = abonnementService.findByProprietaire(patient);
         PatientAbonnement paAbonnementToRemove = null;
-        //TODO Retirer tout si l'user connecté n'est pas proprio
         for (PatientAbonnement paAbonnement : pa) {
             if (paAbonnement.getPatient().equals(patient)) {
                 paAbonnementToRemove = paAbonnement;
@@ -178,8 +182,30 @@ public class AbonnementController implements IApiRestController<Abonnement, Long
         return pa;
     }
 
-    @GetMapping("/update-patients-abonnements")
-    public PatientAbonnement update(@RequestParam PatientAbonnement patientAbonnement) {
+    @PostMapping("/update-patients-abonnements")
+    public PatientAbonnement update(@RequestBody PatientAbonnement patientAbonnement) {
+        return abonnementService.savePatientAbonnement(patientAbonnement);
+    }
+
+    @PostMapping("/joinAbonnement")
+    public PatientAbonnement joinAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
+        patientAbonnement.setValide(true);
+        Patient patient = patientAbonnement.getPatient();
+        patient.setAbonnement(patientAbonnement.getProprietaire().getAbonnement());
+        patient.setDatePaiement(patientAbonnement.getProprietaire().getDatePaiement());
+        patient = patientService.save(patient);
+        patientAbonnement.setPatient(patient);
+        return abonnementService.savePatientAbonnement(patientAbonnement);
+    }
+
+    @PostMapping("/retrieveAbonnement")
+    public PatientAbonnement retrieveAbonnement(@RequestBody PatientAbonnement patientAbonnement) {
+        patientAbonnement.setValide(false);
+        Patient patient = patientAbonnement.getPatient();
+        patient.setAbonnement(null);
+        patient.setDatePaiement(null);
+        patient = patientService.save(patient);
+        patientAbonnement.setPatient(patient);
         return abonnementService.savePatientAbonnement(patientAbonnement);
     }
 }

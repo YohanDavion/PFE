@@ -92,6 +92,7 @@ export class NavBarComponent {
           icon: 'pi pi-user',
           items: [
             { label: 'Paramètres', icon: 'pi pi-cog', routerLink: ['/settings'] },
+            { label: 'Abonnement', icon: 'pi pi-receipt', routerLink: ['/validate-abonnement'] },
             {
               label: 'Se Connecter',
               icon: 'pi pi-sign-in',
