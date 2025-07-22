@@ -1,34 +1,35 @@
 package fr.limayrac.pfeback.model;
 
 import jakarta.persistence.*;
-import lombok.Setter;
 
 @Entity
-@Setter
 public class Media {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mimetype;
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
     private byte[] data;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
-
     public String getMimetype() {
         return mimetype;
     }
-
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
     public byte[] getData() {
         return data;
     }
 
-//    @Transient
-//    public String getDataBase64() {
-//        byte[] bytes = data.getBytes();
-//        return Base64.getEncoder().encodeToString(data.getBytes());
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMimetype(String mimetype) {
+        this.mimetype = mimetype;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

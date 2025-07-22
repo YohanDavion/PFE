@@ -76,7 +76,6 @@ public class Patient extends User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "orthophoniste", columnDefinition = "BIGINT")
     public Orthophoniste getOrthophoniste() {
         return orthophoniste;
     }
@@ -96,7 +95,6 @@ public class Patient extends User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "abonnement", columnDefinition = "BIGINT")
     public Abonnement getAbonnement() {
         return abonnement;
     }

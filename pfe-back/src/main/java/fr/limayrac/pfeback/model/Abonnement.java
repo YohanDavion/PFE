@@ -7,20 +7,65 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
 public class Abonnement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
     private String description;
     private Double montant;
-//    private Boolean multiAbonnement;
-    @Column(name = "max_abonnement")
     private Integer maxAbonnement;
-    @ManyToOne
     private Patient proprietaire;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(Double montant) {
+        this.montant = montant;
+    }
+
+    @Column(name = "max_abonnement")
+    public Integer getMaxAbonnement() {
+        return maxAbonnement;
+    }
+
+    public void setMaxAbonnement(Integer maxAbonnement) {
+        this.maxAbonnement = maxAbonnement;
+    }
+
+    @ManyToOne
+    public Patient getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(Patient proprietaire) {
+        this.proprietaire = proprietaire;
+    }
 
     @Override
     public boolean equals(Object obj) {

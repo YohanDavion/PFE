@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 public class DroitAcces {
     private Long id;
     private Patient patient;
@@ -25,5 +23,24 @@ public class DroitAcces {
     @ManyToOne
     public Serie getSerie() {
         return serie;
+    }
+    public Boolean getValide() {
+        return valide;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
+    public void setValide(Boolean valide) {
+        this.valide = valide;
     }
 }

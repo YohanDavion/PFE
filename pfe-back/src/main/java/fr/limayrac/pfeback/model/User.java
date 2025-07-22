@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-@Setter
 //@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -15,7 +14,6 @@ public class User {
     private String login;
     private String password;
     private Role role;
-    @Getter
     private String telephone;
     private Boolean actif;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +34,37 @@ public class User {
         return role;
     }
 
+    @Column(name = "telephone")
+    public String getTelephone() {
+        return telephone;
+    }
+
     @Column(name = "actif")
     public Boolean getActif() {
         return actif;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public void setActif(Boolean actif) {
+        this.actif = actif;
     }
 }

@@ -7,13 +7,9 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Getter
 public class Serie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
-    @ManyToMany(mappedBy = "series")
 //    @JoinTable(
 //            name = "serie_animations",
 //            joinColumns = @JoinColumn(name = "series_id"),
@@ -23,6 +19,24 @@ public class Serie {
     private Collection<Animation> animations;
     private Boolean active;
     private Statut statut;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    @ManyToMany(mappedBy = "series")
+    public Collection<Animation> getAnimations() {
+        return animations;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
 
     public void setId(Long id) {
         this.id = id;

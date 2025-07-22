@@ -7,19 +7,58 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
 public class PatientAbonnement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @ManyToOne
     private Abonnement abonnement;
-    @ManyToOne
     private Patient patient;
-    @ManyToOne
     private Patient proprietaire;
     private Boolean valide;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @ManyToOne
+    public Abonnement getAbonnement() {
+        return abonnement;
+    }
+
+    public void setAbonnement(Abonnement abonnement) {
+        this.abonnement = abonnement;
+    }
+
+    @ManyToOne
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    @ManyToOne
+    public Patient getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(Patient proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
+    public Boolean getValide() {
+        return valide;
+    }
+
+    public void setValide(Boolean valide) {
+        this.valide = valide;
+    }
 
     @Override
     public boolean equals(Object obj) {

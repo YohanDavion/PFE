@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Setter
 public class Animation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +58,34 @@ public class Animation {
 
     public Boolean getActive() {
         return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public void setGif(Media gif) {
+        this.gif = gif;
+    }
+
+    public void setImage(Media image) {
+        this.image = image;
+    }
+
+    public void setSon(Media son) {
+        this.son = son;
+    }
+
+    public void setSeries(List<Serie> series) {
+        this.series = series;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

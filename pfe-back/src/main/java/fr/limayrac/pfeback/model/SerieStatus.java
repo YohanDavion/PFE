@@ -27,4 +27,15 @@ public class SerieStatus {
         return patient;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 }

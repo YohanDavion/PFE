@@ -16,7 +16,6 @@ public class Orthophoniste extends User implements Serializable {
     private String SIRET;
     private String RPPS;
     private byte[] photo;
-    private Collection<CoordonneeBancaire> coordonneeBancaires;
 
     public Orthophoniste() {
         super();
@@ -71,15 +70,5 @@ public class Orthophoniste extends User implements Serializable {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
-    }
-
-    public void setCoordonneeBancaires(Collection<CoordonneeBancaire> coordonneeBancaires) {
-        this.coordonneeBancaires = coordonneeBancaires;
-    }
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    public Collection<CoordonneeBancaire> getCoordonneeBancaires() {
-        return coordonneeBancaires;
     }
 }
